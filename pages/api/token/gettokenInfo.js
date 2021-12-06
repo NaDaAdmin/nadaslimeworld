@@ -8,4 +8,4 @@ export default prepare(
 	onlyGet,
 	withAuthentication,
 	useHashgraphContext
-)(getTokenInfoHandler)
+)(GetTokenInfo)
