@@ -4,9 +4,9 @@ async function TokenInfoHandler(req, res) {
 	const { id } = req.query
 	const { hashgraphClient } = req.context
 
-	const topic = await hashgraphClient.TokenInfoQuery()
+	const tokenInfo = await hashgraphClient.TokenInfoQuery()
 
-	Response.json(res, topic)
+	Response.json(res, tokenInfo)
 }
 
 export default TokenInfoHandler
