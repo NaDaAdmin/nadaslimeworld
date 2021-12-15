@@ -176,8 +176,6 @@ class HashgraphClient extends HashgraphClientContract {
 		// Extract PV from encrypted
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
-		console.log( privateKey )
-
 		// Associate with the token
 		await this.associateToAccount({
 			privateKey,
