@@ -16,7 +16,7 @@ async function ConnectionStatusHandler(req, res) {
 		environment_status: {
 			hederaAccountId: !!Config.accountId,
 			hederaPrivateKey: !!Config.privateKey,
-			encryptionKey: await Encryption.encrypt(privateKey.toString()),
+			encryptionKey: await Encryption.encrypt(hederaPrivateKey),
 			authenticationKey:
 				!!Config.authenticationKey && Config.authenticationKeyValid()
 		},
