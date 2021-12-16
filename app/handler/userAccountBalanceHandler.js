@@ -17,8 +17,6 @@ async function GetUserAccountBalanceHandler(req, res) {
 		token_id: tokenid
 	}
 
-	console.log(" ==> userinfo" + userinfo )
-	
 
 	const balance = await hashgraphClient.userAccountBalanceQuery(userinfo)
 
