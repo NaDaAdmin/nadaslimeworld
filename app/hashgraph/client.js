@@ -98,8 +98,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 		const balance = await new AccountBalanceQuery()
-			.setTokenIds(token_id)
 			.setAccountId(accound_id)
+			.setTokenIds([token_id])
 			.execute(client)
 
 		return balance
