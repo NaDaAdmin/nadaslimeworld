@@ -105,7 +105,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 
-		return { balance: parseInt(balance.tokens._map.get([token_id].toString())) }
+		return { balance: balance.tokens._map.get([token_id].toString()) }
 	}
 		
 	async sendConsensusMessage({
