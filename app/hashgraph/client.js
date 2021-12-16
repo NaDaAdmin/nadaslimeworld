@@ -94,7 +94,7 @@ class HashgraphClient extends HashgraphClientContract {
 		return { balance: parseFloat(balance.hbars.toString()) }
 	}
 
-	async userAccountBalanceQuery( accound_id ) {
+	async userAccountBalanceQuery(accound_id) {
 		const client = this.#client
 
 		const balance = await new AccountBalanceQuery()
