@@ -106,16 +106,11 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 
+		console.log(`- Treasury balance: ${balance.tokens._map.get([token_id].toString())} units of token ID ${[token_id]}`);
 
-		console.log("-----------------> ")
+		const tokenInfo = balance.tokens._map.get([token_id].toString())
 
-		//const tokenInfo = balance.tokens._map.get([token_id].toString())
-
-		const tokenbalance = balance.tokens._map.get(tokenId.toString())
-		console.log(`- Treasury balance: ${balance.tokens._map.get(tokenId.toString())} units of token ID ${tokenId}`);
-
-
-		return { balance: balance.tokens._map.get(tokenId.toString()) }
+		return { balance: tokenInfo }
 	}
 		
 	async sendConsensusMessage({
