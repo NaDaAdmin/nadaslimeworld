@@ -104,7 +104,10 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(accound_id)
 			.execute(client)
 
-		var tokenInfo = balance.tokens.find( _ => _.tokenId == [token_id])
+		var tokenInfo = balance.tokens.find((_tokenid) => {
+
+			return _tokenid == [token_id]
+        } )
 		//balance.tokens.tokenId == 
 
 		//return { balance: parse(balance.tokens[tokeni].toString()) }
