@@ -100,16 +100,16 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("accoundid  : " + accound_id )
 		console.log("token_id  : " + [token_id])
 
-		var tokenids = [token_id]
-
-		console.log("token_ids  : " + tokenids)
-
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(accound_id)
-			.setTokenIds(tokenids)
 			.execute(client)
 
-		return balance
+		var tokenInfo = balance.tokens.find( _ => _.tokenId == [token_id])
+		//balance.tokens.tokenId == 
+
+		//return { balance: parse(balance.tokens[tokeni].toString()) }
+
+		return tokenInfo
 	}
 
 	async sendConsensusMessage({
