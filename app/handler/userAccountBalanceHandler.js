@@ -4,16 +4,16 @@ async function GetUserAccountBalanceHandler(req, res) {
 	const { hashgraphClient } = req.context
 
 	const accoundid = req.headers["accoundid"]
+	const tokenid = req.headers["tokenid"]
 
-	if (accoundid == undefined) {
+	if (accoundid == undefined || tokenid == undefined ) {
 
-		console.log(" fail Log accoundID" + accoundid )
+		Response.json(res, "Fail GetUserAccountBalanceHandler")
+		return;
 	}
+	
 
-	console.log( "sucess Log accoundID" + accoundid )
-
-
-	const balance = await hashgraphClient.userAccountBalanceQuery( accoundid )
+	const balance = await hashgraphClient.userAccountBalanceQuery(accoundid, tokenid)
 
 	Response.json(res, balance)
 }
