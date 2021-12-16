@@ -104,8 +104,19 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(accound_id)
 			.execute(client)
 
+		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 
-		return { balance: balance.tokens._map.get([token_id].toString()) }
+
+
+
+		//const tokenInfo = balance.tokens._map.get([token_id].toString())
+
+		const tokenbalance = balance.tokens._map.get([token_id].toString())
+
+		console.log("-----------------> " + parseFloat(tokenbalance.toString()))
+
+
+		return { balance: parseFloat(tokenbalance.toString()) }
 	}
 		
 	async sendConsensusMessage({
