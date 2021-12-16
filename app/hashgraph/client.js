@@ -97,7 +97,7 @@ class HashgraphClient extends HashgraphClientContract {
 	async userAccountBalanceQuery({ accound_id, token_id }) {
 		const client = this.#client
 
-		console.log("accoundid  : " + accound_id )
+		console.log("accoundid  : " + accound_id)
 		console.log("token_id  : " + [token_id])
 
 		const balance = await new AccountBalanceQuery()
@@ -107,16 +107,15 @@ class HashgraphClient extends HashgraphClientContract {
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 
 
-
+		console.log("-----------------> ")
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString())
 
-		const tokenbalance = balance.tokens._map.get([token_id].toString())
+		const tokenbalance = balance.tokens._map.get(tokenId.toString())
+		console.log(`- Treasury balance: ${balance.tokens._map.get(tokenId.toString())} units of token ID ${tokenId}`);
 
-		console.log("-----------------> " + parseFloat(tokenbalance.toString()))
 
-
-		return { balance: parseFloat(tokenbalance.toString()) }
+		return { balance: balance.tokens._map.get(tokenId.toString()) }
 	}
 		
 	async sendConsensusMessage({
