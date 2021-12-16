@@ -97,9 +97,11 @@ class HashgraphClient extends HashgraphClientContract {
 	async userAccountBalanceQuery({ accound_id, token_id }) {
 		const client = this.#client
 
+		var _tokenids = [token_id]
+
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(accound_id)
-			.setTokenIds([token_id])
+			.setTokenIds(_tokenids)
 			.execute(client)
 
 		return balance
