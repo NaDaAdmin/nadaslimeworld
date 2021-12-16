@@ -3,10 +3,8 @@ import Response from "app/response"
 async function GetUserAccountBalanceHandler(req, res) {
 	const { hashgraphClient } = req.context
 
-	const accoundid = req.headers["accoundid"]
-	const tokenid = req.headers["tokenid"]
-
-	console.log("-------> tokenID : " + tokenid);
+	var accoundid = req.headers["accoundid"]
+	var tokenid = req.headers["tokenid"]
 
 	if (accoundid == undefined || tokenid == undefined ) {
 
