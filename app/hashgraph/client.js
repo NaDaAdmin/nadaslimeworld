@@ -106,7 +106,11 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 
-		console.log("The token balance(s) for this account: " + balance.tokens.toString());
+
+		for (const token of balance.tokens) {
+
+			console.log("The token balance(s) for this account: " + token.tokenId );
+        }
 
 		const tokenInfo = balance.tokens.get([token_id].toString())
 		
