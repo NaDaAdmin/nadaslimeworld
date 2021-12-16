@@ -23,7 +23,6 @@ import Encryption from "app/utils/encryption"
 import Explorer from "app/utils/explorer"
 import sendWebhookMessage from "app/utils/sendWebhookMessage"
 import Specification from "app/hashgraph/tokens/specifications"
-import token from "../../pages/api/token"
 
 class HashgraphClient extends HashgraphClientContract {
 	// Keep a private internal reference to SDK client
@@ -107,7 +106,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 
-		const tokenInfo = balance.tokens._map.get([token_id].toString())
+		console.log("The token balance(s) for this account: " + balance.tokens.toString());
+
+		const tokenInfo = balance.tokens.get([token_id].toString())
 		
 		return tokenInfo
 	}
