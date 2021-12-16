@@ -106,13 +106,13 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 
-		console.log(`- Treasury balance: ${balance.tokens._map.get([token_id].toString())}`);
+		console.log( "-------------------->" + balance.tokens._map.get([token_id].toString()) )
 
 		//${ balance.tokens._map.get([token_id].toString()) }
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString())
 
-		return { balance: parseFloat(balance.tokens._map.get([token_id].toString())) }
+		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
 		
 	async sendConsensusMessage({
