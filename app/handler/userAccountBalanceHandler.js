@@ -3,8 +3,8 @@ import Response from "app/response"
 async function GetUserAccountBalanceHandler(req, res) {
 	const { hashgraphClient } = req.context
 
-	var accoundid = req.headers["accoundid"]
-	var tokenid = req.headers["tokenid"]
+	const accoundid = req.headers["accoundid"]
+	const tokenid = req.headers["tokenid"]
 
 	if (accoundid == undefined || tokenid == undefined ) {
 
@@ -12,7 +12,10 @@ async function GetUserAccountBalanceHandler(req, res) {
 		return;
 	}
 
-	const userinfo = { accound_id: accoundid, token_id: token_id }
+	const userinfo = {
+		accound_id: accoundid,
+		token_id: tokenid
+	}
 
 	console.log(" ==> userinfo" + userinfo )
 	
