@@ -6,13 +6,14 @@ async function GetUserAccountBalanceHandler(req, res) {
 	const accoundid = req.headers["accoundid"]
 	const tokenid = req.headers["tokenid"]
 
+	console.log("-------> tokenID : " + tokenid);
+
 	if (accoundid == undefined || tokenid == undefined ) {
 
 		Response.json(res, "Fail GetUserAccountBalanceHandler")
 		return;
 	}
 
-	console.log("-------> tokenID : " + tokenid);
 	
 
 	const balance = await hashgraphClient.userAccountBalanceQuery(accoundid, tokenid)
