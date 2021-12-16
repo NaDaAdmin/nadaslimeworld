@@ -12,9 +12,11 @@ async function GetUserAccountBalanceHandler(req, res) {
 		return;
 	}
 
+
+	const userinfo = { accoundid, tokenid }
 	
 
-	const balance = await hashgraphClient.userAccountBalanceQuery(accoundid, tokenid)
+	const balance = await hashgraphClient.userAccountBalanceQuery(userinfo)
 
 	Response.json(res, balance)
 }
