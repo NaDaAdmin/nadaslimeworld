@@ -244,6 +244,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
 
 		console.log("=================prev> " + token)
+		console.log("=================prev> " + adjustedAmountBySpec)
+		console.log("=================prev> " + sender_id)
 
 		if (token < adjustedAmountBySpec) {
 
@@ -252,8 +254,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 
 		await new TransferTransaction()
-			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
+			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
 			.execute(client)
 
 
