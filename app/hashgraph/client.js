@@ -253,7 +253,7 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 
 
-		await new TransferTransaction()
+		const query1 =  await new TransferTransaction()
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
 			.execute(client)
@@ -265,7 +265,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const counts = balance.tokens._map.get([token_id].toString()).toString();
 
-		console.log("=================after> " + counts )
+		console.log("=================after> " + counts)
+
+		console.log(query1);
 
 
 		return {
