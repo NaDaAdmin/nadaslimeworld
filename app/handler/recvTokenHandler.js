@@ -1,8 +1,8 @@
-import bequestTokenRequest from "app/validators/bequestTokenRequest"
+import recvTokenRequest from "app/validators/recvTokenRequest"
 import Response from "app/response"
 
 async function RecvTokenHandler(req, res) {
-	const validationErrors = bequestTokenRequest(req.body)
+	const validationErrors = recvTokenRequest(req.body)
 
 	if (validationErrors) {
 		return Response.unprocessibleEntity(res, validationErrors)
