@@ -220,6 +220,47 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
+	recvToken = async ({
+		specification = Specification.Fungible,
+		encrypted_receiver_key,
+		token_id,
+		sender_id,
+		amount
+	}) => {
+		const client = this.#client
+
+		// Extract PV from encrypted
+		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+
+		// Associate with the token
+		await this.associateToAccount({
+			privateKey,
+			tokenIds: [token_id],
+			accountId: sender_id
+		})
+
+		const { tokens } = await new AccountBalanceQuery()
+			.setAccountId(Config.accountId)
+			.execute(client)
+
+		const token = JSON.parse(tokens.toString())[token_id]
+		const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+		if (token < adjustedAmountBySpec) {
+			return false
+		}
+
+		await new TransferTransaction()
+			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
+			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
+			.execute(client)
+
+		return {
+			amount,
+			sender_id
+		}
+	}
+
 	createAccount = async () => {
 		const privateKey = await PrivateKey.generate()
 		const publicKey = privateKey.publicKey
