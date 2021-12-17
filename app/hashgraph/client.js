@@ -248,12 +248,14 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("sender -------------------3> " + adjustedAmountBySpec)
 
 
-		const { recv } = await new AccountBalanceQuery()
+
+		console.log("recv -------------------1> " + Config.accountId)
+		const { recvs } = await new AccountBalanceQuery()
 			.setAccountId(Config.accountId)
 			.execute(client)
 
-		const token1 = JSON.parse(recv.toString())[token_id]
-		console.log("recv -------------------1> " + Config.accountId)
+
+		const token1 = JSON.parse(recvs.toString())[token_id]
 		console.log("recv -------------------2> " + token1 )
 
 
