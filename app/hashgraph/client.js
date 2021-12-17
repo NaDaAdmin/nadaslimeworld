@@ -255,7 +255,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-		let tokenTransferTx = await new TransferTransaction()
+		let tokenTransferSubmit = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.execute(client)
@@ -269,9 +269,6 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("=================after> " + Config.accountId)
 		console.log("=================after> " + counts)
 
-
-		//SUBMIT THE TRANSACTION
-		let tokenTransferSubmit = await tokenTransferTx.execute(client)
 
 		//GET THE RECEIPT OF THE TRANSACTION
 		let tokenTransferRx = await tokenTransferSubmit.getReceipt(client)
