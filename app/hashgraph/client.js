@@ -236,18 +236,18 @@ class HashgraphClient extends HashgraphClientContract {
 		await this.associateToAccount({
 			privateKey,
 			tokenIds: [token_id],
-			accountId: "0.0.19139102"
+			accountId: Config.accountId
 		})
 
 		const { tokens } = await new AccountBalanceQuery()
-			.setAccountId("0.0.19139102")
+			.setAccountId(sender_id)
 			.execute(client)
 
 		const token = JSON.parse(tokens.toString())[token_id]
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
 
 		console.log("=================prev> " + token)
-		console.log("=================prev> " + -(adjustedAmountBySpec))
+		console.log("=================prev> " + -adjustedAmountBySpec)
 		console.log("=================prev> " + sender_id)
 
 		if (token < adjustedAmountBySpec) {
@@ -256,12 +256,13 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 
 		await new TransferTransaction()
-			.addTokenTransfer(token_id, "0.0.19139493", -(adjustedAmountBySpec))
-			.addTokenTransfer(token_id, "0.0.19139102", adjustedAmountBySpec)
+			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
+			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.execute(client)
+			.sign
 
 		const balance = await new AccountBalanceQuery()
-			.setAccountId("0.0.19139102")
+			.setAccountId(sender_id)
 			.execute(client)
 
 		const counts = balance.tokens._map.get([token_id].toString()).toString();
