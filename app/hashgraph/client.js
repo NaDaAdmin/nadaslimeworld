@@ -261,6 +261,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const counts = balance.tokens._map.get([token_id].toString()).toString();
 
+		console.log("=================after> " + Config.accountId)
 		console.log("=================after> " + counts)
 
 
