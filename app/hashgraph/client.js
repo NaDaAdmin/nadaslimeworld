@@ -103,6 +103,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 
+		console.log("----------- Hbar : " + balance.hbars.toString() )
+
 		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
 		
@@ -268,13 +270,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("=================after> " + Config.accountId)
 		console.log("=================after> " + counts)
-
-
-		//GET THE RECEIPT OF THE TRANSACTION
-		let tokenTransferRx = await tokenTransferSubmit.getReceipt(client)
-
-		//LOG THE TRANSACTION STATUS
-		console.log(`\n- Stablecoin transfer from Treasury to Alice: ${tokenTransferRx.status} \n`)
 
 
 		return {
