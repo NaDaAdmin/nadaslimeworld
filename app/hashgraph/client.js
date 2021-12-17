@@ -255,11 +255,11 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-		await new TransferTransaction()
+		let tokenTransferTx = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.execute(client)
-			.sign
+			.sign(privateKey)
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
@@ -269,6 +269,16 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("=================after> " + Config.accountId)
 		console.log("=================after> " + counts)
+
+
+		//SUBMIT THE TRANSACTION
+		let tokenTransferSubmit = await tokenTransferTx.execute(client)
+
+		//GET THE RECEIPT OF THE TRANSACTION
+		let tokenTransferRx = await tokenTransferSubmit.getReceipt(client)
+
+		//LOG THE TRANSACTION STATUS
+		console.log(`\n- Stablecoin transfer from Treasury to Alice: ${tokenTransferRx.status} \n`)
 
 
 		return {
