@@ -243,7 +243,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const token = JSON.parse(tokens.toString())[token_id]
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
 
-
 		console.log("=================prev> " + token)
 
 		if (token < adjustedAmountBySpec) {
@@ -258,13 +257,13 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 
-		const { tokens1 } = await new AccountBalanceQuery()
+		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
 
-		const token1 = JSON.parse(tokens1.toString())[token_id]
+		const counts = balance.tokens._map.get([token_id].toString()).toString();
 
-		console.log("=================after> " + token1 )
+		console.log("=================after> " + counts )
 
 
 		return {
