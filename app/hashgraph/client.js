@@ -255,20 +255,6 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-		const txResponse = await new TransferTransaction()
-			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
-			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
-			.execute(client)
-
-		//Request the receipt of the transaction
-		const receipt = await txResponse.getReceipt(client);
-
-		//Get the transaction consensus status
-		const transactionStatus = receipt.status;
-
-		console.log("The transaction consensus status is " + transactionStatus.toString());
-
-
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
