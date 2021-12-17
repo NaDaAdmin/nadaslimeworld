@@ -244,25 +244,27 @@ class HashgraphClient extends HashgraphClientContract {
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
 
 
+		console.log("=================prev> " + token)
+
 		if (token < adjustedAmountBySpec) {
 
 			return false
 		}
 
 
-		const txResponse = await new TransferTransaction()
+		await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.execute(client)
 
 
-		const { tokens } = await new AccountBalanceQuery()
+		const { tokens1 } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
 
-		const token = JSON.parse(tokens.toString())[token_id]
+		const token1 = JSON.parse(tokens1.toString())[token_id]
 
-		console.log("=================> " + token )
+		console.log("=================after> " + token1 )
 
 
 		return {
