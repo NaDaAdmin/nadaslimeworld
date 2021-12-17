@@ -170,8 +170,15 @@ class HashgraphClient extends HashgraphClientContract {
 			.setTokenIds(tokenIds)
 			.freezeWith(client)
 
+		//GET THE RECEIPT OF THE TRANSACTION
+		let associateAliceRx = await transaction.getReceipt(client);
+
+		//LOG THE TRANSACTION STATUS
+		console.log(`- Token association with Alice's account: ${associateAliceRx.status} \n`);
+
 		const accountPrivateKey = PrivateKey.fromString(privateKey)
 		const signTx = await transaction.sign(accountPrivateKey)
+
 
 		return await signTx.execute(client)
 	}
@@ -252,11 +259,11 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-
-		const query1 =  await new TransferTransaction()
+		await new TransferTransaction()
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
 			.execute(client)
+			.sign(privateKey)
 
 
 		const balance = await new AccountBalanceQuery()
@@ -266,8 +273,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const counts = balance.tokens._map.get([token_id].toString()).toString();
 
 		console.log("=================after> " + counts)
-
-		console.log(query1);
 
 
 		return {
