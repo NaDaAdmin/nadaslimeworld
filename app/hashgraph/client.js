@@ -255,7 +255,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.execute(client)
 
-		console.log("sender -------------------2> " + txResponse.toString() )
+		const receipt1 = await txResponse.getReceipt(client);
+		console.log("The transaction status is " + receipt1.status.toString());
 
 		return {
 			amount,
