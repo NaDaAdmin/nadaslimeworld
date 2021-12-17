@@ -97,9 +97,6 @@ class HashgraphClient extends HashgraphClientContract {
 	async userAccountBalanceQuery({ accound_id, token_id }) {
 		const client = this.#client
 
-		console.log("accoundid  : " + accound_id)
-		console.log("token_id  : " + [token_id])
-
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(accound_id)
 			.execute(client)
@@ -240,11 +237,25 @@ class HashgraphClient extends HashgraphClientContract {
 		})
 
 		const { tokens } = await new AccountBalanceQuery()
-			.setAccountId(Config.accountId)
+			.setAccountId(sender_id)
 			.execute(client)
 
 		const token = JSON.parse(tokens.toString())[token_id]
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+		console.log("sender -------------------1> " + token)
+		console.log("sender -------------------2> " + sender_id)
+		console.log("sender -------------------3> " + adjustedAmountBySpec)
+
+
+		const { recv } = await new AccountBalanceQuery()
+			.setAccountId(sender_id)
+			.execute(client)
+
+		const token = JSON.parse(recv.toString())[token_id]
+		console.log("recv -------------------1> " + Config.accountId)
+		console.log("recv -------------------2> " + token )
+
 
 		if (token < adjustedAmountBySpec) {
 			return false
