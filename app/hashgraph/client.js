@@ -259,7 +259,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.execute(client)
-			.sign(privateKey)
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
