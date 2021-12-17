@@ -233,7 +233,7 @@ class HashgraphClient extends HashgraphClientContract {
 		await this.associateToAccount({
 			privateKey,
 			tokenIds: [token_id],
-			accountId: sender_id
+			accountId: Config.accountId
 		})
 
 		const { tokens } = await new AccountBalanceQuery()
