@@ -170,12 +170,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.setTokenIds(tokenIds)
 			.freezeWith(client)
 
-		//GET THE RECEIPT OF THE TRANSACTION
-		let associateAliceRx = await transaction.getReceipt(client);
-
-		//LOG THE TRANSACTION STATUS
-		console.log(`- Token association with Alice's account: ${associateAliceRx.status} \n`);
-
 		const accountPrivateKey = PrivateKey.fromString(privateKey)
 		const signTx = await transaction.sign(accountPrivateKey)
 
