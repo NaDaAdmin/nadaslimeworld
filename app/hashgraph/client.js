@@ -236,7 +236,7 @@ class HashgraphClient extends HashgraphClientContract {
 		await this.associateToAccount({
 			privateKey,
 			tokenIds: [token_id],
-			accountId: Config.accountId
+			accountId: "0.0.19139493"
 		})
 
 		const { tokens } = await new AccountBalanceQuery()
@@ -257,7 +257,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
-			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
+			.addTokenTransfer(token_id, "0.0.19139493", adjustedAmountBySpec)
 			.execute(client)
 
 		const balance = await new AccountBalanceQuery()
