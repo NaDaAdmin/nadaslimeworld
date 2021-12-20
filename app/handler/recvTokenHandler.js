@@ -21,8 +21,6 @@ async function RecvTokenHandler(req, res) {
 	const recvResponse = await hashgraphClient.recvToken(recvPayload)
 
 	if (recvResponse) {
-
-		console.log( recvResponse.balance )
 		return Response.json(res, recvResponse)
 	}
 
