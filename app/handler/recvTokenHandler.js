@@ -2,6 +2,8 @@ import recvTokenRequest from "app/validators/recvTokenRequest"
 import Response from "app/response"
 
 async function RecvTokenHandler(req, res) {
+
+	console.log("---------------------->");
 	const validationErrors = recvTokenRequest(req.body)
 
 	if (validationErrors) {
