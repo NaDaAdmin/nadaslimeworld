@@ -268,7 +268,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 
 		//Sign with the sender account private key
-		const signTx = await transaction.sign(accountKey1);
+		const signTx = await transaction.sign(privateKey);
 
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
