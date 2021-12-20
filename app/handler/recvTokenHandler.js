@@ -8,7 +8,8 @@ async function RecvTokenHandler(req, res) {
 
 	if (validationErrors) {
 
-		console.log("----------------------1>");
+		console.log("----------------------1>" + validationErrors)
+
 		return Response.unprocessibleEntity(res, validationErrors)
 	}
 

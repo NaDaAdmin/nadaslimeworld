@@ -13,6 +13,8 @@ function consensusMessageRequest(candidate = {}) {
 	const validation = schema.validate(candidate || {})
 
 	if (validation.error) {
+
+		console.log("----------------------1>");
 		return validation.error.details.map(error => error.message)
 	}
 }
