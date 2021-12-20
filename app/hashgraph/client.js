@@ -173,9 +173,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const accountPrivateKey = PrivateKey.fromString(privateKey)
 		const signTx = await transaction.sign(accountPrivateKey)
 
-		const txResponse = signTx.execute(client)
-
-
 		return await signTx.execute(client)
 	}
 
