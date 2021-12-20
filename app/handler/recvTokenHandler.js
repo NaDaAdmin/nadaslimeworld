@@ -21,6 +21,8 @@ async function RecvTokenHandler(req, res) {
 	const recvResponse = await hashgraphClient.recvToken(recvPayload)
 
 	if (recvResponse) {
+		console.log("==================>" + Response.json(res, recvResponse) )
+
 		return Response.json(res, recvResponse)
 	}
 

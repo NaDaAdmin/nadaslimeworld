@@ -235,23 +235,12 @@ class HashgraphClient extends HashgraphClientContract {
 		// Extract PV from encrypted
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
-		//// Associate with the token
-		//await this.associateToAccount({
-		//	privateKey,
-		//	tokenIds: [token_id],
-		//	accountId: Config.accountId
-		//})
-
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
 
 		const token = JSON.parse(tokens.toString())[token_id]
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
-
-		console.log("=================prev> " + token)
-		console.log("=================prev> " + -adjustedAmountBySpec)
-		console.log("=================prev> " + sender_id)
 
 		if (token < adjustedAmountBySpec) {
 
@@ -267,17 +256,11 @@ class HashgraphClient extends HashgraphClientContract {
 		//Sign with the sender account private key
 		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
 
-		console.log("================1")
-
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
-		console.log("================2")
-
 		//Request the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
-
-		console.log("================3")
 
 		//Obtain the transaction consensus status
 		const transactionStatus = receipt.status;
@@ -289,17 +272,18 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(sender_id)
 			.execute(client)
 
-		const counts = balance.tokens._map.get([token_id].toString()).toString();
+		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 
-		console.log("=================after> " + Config.accountId)
-		console.log("=================after> " + counts)
+		if (transactionStatus.toString() === "SUCCESS") {
+			return {
 
-
-		return {
-			amount,
-			sender_id
+				balance: senderbalance,
+			}
 		}
+		else {
+			return null;
+        }
 	}
 
 	createAccount = async () => {
