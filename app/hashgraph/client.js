@@ -279,7 +279,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return { balance: parseFloat(senderbalance) }
 		}
 		else {
-			return null;
+			return false;
         }
 	}
 
