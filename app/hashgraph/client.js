@@ -276,10 +276,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 
 		if (transactionStatus.toString() === "SUCCESS") {
-			return {
-
-				balance: senderbalance,
-			}
+			return { balance: parseFloat(senderbalance) }
 		}
 		else {
 			return null;
