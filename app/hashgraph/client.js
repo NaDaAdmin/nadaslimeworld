@@ -175,6 +175,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const accountPrivateKey = PrivateKey.fromString(privateKey)
 		const signTx = await transaction.sign(accountPrivateKey)
 
+		const txResponse = signTx.execute(client)
+
 
 		return await signTx.execute(client)
 	}
@@ -234,12 +236,12 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("=================")
 
-		// Associate with the token
-		await this.associateToAccount({
-			privateKey,
-			tokenIds: [token_id],
-			accountId: Config.accountId
-		})
+		//// Associate with the token
+		//await this.associateToAccount({
+		//	privateKey,
+		//	tokenIds: [token_id],
+		//	accountId: Config.accountId
+		//})
 
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
@@ -257,16 +259,33 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-		let tokenTransferSubmit = await new TransferTransaction()
+		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
-			.execute(client)
+			.freezeWith(client);
+
+
+		//Sign with the sender account private key
+		const signTx = await transaction.sign(accountKey1);
+
+		//Sign with the client operator private key and submit to a Hedera network
+		const txResponse = await signTx.execute(client);
+
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
+
+		//Obtain the transaction consensus status
+		const transactionStatus = receipt.status;
+
+		console.log("The transaction consensus status " + transactionStatus.toString());
+
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
 
 		const counts = balance.tokens._map.get([token_id].toString()).toString();
+
 
 		console.log("=================after> " + Config.accountId)
 		console.log("=================after> " + counts)
