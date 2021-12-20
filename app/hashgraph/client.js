@@ -229,6 +229,8 @@ class HashgraphClient extends HashgraphClientContract {
 		sender_id,
 		amount
 	}) => {
+
+		console.log("=================3")
 		const client = this.#client
 
 		// Extract PV from encrypted

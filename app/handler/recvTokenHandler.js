@@ -7,6 +7,8 @@ async function RecvTokenHandler(req, res) {
 	const validationErrors = recvTokenRequest(req.body)
 
 	if (validationErrors) {
+
+		console.log("----------------------1>");
 		return Response.unprocessibleEntity(res, validationErrors)
 	}
 
@@ -18,6 +20,8 @@ async function RecvTokenHandler(req, res) {
 		sender_id,
 		amount
 	}
+
+	console.log("----------------------2>");
 
 	const { hashgraphClient } = req.context
 	const recvResponse = await hashgraphClient.recvToken(recvPayload)
