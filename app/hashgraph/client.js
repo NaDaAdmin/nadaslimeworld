@@ -188,8 +188,6 @@ class HashgraphClient extends HashgraphClientContract {
 		// Extract PV from encrypted
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
-		console.log("====================================>")
-
 		// Associate with the token
 		await this.associateToAccount({
 			privateKey,
@@ -198,7 +196,6 @@ class HashgraphClient extends HashgraphClientContract {
 		})
 
 
-		console.log("====================================1")
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(Config.accountId)
 			.execute(client)
@@ -210,16 +207,12 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-		console.log("====================================2")
-
 		const signature = await new TransferTransaction()
 			.addTokenTransfer(token_id, Config.accountId, -adjustedAmountBySpec)
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
 		const receipt = await signature.getReceipt(client);
-		console.log("The transaction status is " + receipt.status.toString());
-
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(receiver_id)
@@ -278,9 +271,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//Obtain the transaction consensus status
 		const transactionStatus = receipt.status;
-
-		console.log("The transaction consensus status " + transactionStatus.toString());
-
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
