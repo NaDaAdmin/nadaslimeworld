@@ -188,6 +188,8 @@ class HashgraphClient extends HashgraphClientContract {
 		// Extract PV from encrypted
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
+		console.log("====================================>")
+
 		// Associate with the token
 		await this.associateToAccount({
 			privateKey,
@@ -195,6 +197,8 @@ class HashgraphClient extends HashgraphClientContract {
 			accountId: receiver_id
 		})
 
+
+		console.log("====================================1")
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(Config.accountId)
 			.execute(client)
@@ -205,6 +209,8 @@ class HashgraphClient extends HashgraphClientContract {
 		if (token < adjustedAmountBySpec) {
 			return false
 		}
+
+		console.log("====================================2")
 
 		const signature = await new TransferTransaction()
 			.addTokenTransfer(token_id, Config.accountId, -adjustedAmountBySpec)
