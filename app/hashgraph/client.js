@@ -230,13 +230,10 @@ class HashgraphClient extends HashgraphClientContract {
 		amount
 	}) => {
 
-		console.log("=================3")
 		const client = this.#client
 
 		// Extract PV from encrypted
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
-
-		console.log("=================")
 
 		//// Associate with the token
 		//await this.associateToAccount({
@@ -268,13 +265,19 @@ class HashgraphClient extends HashgraphClientContract {
 
 
 		//Sign with the sender account private key
-		const signTx = await transaction.sign(privateKey);
+		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
+
+		console.log("================1")
 
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
+		console.log("================2")
+
 		//Request the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
+
+		console.log("================3")
 
 		//Obtain the transaction consensus status
 		const transactionStatus = receipt.status;
