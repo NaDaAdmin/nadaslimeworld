@@ -388,7 +388,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const transaction = new ContractCreateTransaction()
 			.setGas(gas)
 			.setBytecodeFileId(file_id)
-			.setAdminKey(PrivateKey.fromString(privateKey));
+			.setAdminKey(PrivateKey.fromString(privateKey))
+			.freezeWith(client);
 
 		//Modify the default max transaction fee (default: 1 hbar)
 		const modifyTransactionFee = transaction.setMaxTransactionFee(new Hbar(16));
@@ -415,26 +416,47 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		console.log("=============================");
-
 		const query = new ContractInfoQuery()
-			.setContractId(contact_id);
+			.setContractId(contact_id)
+			.freezeWith(client);
 
-		console.log("=============================0");
 		//Sign the query with the client operator private key and submit to a Hedera network
 		const info = await query.execute(client);
 
 
-		console.log("=============================1");
-		//const receipt = await txResponse.getReceipt(info);
-
-		//console.log("state" + receipt.status.toString())
-
-		//receipt.con
-		console.log(info);
-
 		return info;
-		
+	}
+
+	deleteSmartContract = async ({
+		contact_id
+	}) => {
+		const client = this.#client
+
+		const query = new ContractInfoQuery()
+			.setContractId(contact_id);
+
+		//Sign the query with the client operator private key and submit to a Hedera network
+		const info = await query.execute(client);
+
+
+		const transaction = await new ContractDeleteTransaction()
+			.setContractId(contractId)
+			.freezeWith(client);
+
+		//Sign with the admin key on the contract
+		const signTx = await transaction.sign(adminKey)
+
+		//Sign the transaction with the client operator's private key and submit to a Hedera network
+		const txResponse = await signTx.execute(client);
+
+		//Get the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
+
+		//Get the transaction consensus status
+		const transactionStatus = receipt.status;
+
+
+		return receipt.status.toString();
 	}
 }
 
