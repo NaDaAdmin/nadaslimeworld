@@ -412,12 +412,18 @@ class HashgraphClient extends HashgraphClientContract {
 	getSmartContract = async ({
 		contact_id
 	}) => {
+		const client = this.#client
+
+		console.log("=============================");
+
 		const query = new ContractInfoQuery()
 			.setContractId(contact_id);
 
 		//Sign the query with the client operator private key and submit to a Hedera network
 		const info = await query.execute(client);
 
+
+		console.log("=============================1");
 		//const receipt = await txResponse.getReceipt(info);
 
 		//console.log("state" + receipt.status.toString())

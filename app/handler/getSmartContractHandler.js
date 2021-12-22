@@ -15,7 +15,7 @@ async function GetSmartContractHandler(req, res) {
 		return Response.json(res, recvResponse)
 	}
 
-	console.log("-----------------3");
+	console.log("-----------------2");
 
 	// This has to be bolstered up with correct error handling
 	return Response.badRequest(res)
