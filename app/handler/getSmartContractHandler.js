@@ -2,11 +2,9 @@ import Response from "app/response"
 
 async function GetSmartContractHandler(req, res) {
 
-	console.log("-----------------1");
-
 	const { contact_id } = req.body
 	const contractInfo = {
-		contact_id,
+		contact_id
 	}
 	const { hashgraphClient } = req.context
 	const recvResponse = await hashgraphClient.getSmartContract(contractInfo)

@@ -420,6 +420,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setContractId(contact_id)
 			.freezeWith(client);
 
+		console.log("=============================111");
 		//Sign the query with the client operator private key and submit to a Hedera network
 		const info = await query.execute(client);
 
@@ -455,6 +456,32 @@ class HashgraphClient extends HashgraphClientContract {
 		//Get the transaction consensus status
 		const transactionStatus = receipt.status;
 
+
+		return receipt.status.toString();
+	}
+
+	callSmartContract = async ({
+		contact_id,
+		gas,
+		memo,
+		submemo
+	}) => {
+		const client = this.#client
+
+		const transaction = new ContractExecuteTransaction()
+			.setContractId(newContractId)
+			.setGas(gas)
+			.setFunction(memo.toString(), new ContractFunctionParameters()
+				.addString(submemo.toString()))
+
+		//Sign with the client operator private key to pay for the transaction and submit the query to a Hedera network
+		const txResponse = await transaction.execute(client);
+
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
+
+		//Get the transaction consensus status
+		const transactionStatus = receipt.status;
 
 		return receipt.status.toString();
 	}
