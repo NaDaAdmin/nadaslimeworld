@@ -380,6 +380,8 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
+		console.log("=============================");
+
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
 		const transaction = new ContractCreateTransaction()
