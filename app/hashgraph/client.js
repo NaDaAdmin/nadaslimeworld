@@ -13,7 +13,8 @@ import {
 	AccountCreateTransaction,
 	TokenAssociateTransaction,
 	TokenId,
-	TransferTransaction
+	TransferTransaction,
+	ContractCreateTransaction
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -23,6 +24,7 @@ import Encryption from "app/utils/encryption"
 import Explorer from "app/utils/explorer"
 import sendWebhookMessage from "app/utils/sendWebhookMessage"
 import Specification from "app/hashgraph/tokens/specifications"
+
 
 class HashgraphClient extends HashgraphClientContract {
 	// Keep a private internal reference to SDK client
@@ -369,6 +371,38 @@ class HashgraphClient extends HashgraphClientContract {
 			supplyWithDecimals: String(supplyWithDecimals),
 			tokenId: receipt.tokenId.toString()
 		}
+	}
+
+	createSmartContract = async ({
+		encrypted_receiver_key,
+		gas,
+		file_id,
+	}) => {
+		const client = this.#client
+
+		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+
+		const transaction = new ContractCreateTransaction()
+			.setGas(gas)
+			.setBytecodeFileId(file_id)
+			.setAdminKey(privateKey);
+
+		//Modify the default max transaction fee (default: 1 hbar)
+		const modifyTransactionFee = transaction.setMaxTransactionFee(new Hbar(16));
+
+		//Sign the transaction with the client operator key and submit to a Hedera network
+		const txResponse = await modifyTransactionFee.execute(client);
+
+		//Get the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
+
+		if (receipt.status.toString() === "SUCCESS") {
+			return { ContractID: parseInt(receipt.contractId) }
+		}
+		else {
+			return false;
+		}
+		console.log("The new contract ID is " + receipt.contractId)
 	}
 }
 
