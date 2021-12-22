@@ -14,7 +14,8 @@ import {
 	TokenAssociateTransaction,
 	TokenId,
 	TransferTransaction,
-	ContractCreateTransaction
+	ContractCreateTransaction,
+	ContractInfoQuery
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
