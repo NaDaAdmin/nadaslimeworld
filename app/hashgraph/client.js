@@ -385,7 +385,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const transaction = new ContractCreateTransaction()
 			.setGas(gas)
 			.setBytecodeFileId(file_id)
-			.setAdminKey(privateKey);
+			.setAdminKey(PrivateKey.fromString(privateKey));
 
 		//Modify the default max transaction fee (default: 1 hbar)
 		const modifyTransactionFee = transaction.setMaxTransactionFee(new Hbar(16));
@@ -396,13 +396,15 @@ class HashgraphClient extends HashgraphClientContract {
 		//Get the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
 
+		console.log("state" + receipt.status.toString() )
+		console.log("The new contract ID is " + receipt.contractId)
+
 		if (receipt.status.toString() === "SUCCESS") {
 			return { ContractID: parseInt(receipt.contractId) }
 		}
 		else {
 			return false;
 		}
-		console.log("The new contract ID is " + receipt.contractId)
 	}
 }
 
