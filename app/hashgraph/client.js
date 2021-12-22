@@ -420,6 +420,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const query = new ContractInfoQuery()
 			.setContractId(contact_id);
 
+		console.log("=============================0");
 		//Sign the query with the client operator private key and submit to a Hedera network
 		const info = await query.execute(client);
 
