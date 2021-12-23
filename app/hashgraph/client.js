@@ -389,10 +389,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setFreezeKey(Config.freezeKey)
 			.freezeWith(client);
 
-		//Sign the transaction with the admin key
-		PrivateKey.fromString(PrivateKey.fromString(Config.privateKey))
-
-		const signTx = await transaction.sign(adminKey);
+		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
 
 		//Submit the signed transaction to a Hedera network
 		const txResponse = await signTx.execute(client);
