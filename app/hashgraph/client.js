@@ -386,21 +386,21 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 
-		const transaction = await new FileCreateTransaction()
+		const transactionFile = await new FileCreateTransaction()
 			.setKeys(encrypted_receiver_key)
 			.setContents(file_memo)
 			.setMaxTransactionFee(new Hbar(2))
 			.freezeWith(client);
 
-		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
+		const signTxFile = await transactionFile.sign(PrivateKey.fromString(Config.privateKey));
 
-		const submitTx = await signTx.execute(client);
+		const submitTxFile = await signTxFile.execute(client);
 
 		//Request the receipt
-		const receipt = await submitTx.getReceipt(client);
+		const receiptFile = await submitTxFile.getReceipt(client);
 
 		//Get the file ID
-		const newFileId = receipt.fileId;
+		const newFileId = receiptFile.fileId;
 
 
 		if (receipt.status.toString() != "SUCCESS") {
@@ -417,16 +417,11 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client);
 
 		//Modify the default max transaction fee (default: 1 hbar)
-		const modifyTransactionFee = transaction.setMaxTransactionFee(new Hbar(16));
+		//const modifyTransactionFee = transaction.setMaxTransactionFee(new Hbar(16));
 
-		//Sign the transaction with the client operator key and submit to a Hedera network
 		const txResponse = await modifyTransactionFee.execute(client);
 
-		//Get the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
-
-		console.log("state" + receipt.status.toString() )
-		console.log("The new contract ID is " + receipt.contractId)
 
 		if (receipt.status.toString() === "SUCCESS") {
 			return { ContractID: parseInt(receipt.contractId) }
@@ -444,8 +439,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const query = new ContractInfoQuery()
 			.setContractId(contact_id);
 
-		console.log("=============================111");
-		//Sign the query with the client operator private key and submit to a Hedera network
 		const info = await query.execute(client);
 
 
@@ -460,8 +453,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const query = new ContractByteCodeQuery()
 			.setContractId(contact_id);
 
-		console.log("=============================111");
-		//Sign the query with the client operator private key and submit to a Hedera network
 		const info = await query.execute(client);
 
 
@@ -475,16 +466,13 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		//Contract call query
 		const query = new ContractCallQuery()
 			.setContractId(contact_id)
 			.setGas(gas)
 			.setFunction(function_name);
 
-		//Sign with the client operator private key to pay for the query and submit the query to a Hedera network
 		const contractCallResult = await query.execute(client);
 
-		// Get the function value
 		const message = contractCallResult.getString(0);
 
 		return message;
@@ -497,7 +485,6 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		//Create the transaction
 		const transaction = await new ContractUpdateTransaction()
 			.setContractId(contact_id)
 			.setAdminKey(adminKey)
@@ -507,17 +494,14 @@ class HashgraphClient extends HashgraphClientContract {
 		const signTx = null;
 
 		if (newadmin_key.toString() === "") {
-			//Sign the transaction with the old admin key and new admin key
 			signTx = await (await transaction.sign(newadmin_key)).sign(adminKey);
 		}
 		else {
 			signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey))
         }
 
-		//Sign the transaction with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
-		//Request the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client)
 
 		if (receipt.status.toString() === "SUCCESS") {
@@ -550,10 +534,8 @@ class HashgraphClient extends HashgraphClientContract {
 			signTx = await transaction.sign(admin_key.toString())
         }
 
-		//Sign the transaction with the client operator's private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
-		//Get the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
 
 		if (receipt.status.toString() === "SUCCESS") {
@@ -578,10 +560,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.setFunction(memo.toString(), new ContractFunctionParameters()
 				.addString(submemo.toString()));
 
-		//Sign with the client operator private key to pay for the transaction and submit the query to a Hedera network
 		const txResponse = await transaction.execute(client);
 
-		//Request the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
 
 		if(receipt.status.toString() === "SUCCESS") {
