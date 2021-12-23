@@ -384,12 +384,12 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
+		console.log("--------------");
 		const transaction = await new TokenUpdateTransaction()
 			.setTokenId(token_id)
-			.setFreezeKey(Config.freezeKey)
+			.setFreezeKey( "nada0424" )
 			.freezeWith(client);
 
-		console.log("--------------");
 		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
 
 		console.log("--------------2");
