@@ -1,24 +1,22 @@
 import Response from "app/response"
 
-async function DeleteSmartContractHandler(req, res) {
+async function GetSmartContractByteCodeHandler(req, res) {
 
-	const { contractId } = req.body
+	const { contact_id } = req.body
 	const contractInfo = {
-		contractId,
-		admin_key
+		contact_id,
+		gas,
+		function_name
 	}
-
-
 	const { hashgraphClient } = req.context
-	const recvResponse = await hashgraphClient.deleteSmartContract(contractInfo)
+	const recvResponse = await hashgraphClient.getSmartContractFuction(contractInfo)
 
 	if (recvResponse) {
 		return Response.json(res, recvResponse)
 	}
 
-
 	// This has to be bolstered up with correct error handling
 	return Response.badRequest(res)
 }
 
-export default DeleteSmartContractHandler
+export default GetSmartContractByteCodeHandler

@@ -15,7 +15,11 @@ import {
 	TokenId,
 	TransferTransaction,
 	ContractCreateTransaction,
-	ContractInfoQuery
+	ContractInfoQuery,
+	ContractByteCodeQuery,
+	ContractDeleteTransaction,
+	ContractExecuteTransaction,
+	ContractCallQuery
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -417,8 +421,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 		const query = new ContractInfoQuery()
-			.setContractId(contact_id)
-			.freezeWith(client);
+			.setContractId(contact_id);
 
 		console.log("=============================111");
 		//Sign the query with the client operator private key and submit to a Hedera network
@@ -428,24 +431,103 @@ class HashgraphClient extends HashgraphClientContract {
 		return info;
 	}
 
-	deleteSmartContract = async ({
+	getSmartContractByteCode = async ({
 		contact_id
+	}) => {
+		const client = this.#client
+
+		const query = new ContractByteCodeQuery()
+			.setContractId(contact_id);
+
+		console.log("=============================111");
+		//Sign the query with the client operator private key and submit to a Hedera network
+		const info = await query.execute(client);
+
+
+		return info;
+	}
+
+	getSmartContractFuction = async ({
+		contact_id,
+		gas,
+		function_name
+	}) => {
+		const client = this.#client
+
+		//Contract call query
+		const query = new ContractCallQuery()
+			.setContractId(contact_id)
+			.setGas(gas)
+			.setFunction(function_name);
+
+		//Sign with the client operator private key to pay for the query and submit the query to a Hedera network
+		const contractCallResult = await query.execute(client);
+
+		// Get the function value
+		const message = contractCallResult.getString(0);
+
+		return message;
+	}
+
+	updateSmartContract = async ({
+		contact_id,
+		newadmin_key,
+		newmax_fee
+	}) => {
+		const client = this.#client
+
+		//Create the transaction
+		const transaction = await new ContractUpdateTransaction()
+			.setContractId(contact_id)
+			.setAdminKey(adminKey)
+			.setMaxTransactionFee(new Hbar(newmax_fee))
+			.freezeWith(client);
+
+		const signTx = null;
+
+		if (newadmin_key.toString() === "") {
+			//Sign the transaction with the old admin key and new admin key
+			signTx = await (await transaction.sign(newadmin_key)).sign(adminKey);
+		}
+		else {
+			signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey))
+        }
+
+		//Sign the transaction with the client operator private key and submit to a Hedera network
+		const txResponse = await signTx.execute(client);
+
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client)
+
+		if (receipt.status.toString() === "SUCCESS") {
+			return { ContractID: parseInt(receipt.contractId) }
+		}
+		else {
+			return false;
+		}
+	}
+
+	deleteSmartContract = async ({
+		contact_id,
+		admin_key
 	}) => {
 		const client = this.#client
 
 		const query = new ContractInfoQuery()
 			.setContractId(contact_id);
 
-		//Sign the query with the client operator private key and submit to a Hedera network
-		const info = await query.execute(client);
-
-
 		const transaction = await new ContractDeleteTransaction()
 			.setContractId(contractId)
 			.freezeWith(client);
 
-		//Sign with the admin key on the contract
-		const signTx = await transaction.sign(adminKey)
+		const signTx = null;
+
+		if (admin_key.toString() === "") {
+			signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey))
+		}
+		else {
+			signTx = await transaction.sign(admin_key.toString())
+        }
 
 		//Sign the transaction with the client operator's private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
@@ -453,11 +535,12 @@ class HashgraphClient extends HashgraphClientContract {
 		//Get the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
 
-		//Get the transaction consensus status
-		const transactionStatus = receipt.status;
-
-
-		return receipt.status.toString();
+		if (receipt.status.toString() === "SUCCESS") {
+			return { ContractID: parseInt(receipt.contractId) }
+		}
+		else {
+			return false;
+		}
 	}
 
 	callSmartContract = async ({
@@ -469,10 +552,10 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 		const transaction = new ContractExecuteTransaction()
-			.setContractId(newContractId)
+			.setContractId(contact_id)
 			.setGas(gas)
 			.setFunction(memo.toString(), new ContractFunctionParameters()
-				.addString(submemo.toString()))
+				.addString(submemo.toString()));
 
 		//Sign with the client operator private key to pay for the transaction and submit the query to a Hedera network
 		const txResponse = await transaction.execute(client);
@@ -480,10 +563,12 @@ class HashgraphClient extends HashgraphClientContract {
 		//Request the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
 
-		//Get the transaction consensus status
-		const transactionStatus = receipt.status;
-
-		return receipt.status.toString();
+		if(receipt.status.toString() === "SUCCESS") {
+			return { ContractID: parseInt(receipt.contractId) }
+		}
+		else {
+			return false;
+		}
 	}
 }
 

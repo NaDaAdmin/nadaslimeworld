@@ -1,16 +1,17 @@
 import Response from "app/response"
 
-async function DeleteSmartContractHandler(req, res) {
+async function UpdateSmartContractHandler(req, res) {
 
 	const { contractId } = req.body
 	const contractInfo = {
 		contractId,
-		admin_key
+		newadmin_key,
+		newmax_fee
 	}
 
 
 	const { hashgraphClient } = req.context
-	const recvResponse = await hashgraphClient.deleteSmartContract(contractInfo)
+	const recvResponse = await hashgraphClient.updateSmartContract(contractInfo)
 
 	if (recvResponse) {
 		return Response.json(res, recvResponse)
@@ -21,4 +22,4 @@ async function DeleteSmartContractHandler(req, res) {
 	return Response.badRequest(res)
 }
 
-export default DeleteSmartContractHandler
+export default UpdateSmartContractHandler
