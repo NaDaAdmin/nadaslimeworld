@@ -5,8 +5,10 @@ async function UpdateTokenHandler(req, res) {
 		token_id,
 	} = req.body
 
+	console.log("--------------1");
 	const { hashgraphClient } = req.context
 
+	console.log("--------------3");
 	const token = await hashgraphClient.updateToken({
 		token_id,
 	})
