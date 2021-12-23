@@ -13,6 +13,7 @@ import {
 	AccountCreateTransaction,
 	TokenAssociateTransaction,
 	TokenId,
+	TokenUpdateTransaction,
 	TransferTransaction,
 	ContractCreateTransaction,
 	ContractInfoQuery,
