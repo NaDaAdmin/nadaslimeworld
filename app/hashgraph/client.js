@@ -386,7 +386,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const transaction = await new TokenUpdateTransaction()
 			.setTokenId(token_id)
-			.setFreezeKey(Config.freezeKey.toString())
+			.setFreezeKey(Config.freezeKey)
 			.freezeWith(client);
 
 		console.log("--------------");
