@@ -8,7 +8,8 @@ const {
 	API_URL,
 	HIDE_STATUS,
 	WEBHOOK_URL,
-	ENCRYPTION_KEY
+	ENCRYPTION_KEY,
+	FREEZE_KEY
 } = process.env
 
 const AUTH_KEY_MIN_LENGTH = 10
@@ -24,5 +25,6 @@ export default {
 	encryptionKey: ENCRYPTION_KEY,
 	apiUrl: API_URL,
 	hideStatus: HIDE_STATUS,
-	webhookUrl: WEBHOOK_URL
+	webhookUrl: WEBHOOK_URL,
+	freezeKey: FREEZE_KEY
 }
