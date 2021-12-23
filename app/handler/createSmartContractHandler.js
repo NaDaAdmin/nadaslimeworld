@@ -9,11 +9,11 @@ async function CreateSmartContractHandler(req, res) {
 		return Response.unprocessibleEntity(res, validationErrors)
 	}
 
-	const { encrypted_receiver_key, gas, file_id } = req.body
+	const { encrypted_receiver_key, gas, file_memo } = req.body
 	const contractInfo = {
 		encrypted_receiver_key,
 		gas,
-		file_id
+		file_memo
 	}
 	const { hashgraphClient } = req.context
 	const recvResponse = await hashgraphClient.createSmartContract(contractInfo)

@@ -2,7 +2,7 @@ import Response from "app/response"
 
 async function GetSmartContractByteCodeHandler(req, res) {
 
-	const { contact_id } = req.body
+	const { contact_id, gas, function_name } = req.body
 	const contractInfo = {
 		contact_id,
 		gas,

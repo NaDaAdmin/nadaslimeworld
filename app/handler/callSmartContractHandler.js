@@ -2,7 +2,7 @@ import Response from "app/response"
 
 async function CallSmartContractHandler(req, res) {
 
-	const { contractId } = req.body
+	const { contractId, gas, memo, submemo } = req.body
 	const contractInfo = {
 		contractId,
 		gas,

@@ -381,17 +381,38 @@ class HashgraphClient extends HashgraphClientContract {
 	createSmartContract = async ({
 		encrypted_receiver_key,
 		gas,
-		file_id,
+		file_memo,
 	}) => {
 		const client = this.#client
 
-		console.log("=============================");
+
+		const transaction = await new FileCreateTransaction()
+			.setKeys(encrypted_receiver_key)
+			.setContents(file_memo)
+			.setMaxTransactionFee(new Hbar(2))
+			.freezeWith(client);
+
+		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
+
+		const submitTx = await signTx.execute(client);
+
+		//Request the receipt
+		const receipt = await submitTx.getReceipt(client);
+
+		//Get the file ID
+		const newFileId = receipt.fileId;
+
+
+		if (receipt.status.toString() != "SUCCESS") {
+			return false;
+		}
+
 
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
 		const transaction = new ContractCreateTransaction()
 			.setGas(gas)
-			.setBytecodeFileId(file_id)
+			.setBytecodeFileId(newFileId)
 			.setAdminKey(PrivateKey.fromString(privateKey))
 			.freezeWith(client);
 

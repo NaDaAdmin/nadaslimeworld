@@ -2,7 +2,7 @@ import Response from "app/response"
 
 async function DeleteSmartContractHandler(req, res) {
 
-	const { contractId } = req.body
+	const { contractId, admin_key } = req.body
 	const contractInfo = {
 		contractId,
 		admin_key
