@@ -327,6 +327,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
+		//Sign with the sender account private key
 		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
 
 		//Sign with the client operator private key and submit to a Hedera network
@@ -342,11 +343,11 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(sender_id)
 			.execute(client)
 
-		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
+		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 
-		if (receipt.status.toString() === "SUCCESS") {
-			return { balance: parseFloat(recverbalance) }
+		if (transactionStatus.toString() === "SUCCESS") {
+			return { balance: parseFloat(senderbalance) }
 		}
 		else {
 			return false;
