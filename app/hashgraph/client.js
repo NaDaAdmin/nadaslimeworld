@@ -348,7 +348,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.setWipeKey(operatorPrivateKey)
 			.setSupplyKey(operatorPrivateKey)
 			.setFreezeDefault(false)
-			.setFeeScheduleKey(operatorPrivateKey)
 			.setMaxTransactionFee(new Hbar(100, HbarUnit.Hbar)) //Change the default max transaction fee
 			.setTokenMemo(memo)
 			.freezeWith(client)
