@@ -353,6 +353,39 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
+	freezeToken = async ({
+		acount_id,
+		token_id,
+	}) => {
+		//Freeze an account from transferring a token
+		const transaction = await new TokenFreezeTransaction()
+			.setAccountId(acount_id)
+			.setTokenId(token_id)
+			.freezeWith(client);
+
+		//Sign with the freeze key of the token 
+		const privatekey = PrivateKey.fromString(Config.privateKey);
+
+		const signTx = await transaction.sign(privatekey);
+
+		//Submit the transaction to a Hedera network    
+		const txResponse = await signTx.execute(client);
+
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
+
+		//Get the transaction consensus status
+		const transactionStatus = receipt.status;
+
+		console.log("The transaction consensus status " + transactionStatus.toString());
+
+		return {
+			accountId,
+			encryptedKey,
+			publicKey: publicKey.toString()
+		}
+	}
+
 
 	createAccount = async () => {
 		const privateKey = await PrivateKey.generate()
@@ -440,7 +473,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const transaction = await new TokenUpdateTransaction()
 			.setTokenId(token_id)
-			.setFreezeKey(operatorPrivateKey.publicKey)
+			.setFreezeKey(operatorPrivateKey)
 			.freezeWith(client);
 
 		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));

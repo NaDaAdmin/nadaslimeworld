@@ -1,18 +1,15 @@
-import bequestTokenRequest from "app/validators/bequestTokenRequest"
 import Response from "app/response"
 
-async function SendTokenHandler(req, res) {
+async function FreezeTokenHandler(req, res) {
 
 	const { token_id, sender_id, receiver_id, amount } = req.body
 	const bequestPayload = {
+		acount_id,
 		token_id,
-		sender_id,
-		receiver_id,
-		amount
 	}
 
 	const { hashgraphClient } = req.context
-	const bequestResponse = await hashgraphClient.sendToken(bequestPayload)
+	const bequestResponse = await hashgraphClient.freezeToken(bequestPayload)
 
 	if (bequestResponse) {
 		return Response.json(res, bequestResponse)
@@ -22,4 +19,4 @@ async function SendTokenHandler(req, res) {
 	return Response.badRequest(res)
 }
 
-export default SendTokenHandler
+export default FreezeTokenHandler
