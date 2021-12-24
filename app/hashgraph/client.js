@@ -328,6 +328,8 @@ class HashgraphClient extends HashgraphClientContract {
 			supply
 		} = tokenCreation
 
+		console.log("===================1");
+
 		const client = this.#client
 
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey)
@@ -350,7 +352,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.setMaxTransactionFee(new Hbar(100, HbarUnit.Hbar)) //Change the default max transaction fee
 			.setTokenMemo(memo)
 			.freezeWith(client)
-
 
 		console.log("===================");
 
