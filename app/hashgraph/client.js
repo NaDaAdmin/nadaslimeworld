@@ -324,10 +324,10 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("==================1");
 
-		const transaction = await new TransferTransaction()
-			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
+		let transaction = await new TransferTransaction()
+			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
-			.execute(client)
+			.freezeWith(client);
 
 		//Sign with the sender account private key
 		const privatekey = PrivateKey.fromString(Config.privateKey)
