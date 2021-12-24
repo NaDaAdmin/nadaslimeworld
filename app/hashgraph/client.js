@@ -330,7 +330,9 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 		//Sign with the sender account private key
-		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
+		const privatekey = PrivateKey.fromString(Config.privateKey)
+
+		const signTx = await transaction.sign(privatekey);
 
 
 		console.log("==================1.5");
@@ -363,7 +365,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 	freezeToken = async ({
 		acount_id,
-		token_id,
+		token_id
 	}) => {
 		//Freeze an account from transferring a token
 		const transaction = await new TokenFreezeTransaction()
