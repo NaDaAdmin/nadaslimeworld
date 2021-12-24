@@ -2,7 +2,7 @@ import Response from "app/response"
 
 async function FreezeTokenHandler(req, res) {
 
-	const { token_id, sender_id, receiver_id, amount } = req.body
+	const { acount_id, token_id } = req.body
 	const bequestPayload = {
 		acount_id,
 		token_id,
