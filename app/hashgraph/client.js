@@ -15,6 +15,7 @@ import {
 	TokenId,
 	TokenUpdateTransaction,
 	TransferTransaction,
+	TokenFreezeTransaction,
 	ContractCreateTransaction,
 	ContractInfoQuery,
 	ContractByteCodeQuery,
@@ -331,9 +332,10 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 		//Sign with the sender account private key
-		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
+		const signTx = await transaction.sign(privateKey);
 
 
+		console.log("==================1.5");
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
