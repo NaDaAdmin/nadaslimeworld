@@ -20,7 +20,8 @@
     "next": "^9.5.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "solc": "^0.8.11"
+    "solc": "^0.8.11",
+    "webpack": "^5.65.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.16.5",
