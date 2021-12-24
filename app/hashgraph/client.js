@@ -322,6 +322,9 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
+
+		console.log("==================1");
+
 		const transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -adjustedAmountBySpec)
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
@@ -330,9 +333,12 @@ class HashgraphClient extends HashgraphClientContract {
 		//Sign with the sender account private key
 		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
 
+
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
+
+		console.log("==================2");
 		//Request the receipt of the transaction
 		const receipt = await txResponse.getReceipt(client);
 
@@ -343,6 +349,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(sender_id)
 			.execute(client)
 
+		console.log("==================3");
 		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 
