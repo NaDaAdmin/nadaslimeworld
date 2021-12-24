@@ -325,44 +325,34 @@ class HashgraphClient extends HashgraphClientContract {
 			memo,
 			name,
 			symbol,
-			supply,
-			requires_kyc = false,
-			can_freeze = false
+			supply
 		} = tokenCreation
 
 		const client = this.#client
 
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey)
-		const supplyPrivateKey = PrivateKey.fromString(Config.privateKey)
 
 		const supplyWithDecimals = supply * 10 ** specification.decimals
 
 		const transaction = new TokenCreateTransaction()
 			.setTokenName(name)
 			.setTokenSymbol(symbol)
-			.setTreasuryAccountId(accountId || Config.accountId)
-			.setInitialSupply(supplyWithDecimals)
 			.setDecimals(specification.decimals)
+			.setInitialSupply(supplyWithDecimals)
+			.setTreasuryAccountId(accountId || Config.accountId)
+			.setAdminKey(operatorPrivateKey)
+			.setKycKey(operatorPrivateKey)
+			.setFreezeKey(operatorPrivateKey)
+			.setWipeKey(operatorPrivateKey)
+			.setSupplyKey(operatorPrivateKey)
 			.setFreezeDefault(false)
-			.setMaxTransactionFee(new Hbar(5, HbarUnit.Hbar)) //Change the default max transaction fee
-
-		if (memo) {
-			transaction.setTokenMemo(memo)
-			transaction.setTransactionMemo(memo)
-		}
-
-		if (requires_kyc) {
-			transaction.setKycKey(operatorPrivateKey.publicKey)
-		}
-
-		if (can_freeze) {
-			transaction.setFreezeKey(operatorPrivateKey.publicKey)
-		}
-
-		transaction.freezeWith(client)
+			.setFeeScheduleKey(operatorPrivateKey)
+			.setMaxTransactionFee(new Hbar(100, HbarUnit.Hbar)) //Change the default max transaction fee
+			.setTokenMemo(memo)
+			.freezeWith(client)
 
 		const signTx = await (await transaction.sign(operatorPrivateKey)).sign(
-			supplyPrivateKey
+			operatorPrivateKey
 		)
 
 		const txResponse = await signTx.execute(client)
@@ -375,7 +365,12 @@ class HashgraphClient extends HashgraphClientContract {
 			reference: specification.reference,
 			supply: String(supply),
 			supplyWithDecimals: String(supplyWithDecimals),
-			tokenId: receipt.tokenId.toString()
+			tokenId: receipt.tokenId.toString(),
+			adminKey: receipt.adminKey.toString(),
+			kycKey: receipt.requires_kyc.toString(),
+			freezeKey: receipt.freezeKey.toString(),
+			wipeKey: receipt.wipeKey.toString(),
+			supplykey: receipt.supplykey.toString()
 		}
 	}
 
