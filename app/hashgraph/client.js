@@ -310,8 +310,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		// Extract PV from encrypted
 		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
-		const privateKey = PrivateKey.fromString(Config.privateKey);
-
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
@@ -332,7 +330,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 		//Sign with the sender account private key
-		const signTx = await transaction.sign(privateKey);
+		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
 
 
 		console.log("==================1.5");
