@@ -369,11 +369,7 @@ class HashgraphClient extends HashgraphClientContract {
 			supply: String(supply),
 			supplyWithDecimals: String(supplyWithDecimals),
 			tokenId: receipt.tokenId.toString(),
-			adminKey: String( receipt.adminKey ),
-			kycKey: String( receipt.kycKey ),
-			freezeKey: String( receipt.freezeKey ),
-			wipeKey: String( receipt.wipeKey ),
-			supplykey: String( receipt.supplykey )
+			adminKey: String(receipt.admin_key)
 		}
 	}
 
