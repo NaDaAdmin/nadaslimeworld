@@ -352,9 +352,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.setTokenMemo(memo)
 			.freezeWith(client)
 
-		console.log("===================");
-
-		transaction.setFeeScheduleKey(operatorPrivateKey)
 
 		const signTx = await (await transaction.sign(operatorPrivateKey)).sign(
 			operatorPrivateKey
