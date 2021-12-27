@@ -308,6 +308,8 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
+		console.log("==================0");
+
 		// Extract PV from encrypted
 		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 		const { tokens } = await new AccountBalanceQuery()
