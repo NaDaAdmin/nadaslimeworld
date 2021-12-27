@@ -358,13 +358,14 @@ class HashgraphClient extends HashgraphClientContract {
 		token_id
 	}) => {
 
+		console.log("===========================1");
 		//Freeze an account from transferring a token
 		const transaction = await new TokenFreezeTransaction()
 			.setAccountId(acount_id)
 			.setTokenId(token_id)
 			.freezeWith(client)
 
-		console.log("===========================");
+		console.log("===========================2");
 
 		//Sign with the freeze key of the token 
 		const privatekey = PrivateKey.fromString(Config.privateKey);
