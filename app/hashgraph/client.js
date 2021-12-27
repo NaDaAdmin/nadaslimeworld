@@ -439,13 +439,14 @@ class HashgraphClient extends HashgraphClientContract {
 			operatorPrivateKey
 		)
 
+
 		const txResponse = await signTx.execute(client)
 		const receipt = await txResponse.getReceipt(client)
 
 
 		const revokeKyctransaction  = await new TokenRevokeKycTransaction()
 			.setAccountId(accountId)
-			.setTokenId(tokenId)
+			.setTokenId(receipt.tokenId)
 			.freezeWith(client);
 
 		//Sign with the kyc private key of the token
