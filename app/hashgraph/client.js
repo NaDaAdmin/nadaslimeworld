@@ -324,7 +324,7 @@ class HashgraphClient extends HashgraphClientContract {
 		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
-			.freezeWith(client);
+			.freezeWith(client)
 
 
 		//Sign with the sender account private key
@@ -363,7 +363,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const transaction = await new TokenFreezeTransaction()
 			.setAccountId(acount_id)
 			.setTokenId(token_id)
-			.freezeWith(client);
+			.freezeWith(client)
 
 		console.log("===========================");
 
@@ -398,7 +398,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const transaction = new AccountCreateTransaction()
 			.setKey(publicKey)
 			.setInitialBalance(0.1)
-			.setMaxAutomaticTokenAssociations( 1000 )
 
 		const txResponse = await transaction.execute(client)
 		const receipt = await txResponse.getReceipt(client)
