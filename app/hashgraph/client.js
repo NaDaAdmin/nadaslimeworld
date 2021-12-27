@@ -405,7 +405,6 @@ class HashgraphClient extends HashgraphClientContract {
 	createToken = async tokenCreation => {
 		const {
 			specification = Specification.Fungible,
-			accountId,
 			memo,
 			name,
 			symbol,
@@ -423,7 +422,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setTokenSymbol(symbol)
 			.setDecimals(specification.decimals)
 			.setInitialSupply(supplyWithDecimals)
-			.setTreasuryAccountId(accountId || Config.accountId)
+			.setTreasuryAccountId(Config.accountId)
 			.setAdminKey(operatorPrivateKey)
 			.setKycKey(operatorPrivateKey)
 			.setFreezeKey(operatorPrivateKey)
@@ -444,8 +443,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const receipt = await txResponse.getReceipt(client)
 
 
-		const revokeKyctransaction  = await new TokenRevokeKycTransaction()
-			.setAccountId(accountId)
+		const revokeKyctransaction = await new TokenRevokeKycTransaction()
+			.setAccountId(Config.accountId)
 			.setTokenId(receipt.tokenId.toString())
 			.freezeWith(client);
 
