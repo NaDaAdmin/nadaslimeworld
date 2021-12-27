@@ -344,10 +344,12 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("==================2");
 		//Request the receipt of the transaction
-		//const receipt = await txResponse.getReceipt(client);
+
+		const receipt = await txResponse.getReceipt(client);
 		//
 		////Obtain the transaction consensus status
-		//const transactionStatus = receipt.status;
+
+		const transactionStatus = receipt.status;
 		//
 		//const balance = await new AccountBalanceQuery()
 		//	.setAccountId(sender_id)
