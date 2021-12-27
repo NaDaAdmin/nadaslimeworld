@@ -345,26 +345,28 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("==================2");
 		//Request the receipt of the transaction
 
-		const receipt = await txResponse.getReceipt(client);
-		//
-		////Obtain the transaction consensus status
-
-		const transactionStatus = receipt.status;
-		//
-		//const balance = await new AccountBalanceQuery()
-		//	.setAccountId(sender_id)
-		//	.execute(client)
-		//
-		//console.log("==================3");
-		//const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+		//const receipt = await txResponse.getReceipt(client);
+		////
+		//////Obtain the transaction consensus status
+		//const transactionStatus = receipt.status;
 
 
-		if (transactionStatus.toString() === "SUCCESS") {
-			return { balance: parseFloat(senderbalance) }
-		}
-		else {
-			return false;
-		}
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(sender_id)
+			.execute(client)
+		
+		console.log("==================3");
+		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+
+		console.log("================== : " + senderbalance);
+
+		//if (transactionStatus.toString() === "SUCCESS") {
+		//	return { balance: parseFloat(senderbalance) }
+		//}
+		//else {
+		//	return false;
+		//}
 	}
 
 	freezeToken = async ({
