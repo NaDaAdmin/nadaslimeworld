@@ -247,7 +247,9 @@ class HashgraphClient extends HashgraphClientContract {
 		if (balance == null) {
 			return false;
 
-        }
+		}
+
+		console.log("===========================");
 
 		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
 
