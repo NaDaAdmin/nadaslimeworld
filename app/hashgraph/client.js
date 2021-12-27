@@ -229,37 +229,39 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
+		console.log("---------");
+
 		if (signature == null) {
 			return false;
 		}
 
-		const receipt = await signature.getReceipt(client);
 
-		if (receipt == null) {
-			return false;
-        }
-
-		const balance = await new AccountBalanceQuery()
-			.setAccountId(receiver_id)
-			.execute(client)
-
-
-		if (balance == null) {
-			return false;
-
-		}
-
-		console.log("===========================");
-
-		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
-
-
-		if (receipt.status.toString() === "SUCCESS") {
-			return { balance: parseFloat(recverbalance) }
-		}
-		else {
-			return false;
-		}
+		//const receipt = await signature.getReceipt(client);
+		//
+		//if (receipt == null) {
+		//	return false;
+        //}
+		//
+		//const balance = await new AccountBalanceQuery()
+		//	.setAccountId(receiver_id)
+		//	.execute(client)
+		//
+		//
+		//if (balance == null) {
+		//	return false;
+		//
+		//}
+		//
+		//console.log("===========================");
+		//
+		//const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
+		//
+		//if (receipt.status.toString() === "SUCCESS") {
+		//	return { balance: parseFloat(recverbalance) }
+		//}
+		//else {
+		//	return false;
+		//}
 	}
 
 	recvToken = async ({
