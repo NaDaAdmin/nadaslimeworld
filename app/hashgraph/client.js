@@ -213,16 +213,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(Config.accountId)
 			.execute(client)
 
-		if (tokens == null) {
-			return false;
-        }
-
 		const token = JSON.parse(tokens.toString())[token_id]
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
-
-		if (token < adjustedAmountBySpec) {
-			return false
-		}
 
 		const signature = await new TransferTransaction()
 			.addTokenTransfer(token_id, Config.accountId, -adjustedAmountBySpec)
@@ -236,21 +228,10 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const receipt = await signature.getReceipt(client);
 
-		if (receipt == null) {
-			return false;
-        }
-
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(receiver_id)
 			.execute(client)
 
-
-		if (balance == null) {
-			return false;
-
-		}
-
-		console.log("===========================");
 
 		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
 
@@ -442,7 +423,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setInitialSupply(supplyWithDecimals)
 			.setTreasuryAccountId(accountId || Config.accountId)
 			.setAdminKey(operatorPrivateKey)
-			//.setKycKey(operatorPrivateKey)
+			.setKycKey(operatorPrivateKey)
 			.setFreezeKey(operatorPrivateKey)
 			.setWipeKey(operatorPrivateKey)
 			.setSupplyKey(operatorPrivateKey)
@@ -458,6 +439,24 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const txResponse = await signTx.execute(client)
 		const receipt = await txResponse.getReceipt(client)
+
+
+		const revokeKyctransaction  = await new TokenRevokeKycTransaction()
+			.setAccountId(accountId)
+			.setTokenId(tokenId)
+			.freezeWith(client);
+
+		//Sign with the kyc private key of the token
+		const signrevokeKycTx = await revokeKyctransaction.sign(operatorPrivateKey);
+
+		//Submit the transaction to a Hedera network    
+		const txKycResponse = await signrevokeKycTx.execute(client);
+
+		//Request the receipt of the transaction
+		const receiptKyc = await txKycResponse.getReceipt(client);
+
+
+		console.log("The transaction consensus status " + receiptKyc.status.toString());
 
 		return {
 			name,
