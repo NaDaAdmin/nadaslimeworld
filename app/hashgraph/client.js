@@ -425,7 +425,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setInitialSupply(supplyWithDecimals)
 			.setTreasuryAccountId(Config.accountId)
 			.setAdminKey(operatorPrivateKey)
-			.setKycKey(operatorPrivateKey)
+			//.setKycKey(operatorPrivateKey)
 			.setFreezeKey(operatorPrivateKey)
 			.setWipeKey(operatorPrivateKey)
 			.setSupplyKey(operatorPrivateKey)
