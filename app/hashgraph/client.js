@@ -385,7 +385,6 @@ class HashgraphClient extends HashgraphClientContract {
 			return {
 				acount_id,
 				token_id,
-				publicKey: publicKey.toString()
 			}
 		}
 		else {
