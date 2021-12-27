@@ -16,6 +16,7 @@ import {
 	TokenUpdateTransaction,
 	TransferTransaction,
 	TokenFreezeTransaction,
+	TokenUnfreezeTransaction,
 	ContractCreateTransaction,
 	ContractInfoQuery,
 	ContractByteCodeQuery,
@@ -308,10 +309,6 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		console.log("==================0");
-
-		// Extract PV from encrypted
-		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
@@ -437,7 +434,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setInitialSupply(supplyWithDecimals)
 			.setTreasuryAccountId(accountId || Config.accountId)
 			.setAdminKey(operatorPrivateKey)
-			.setKycKey(operatorPrivateKey)
+			//.setKycKey(operatorPrivateKey)
 			.setFreezeKey(operatorPrivateKey)
 			.setWipeKey(operatorPrivateKey)
 			.setSupplyKey(operatorPrivateKey)
@@ -470,8 +467,6 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		console.log("--------------");
-
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey)
 
 		const transaction = await new TokenUpdateTransaction()
@@ -481,7 +476,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
 
-		console.log("--------------2");
 		//Submit the signed transaction to a Hedera network
 		const txResponse = await signTx.execute(client);
 
