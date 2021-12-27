@@ -5,8 +5,10 @@ async function FreezeTokenHandler(req, res) {
 	const { acount_id, token_id } = req.body
 	const bequestPayload = {
 		acount_id,
-		token_id,
+		token_id
 	}
+
+	console.log("========================");
 
 	const { hashgraphClient } = req.context
 	const bequestResponse = await hashgraphClient.freezeToken(bequestPayload)

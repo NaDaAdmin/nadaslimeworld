@@ -1,4 +1,3 @@
-import bequestTokenRequest from "app/validators/bequestTokenRequest"
 import Response from "app/response"
 
 async function SendTokenHandler(req, res) {
