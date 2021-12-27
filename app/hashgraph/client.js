@@ -213,6 +213,10 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(Config.accountId)
 			.execute(client)
 
+		if (tokens == null) {
+			return false;
+        }
+
 		const token = JSON.parse(tokens.toString())[token_id]
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
 
@@ -225,11 +229,23 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
+		if (signature == null) {
+			return false;
+		}
+
 		const receipt = await signature.getReceipt(client);
+
+		if (receipt == null )
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(receiver_id)
 			.execute(client)
+
+
+		if (balance == null) {
+			return false;
+
+        }
 
 		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
 
