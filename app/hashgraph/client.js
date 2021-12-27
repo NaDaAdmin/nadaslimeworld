@@ -119,12 +119,14 @@ class HashgraphClient extends HashgraphClientContract {
 		//console.log("Key : " + encryptedKey)
 
 		const revokeKyctransaction = await new TokenGrantKycTransaction()
-			.setAccountId(Config.accountId)
-			.setTokenId(receipt.tokenId.toString())
+			.setAccountId(accound_id)
+			.setTokenId(token_id)
 			.freezeWith(client);
 
+
+
 		//Sign with the kyc private key of the token
-		const signrevokeKycTx = await revokeKyctransaction.sign(operatorPrivateKey);
+		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
 
 		//Submit the transaction to a Hedera network    
 		const txKycResponse = await signrevokeKycTx.execute(client);
