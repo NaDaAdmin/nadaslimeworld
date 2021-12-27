@@ -324,49 +324,37 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 
 
-		console.log("==================1");
-
 		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.freezeWith(client);
 
+
 		//Sign with the sender account private key
-		const privatekey = PrivateKey.fromString(Config.privateKey)
+		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
 
-		const signTx = await transaction.sign(privatekey);
-
-
-		console.log("==================1.5");
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
-
-		console.log("==================2");
 		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
 
-		//const receipt = await txResponse.getReceipt(client);
-		////
-		//////Obtain the transaction consensus status
-		//const transactionStatus = receipt.status;
-
+		//Obtain the transaction consensus status
+		const transactionStatus = receipt.status;
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
-		
-		console.log("==================3");
+
 		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 
-		console.log("================== : " + senderbalance);
-
-		//if (transactionStatus.toString() === "SUCCESS") {
-		//	return { balance: parseFloat(senderbalance) }
-		//}
-		//else {
-		//	return false;
-		//}
+		if (transactionStatus.toString() === "SUCCESS") {
+			return { balance: parseFloat(senderbalance) }
+		}
+		else {
+			return false;
+		}
 	}
 
 	freezeToken = async ({
