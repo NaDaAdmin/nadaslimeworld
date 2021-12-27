@@ -357,6 +357,7 @@ class HashgraphClient extends HashgraphClientContract {
 		acount_id,
 		token_id
 	}) => {
+		const client = this.#client
 
 		console.log("===========================1");
 		//Freeze an account from transferring a token
