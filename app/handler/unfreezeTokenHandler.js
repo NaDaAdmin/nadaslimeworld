@@ -1,17 +1,15 @@
 import Response from "app/response"
 
-async function SendTokenHandler(req, res) {
+async function UnFreezeTokenHandler(req, res) {
 
-	const { token_id, sender_id, receiver_id, amount } = req.body
+	const { acount_id, token_id } = req.body
 	const bequestPayload = {
-		token_id,
-		sender_id,
-		receiver_id,
-		amount
+		acount_id,
+		token_id
 	}
 
 	const { hashgraphClient } = req.context
-	const bequestResponse = await hashgraphClient.sendToken(bequestPayload)
+	const bequestResponse = await hashgraphClient.acount_id(bequestPayload)
 
 	if (bequestResponse) {
 		return Response.json(res, bequestResponse)
@@ -21,4 +19,4 @@ async function SendTokenHandler(req, res) {
 	return Response.badRequest(res)
 }
 
-export default SendTokenHandler
+export default UnFreezeTokenHandler

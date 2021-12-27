@@ -229,39 +229,37 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
-		console.log("---------");
-
 		if (signature == null) {
+
 			return false;
 		}
 
+		const receipt = await signature.getReceipt(client);
 
-		//const receipt = await signature.getReceipt(client);
-		//
-		//if (receipt == null) {
-		//	return false;
-        //}
-		//
-		//const balance = await new AccountBalanceQuery()
-		//	.setAccountId(receiver_id)
-		//	.execute(client)
-		//
-		//
-		//if (balance == null) {
-		//	return false;
-		//
-		//}
-		//
-		//console.log("===========================");
-		//
-		//const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
-		//
-		//if (receipt.status.toString() === "SUCCESS") {
-		//	return { balance: parseFloat(recverbalance) }
-		//}
-		//else {
-		//	return false;
-		//}
+		if (receipt == null) {
+			return false;
+        }
+
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(receiver_id)
+			.execute(client)
+
+
+		if (balance == null) {
+			return false;
+
+		}
+
+		console.log("===========================");
+
+		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+		if (receipt.status.toString() === "SUCCESS") {
+			return { balance: parseFloat(recverbalance) }
+		}
+		else {
+			return false;
+		}
 	}
 
 	recvToken = async ({
@@ -322,59 +320,6 @@ class HashgraphClient extends HashgraphClientContract {
         }
 	}
 
-	sendToken = async ({
-		specification = Specification.Fungible,
-		token_id,
-		sender_id,
-		receiver_id,
-		amount
-	}) => {
-		const client = this.#client
-
-		const { tokens } = await new AccountBalanceQuery()
-			.setAccountId(sender_id)
-			.execute(client)
-
-		const token = JSON.parse(tokens.toString())[token_id]
-		const adjustedAmountBySpec = amount * 10 ** specification.decimals
-
-		if (token < adjustedAmountBySpec) {
-			return false
-		}
-
-
-		let transaction = await new TransferTransaction()
-			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
-			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
-			.freezeWith(client)
-
-
-		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
-
-		//Sign with the client operator private key and submit to a Hedera network
-		const txResponse = await signTx.execute(client);
-
-		//Request the receipt of the transaction
-		const receipt = await txResponse.getReceipt(client);
-
-		//Obtain the transaction consensus status
-		const transactionStatus = receipt.status;
-
-		const balance = await new AccountBalanceQuery()
-			.setAccountId(sender_id)
-			.execute(client)
-
-		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
-
-
-		if (transactionStatus.toString() === "SUCCESS") {
-			return { balance: parseFloat(senderbalance) }
-		}
-		else {
-			return false;
-		}
-	}
-
 	freezeToken = async ({
 		acount_id,
 		token_id
@@ -383,6 +328,45 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//Freeze an account from transferring a token
 		const transaction = await new TokenFreezeTransaction()
+			.setAccountId(acount_id)
+			.setTokenId(token_id)
+			.freezeWith(client)
+
+		//Sign with the freeze key of the token 
+		const privatekey = PrivateKey.fromString(Config.privateKey);
+
+		const signTx = await transaction.sign(privatekey);
+
+		//Submit the transaction to a Hedera network    
+		const txResponse = await signTx.execute(client);
+
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
+
+		//Get the transaction consensus status
+		const transactionStatus = receipt.status;
+
+		console.log("The transaction consensus status " + transactionStatus.toString());
+
+		if (transactionStatus.toString() === "SUCCESS") {
+			return {
+				acount_id,
+				token_id,
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
+	unfreezeToken = async ({
+		acount_id,
+		token_id
+	}) => {
+		const client = this.#client
+
+		//Freeze an account from transferring a token
+		const transaction = await new TokenUnfreezeTransaction()
 			.setAccountId(acount_id)
 			.setTokenId(token_id)
 			.freezeWith(client)
