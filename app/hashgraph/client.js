@@ -109,9 +109,9 @@ class HashgraphClient extends HashgraphClientContract {
 	async userAccountBalanceQuery({ accound_id, token_id }) {
 		const client = this.#client
 
-		const balance = await new AccountBalanceQuery()
-			.setAccountId(accound_id)
-			.execute(client)
+		//const balance = await new AccountBalanceQuery()
+		//	.setAccountId(accound_id)
+		//	.execute(client)
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 		//const privateKey = PrivateKey.fromString("")
@@ -138,7 +138,7 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The transaction consensus status " + receiptKyc.status.toString());
 
 
-		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
+		//return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
 		
 	async sendConsensusMessage({
