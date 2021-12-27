@@ -109,36 +109,17 @@ class HashgraphClient extends HashgraphClientContract {
 	async userAccountBalanceQuery({ accound_id, token_id }) {
 		const client = this.#client
 
-		//const balance = await new AccountBalanceQuery()
-		//	.setAccountId(accound_id)
-		//	.execute(client)
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(accound_id)
+			.execute(client)
 
 		//const tokenInfo = balance.tokens._map.get([token_id].toString());
 		//const privateKey = PrivateKey.fromString("")
 		//const encryptedKey = await Encryption.encrypt(privateKey.toString())
 		//console.log("Key : " + encryptedKey)
 
-		const revokeKyctransaction = await new TokenGrantKycTransaction()
-			.setAccountId(accound_id)
-			.setTokenId(token_id)
-			.freezeWith(client);
 
-
-
-		//Sign with the kyc private key of the token
-		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
-
-		//Submit the transaction to a Hedera network    
-		const txKycResponse = await signrevokeKycTx.execute(client);
-
-		//Request the receipt of the transaction
-		const receiptKyc = await txKycResponse.getReceipt(client);
-
-
-		console.log("The transaction consensus status " + receiptKyc.status.toString());
-
-
-		//return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
+		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
 		
 	async sendConsensusMessage({
@@ -463,22 +444,22 @@ class HashgraphClient extends HashgraphClientContract {
 		const receipt = await txResponse.getReceipt(client)
 
 
-		//const revokeKyctransaction = await new TokenRevokeKycTransaction()
-		//	.setAccountId(Config.accountId)
-		//	.setTokenId(receipt.tokenId.toString())
-		//	.freezeWith(client);
-		//
-		////Sign with the kyc private key of the token
-		//const signrevokeKycTx = await revokeKyctransaction.sign(operatorPrivateKey);
-		//
-		////Submit the transaction to a Hedera network    
-		//const txKycResponse = await signrevokeKycTx.execute(client);
-		//
-		////Request the receipt of the transaction
-		//const receiptKyc = await txKycResponse.getReceipt(client);
-		//
-		//
-		//console.log("The transaction consensus status " + receiptKyc.status.toString());
+		const revokeKyctransaction = await new TokenRevokeKycTransaction()
+			.setAccountId(Config.accountId)
+			.setTokenId(receipt.tokenId.toString())
+			.freezeWith(client);
+
+		//Sign with the kyc private key of the token
+		const signrevokeKycTx = await revokeKyctransaction.sign(operatorPrivateKey);
+
+		//Submit the transaction to a Hedera network    
+		const txKycResponse = await signrevokeKycTx.execute(client);
+
+		//Request the receipt of the transaction
+		const receiptKyc = await txKycResponse.getReceipt(client);
+
+
+		console.log("The transaction consensus status " + receiptKyc.status.toString());
 
 		return {
 			name,
