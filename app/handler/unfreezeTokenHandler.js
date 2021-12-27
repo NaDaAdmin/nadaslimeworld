@@ -9,7 +9,7 @@ async function UnFreezeTokenHandler(req, res) {
 	}
 
 	const { hashgraphClient } = req.context
-	const bequestResponse = await hashgraphClient.acount_id(bequestPayload)
+	const bequestResponse = await hashgraphClient.unfreezeToken(bequestPayload)
 
 	if (bequestResponse) {
 		return Response.json(res, bequestResponse)
