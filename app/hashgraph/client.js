@@ -17,6 +17,8 @@ import {
 	TransferTransaction,
 	TokenFreezeTransaction,
 	TokenUnfreezeTransaction,
+	TokenGrantKycTransaction,
+	TokenRevokeKycTransaction,
 	ContractCreateTransaction,
 	ContractInfoQuery,
 	ContractByteCodeQuery,
