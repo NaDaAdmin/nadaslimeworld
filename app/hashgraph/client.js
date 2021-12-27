@@ -344,17 +344,17 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("==================2");
 		//Request the receipt of the transaction
-		const receipt = await txResponse.getReceipt(client);
-
-		//Obtain the transaction consensus status
-		const transactionStatus = receipt.status;
-
-		const balance = await new AccountBalanceQuery()
-			.setAccountId(sender_id)
-			.execute(client)
-
-		console.log("==================3");
-		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+		//const receipt = await txResponse.getReceipt(client);
+		//
+		////Obtain the transaction consensus status
+		//const transactionStatus = receipt.status;
+		//
+		//const balance = await new AccountBalanceQuery()
+		//	.setAccountId(sender_id)
+		//	.execute(client)
+		//
+		//console.log("==================3");
+		//const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 
 		if (transactionStatus.toString() === "SUCCESS") {
@@ -432,8 +432,6 @@ class HashgraphClient extends HashgraphClientContract {
 			supply
 		} = tokenCreation
 
-		console.log("===================1");
-
 		const client = this.#client
 
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey)
@@ -464,7 +462,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const txResponse = await signTx.execute(client)
 		const receipt = await txResponse.getReceipt(client)
 
-		console.log("===================");
 		return {
 			name,
 			symbol,
@@ -473,7 +470,6 @@ class HashgraphClient extends HashgraphClientContract {
 			supply: String(supply),
 			supplyWithDecimals: String(supplyWithDecimals),
 			tokenId: receipt.tokenId.toString(),
-			adminKey: String(receipt.admin_key)
 		}
 	}
 
