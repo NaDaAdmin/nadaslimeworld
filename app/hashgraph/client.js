@@ -398,6 +398,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const transaction = new AccountCreateTransaction()
 			.setKey(publicKey)
 			.setInitialBalance(0.1)
+			.setMaxAutomaticTokenAssociations( 1000 )
 
 		const txResponse = await transaction.execute(client)
 		const receipt = await txResponse.getReceipt(client)
