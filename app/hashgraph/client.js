@@ -359,14 +359,11 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		console.log("===========================1");
 		//Freeze an account from transferring a token
 		const transaction = await new TokenFreezeTransaction()
 			.setAccountId(acount_id)
 			.setTokenId(token_id)
 			.freezeWith(client)
-
-		console.log("===========================2");
 
 		//Sign with the freeze key of the token 
 		const privatekey = PrivateKey.fromString(Config.privateKey);
@@ -384,10 +381,15 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("The transaction consensus status " + transactionStatus.toString());
 
-		return {
-			accountId,
-			encryptedKey,
-			publicKey: publicKey.toString()
+		if (transactionStatus.toString() === "SUCCESS") {
+			return {
+				acount_id,
+				token_id,
+				publicKey: publicKey.toString()
+			}
+		}
+		else {
+			return false;
 		}
 	}
 
@@ -487,6 +489,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const transactionStatus = receipt.status.toString();
 
 		console.log("The transaction consensus status is " + transactionStatus);
+
 	}
 
 	createSmartContract = async ({
