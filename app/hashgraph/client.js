@@ -235,7 +235,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const receipt = await signature.getReceipt(client);
 
-		if (receipt == null )
+		if (receipt == null) {
+			return false;
+        }
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(receiver_id)
