@@ -407,33 +407,33 @@ class HashgraphClient extends HashgraphClientContract {
 
 		if(receipt.status.toString() === "SUCCESS")
 		{
-			const revokeKyctransaction = await new TokenGrantKycTransaction()
-				.setAccountId(acount_id)
-				.setTokenId(token_id)
-				.freezeWith(client);
-
-
-			//Sign with the kyc private key of the token
-			const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
-
-			//Submit the transaction to a Hedera network    
-			const txKycResponse = await signrevokeKycTx.execute(client);
-
-			//Request the receipt of the transaction
-			const receiptKyc = await txKycResponse.getReceipt(client);
-
-
-			console.log("The transaction consensus status " + receiptKyc.status.toString());
-
-			if (receiptKyc.status.toString() === "SUCCESS") {
-				return {
-					acount_id,
-					token_id,
-				}
-			}
-			else {
-				return false;
-			}
+			//const revokeKyctransaction = await new TokenGrantKycTransaction()
+			//	.setAccountId(acount_id)
+			//	.setTokenId(token_id)
+			//	.freezeWith(client);
+			//
+			//
+			////Sign with the kyc private key of the token
+			//const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
+			//
+			////Submit the transaction to a Hedera network    
+			//const txKycResponse = await signrevokeKycTx.execute(client);
+			//
+			////Request the receipt of the transaction
+			//const receiptKyc = await txKycResponse.getReceipt(client);
+			//
+			//
+			//console.log("The transaction consensus status " + receiptKyc.status.toString());
+			//
+			//if (receiptKyc.status.toString() === "SUCCESS") {
+			//	return {
+			//		acount_id,
+			//		token_id,
+			//	}
+			//}
+			//else {
+			//	return false;
+			//}
 		}
 		else {
 
