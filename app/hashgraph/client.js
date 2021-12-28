@@ -212,9 +212,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("-----------0>" + signature.transactionId);
 
-		console.log("-----------1>" + signature.transactionStatus);
-
-
 		if (signature == null) {
 
 			return false;
@@ -222,7 +219,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const receipt = await signature.getReceipt(client);
 
-		console.log("-----------1>" + signature.status.toString() );
+		console.log("-----------1>" + receipt.status.toString() );
 
 
 		const balance = await new AccountBalanceQuery()
