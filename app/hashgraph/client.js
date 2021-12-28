@@ -210,9 +210,10 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
-		console.log("----------->" + signature.transactionId);
+		console.log("-----------0>" + signature.transactionId);
 
-		console.log("----------->" + signature.transactionStatus.toString() );
+		console.log("-----------1>" + signature.transactionStatus);
+
 
 		if (signature == null) {
 
@@ -220,6 +221,9 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 
 		const receipt = await signature.getReceipt(client);
+
+		console.log("-----------1>" + signature.status.toString() );
+
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(receiver_id)
