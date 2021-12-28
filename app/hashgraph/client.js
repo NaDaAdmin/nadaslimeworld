@@ -343,6 +343,7 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
+
 	unfreezeToken = async ({
 		acount_id,
 		token_id
@@ -372,6 +373,41 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The transaction consensus status " + transactionStatus.toString());
 
 		if (transactionStatus.toString() === "SUCCESS") {
+			return {
+				acount_id,
+				token_id,
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
+	enableKycToken = async ({
+		acount_id,
+		token_id
+	}) => {
+		const client = this.#client
+
+		const revokeKyctransaction = await new TokenGrantKycTransaction()
+			.setAccountId(accound_id)
+			.setTokenId(token_id)
+			.freezeWith(client);
+
+
+		//Sign with the kyc private key of the token
+		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
+
+		//Submit the transaction to a Hedera network    
+		const txKycResponse = await signrevokeKycTx.execute(client);
+
+		//Request the receipt of the transaction
+		const receiptKyc = await txKycResponse.getReceipt(client);
+
+
+		console.log("The transaction consensus status " + receiptKyc.status.toString());
+
+		if (receiptKyc.status.toString() === "SUCCESS") {
 			return {
 				acount_id,
 				token_id,
@@ -425,7 +461,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setInitialSupply(supplyWithDecimals)
 			.setTreasuryAccountId(Config.accountId)
 			.setAdminKey(operatorPrivateKey)
-			//.setKycKey(operatorPrivateKey)
+			.setKycKey(operatorPrivateKey)
 			.setFreezeKey(operatorPrivateKey)
 			.setWipeKey(operatorPrivateKey)
 			.setSupplyKey(operatorPrivateKey)
@@ -442,24 +478,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const txResponse = await signTx.execute(client)
 		const receipt = await txResponse.getReceipt(client)
-
-
-		const revokeKyctransaction = await new TokenRevokeKycTransaction()
-			.setAccountId(Config.accountId)
-			.setTokenId(receipt.tokenId.toString())
-			.freezeWith(client);
-
-		//Sign with the kyc private key of the token
-		const signrevokeKycTx = await revokeKyctransaction.sign(operatorPrivateKey);
-
-		//Submit the transaction to a Hedera network    
-		const txKycResponse = await signrevokeKycTx.execute(client);
-
-		//Request the receipt of the transaction
-		const receiptKyc = await txKycResponse.getReceipt(client);
-
-
-		console.log("The transaction consensus status " + receiptKyc.status.toString());
 
 		return {
 			name,
