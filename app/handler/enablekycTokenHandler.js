@@ -2,8 +2,9 @@ import Response from "app/response"
 
 async function EnableKycTokenHandler(req, res) {
 
-	const { acount_id, token_id } = req.body
+	const { encrypted_receiver_key, acount_id, token_id } = req.body
 	const payload = {
+		encrypted_receiver_key,
 		acount_id,
 		token_id
 	}
