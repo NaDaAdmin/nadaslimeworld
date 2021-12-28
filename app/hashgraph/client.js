@@ -210,6 +210,10 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
+		console.log("----------->" + signature.transactionId);
+
+		console.log("----------->" + signature.transactionStatus.toString() );
+
 		if (signature == null) {
 
 			return false;
