@@ -390,7 +390,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 		const revokeKyctransaction = await new TokenGrantKycTransaction()
-			.setAccountId(accound_id)
+			.setAccountId(acount_id)
 			.setTokenId(token_id)
 			.freezeWith(client);
 
