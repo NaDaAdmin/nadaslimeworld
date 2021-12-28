@@ -383,7 +383,7 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
-	enableKycToken = async ({
+	enableUserAccountToken = async ({
 		encrypted_receiver_key,
 		acount_id,
 		token_id

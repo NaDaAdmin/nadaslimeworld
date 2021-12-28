@@ -8,7 +8,6 @@ async function EnableUserAccountHandler(req, res) {
 		return Response.unprocessibleEntity(res, validationErrors)
 	}
 
-
 	const { encrypted_receiver_key, acount_id, token_id } = req.body
 	const payload = {
 		encrypted_receiver_key,
@@ -17,7 +16,7 @@ async function EnableUserAccountHandler(req, res) {
 	}
 
 	const { hashgraphClient } = req.context
-	const response = await hashgraphClient.enableKycToken(payload)
+	const response = await hashgraphClient.enableUserAccountToken(payload)
 
 	if (response) {
 		return Response.json(res, response)
