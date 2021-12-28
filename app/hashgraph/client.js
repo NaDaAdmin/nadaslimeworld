@@ -403,9 +403,9 @@ class HashgraphClient extends HashgraphClientContract {
 		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
 
 
-		const txKycResponse = signTx.execute(client);
+		const response = signTx.execute(client);
 
-		console.log("============= : " + txKycResponse.status.toString() )
+		console.log("============= : " + response.status.toString() )
 
 		const revokeKyctransaction = await new TokenGrantKycTransaction()
 			.setAccountId(acount_id)
