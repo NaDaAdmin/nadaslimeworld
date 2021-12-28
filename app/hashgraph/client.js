@@ -401,12 +401,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//Sign with the private key of the account that is being associated to a token 
 		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
-
-
 		const response = signTx.execute(client);
 
-		console.log("============= : " + response.status.toString() )
-
+		//KYC ºÎ¿©
 		const revokeKyctransaction = await new TokenGrantKycTransaction()
 			.setAccountId(acount_id)
 			.setTokenId(token_id)
