@@ -389,33 +389,58 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		const revokeKyctransaction = await new TokenGrantKycTransaction()
+
+		// -계정에 토큰 연관성 설정
+		const transaction = await new TokenAssociateTransaction()
 			.setAccountId(acount_id)
-			.setTokenId(token_id)
+			.setTokenIds([token_id])
 			.freezeWith(client);
 
-
-		//Sign with the kyc private key of the token
-		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
+		//Sign with the private key of the account that is being associated to a token 
+		const signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey));
 
 		//Submit the transaction to a Hedera network    
-		const txKycResponse = await signrevokeKycTx.execute(client);
+		const txResponse = await signTx.execute(client);
 
 		//Request the receipt of the transaction
-		const receiptKyc = await txKycResponse.getReceipt(client);
+		const receipt = await txResponse.getReceipt(client);
+
+		if(receipt.status.toString() === "SUCCESS")
+		{
+			const revokeKyctransaction = await new TokenGrantKycTransaction()
+				.setAccountId(acount_id)
+				.setTokenId(token_id)
+				.freezeWith(client);
 
 
-		console.log("The transaction consensus status " + receiptKyc.status.toString());
+			//Sign with the kyc private key of the token
+			const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
 
-		if (receiptKyc.status.toString() === "SUCCESS") {
-			return {
-				acount_id,
-				token_id,
+			//Submit the transaction to a Hedera network    
+			const txKycResponse = await signrevokeKycTx.execute(client);
+
+			//Request the receipt of the transaction
+			const receiptKyc = await txKycResponse.getReceipt(client);
+
+
+			console.log("The transaction consensus status " + receiptKyc.status.toString());
+
+			if (receiptKyc.status.toString() === "SUCCESS") {
+				return {
+					acount_id,
+					token_id,
+				}
+			}
+			else {
+				return false;
 			}
 		}
 		else {
+
+			console.log("TokenAssociateTransaction Fail");
 			return false;
 		}
+
 	}
 
 
