@@ -196,7 +196,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 	bequestToken = async ({
 		specification = Specification.Fungible,
-		encrypted_receiver_key,
 		token_id,
 		receiver_id,
 		amount
@@ -210,6 +209,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.execute(client)
 
+
+		console.log("==:" + signature.consensusTimestampstamp )
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(receiver_id)
