@@ -224,14 +224,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
 
-		if (receipt.status.toString() === "SUCCESS") {
-			return {
-				transactionId: parseInt(signature.transactionId.toString()),
-				balance: parseFloat(recverbalance)
-			}
-		}
-		else {
-			return false;
+		return {
+			transactionId: parseInt(signature.transactionId.toString()),
+			balance: parseFloat(recverbalance)
 		}
 	}
 
