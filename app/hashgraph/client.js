@@ -210,8 +210,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 
-		console.log("==:" + signature.transactionId.consensus_timestamp )
-
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(receiver_id)
 			.execute(client)
