@@ -211,9 +211,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 
-		console.log("---------" + signature.transactionStatus);
-		console.log("---------" + signature.transactionId);
-
 		//const receipt = await signature.getReceipt(client);
 
 
@@ -225,7 +222,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 		return {
-			transactionId: parseInt(signature.transactionId.toString()),
+			transactionId: signature.transactionId,
 			balance: parseFloat(recverbalance)
 		}
 	}
@@ -267,11 +264,6 @@ class HashgraphClient extends HashgraphClientContract {
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await signTx.execute(client);
 
-		//Request the receipt of the transaction
-		const receipt = await txResponse.getReceipt(client);
-
-		//Obtain the transaction consensus status
-		const transactionStatus = receipt.status;
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
@@ -280,12 +272,10 @@ class HashgraphClient extends HashgraphClientContract {
 		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 
-		if (transactionStatus.toString() === "SUCCESS") {
-			return { balance: parseFloat(senderbalance) }
+		return {
+			transactionId: signature.transactionId,
+			balance: parseFloat(senderbalance)
 		}
-		else {
-			return false;
-        }
 	}
 
 	freezeToken = async ({
