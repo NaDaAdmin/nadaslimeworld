@@ -359,7 +359,7 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 		//Sign with the freeze key of the token
 		
 		// -계정에 토큰 연관성 설정
