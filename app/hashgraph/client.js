@@ -119,8 +119,8 @@ class HashgraphClient extends HashgraphClientContract {
 		//const privateKey = PrivateKey.fromString("")
 		//const encryptedKey = await Encryption.encrypt(privateKey.toString())
 		//console.log("Key : " + encryptedKey)
-		
-		const tokenBalance = balance.tokens._map.get(token_id.toString());
+
+		const tokenBalance = balance.tokens._map.get(token_id.toString()).toString();
 
 		console.log("---------------" + tokenBalance);
 
