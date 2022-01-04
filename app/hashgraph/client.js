@@ -359,7 +359,7 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
-		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		const privateKey = await Encryption.decrypt("6f066541cfeb9658:ccf8a31c3bb7da322699563555a36067d451d9225ca233df73c063e0e3ce143f63aafc8a43b38b4bcc22f8a208da859909072d1184ed3760165b985ebe79744ea866c3e20e876f3e2fff51dfc925e48552981083dc9bbb188a6dff0dc37ba93dab41372a1f931216f6a8ac2de33558b1")
 		//Sign with the freeze key of the token
 		
 		// -계정에 토큰 연관성 설정
@@ -369,7 +369,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client);
 		
 		//Sign with the private key of the account that is being associated to a token 
-		const signTx = await transaction.sign(PrivateKey.fromString("6f066541cfeb9658:ccf8a31c3bb7da322699563555a36067d451d9225ca233df73c063e0e3ce143f63aafc8a43b38b4bcc22f8a208da859909072d1184ed3760165b985ebe79744ea866c3e20e876f3e2fff51dfc925e48552981083dc9bbb188a6dff0dc37ba93dab41372a1f931216f6a8ac2de33558b1"));
+		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
 		const response = signTx.execute(client);
 		//
 		//KYC 부여
