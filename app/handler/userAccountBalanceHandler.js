@@ -21,7 +21,7 @@ async function GetUserAccountBalanceHandler(req, res) {
 	const balance = await hashgraphClient.userAccountBalanceQuery(userinfo)
 
 	if (balance != null) {
-		Response.json(res, balance)
+		return Response.json(res, balance)
 	}
 
 	Response.badRequest(res);
