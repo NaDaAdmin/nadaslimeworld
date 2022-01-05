@@ -120,6 +120,10 @@ class HashgraphClient extends HashgraphClientContract {
 		//const encryptedKey = await Encryption.encrypt(privateKey.toString())
 		//console.log("Key : " + encryptedKey)
 
+		if (balance == null) {
+			return null;
+        }
+
 		if (balance.tokens._map.has[[token_id].toString()] == true) {
 			console.log("-----------------> ");
 		}
