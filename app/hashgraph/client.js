@@ -124,7 +124,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return null;
         }
 
-		if (balance.tokens._map.has[token_id] == true) {
+		if (balance.tokens._map.has(token_id) == true) {
 			console.log("-----------------> ");
 		}
 		else {
