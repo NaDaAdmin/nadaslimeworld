@@ -379,7 +379,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
 			
 		//Submit the transaction to a Hedera network    
-		const txKycResponse = await signrevokeKycTx.execute(client);
+		await signrevokeKycTx.execute(client);
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(acount_id)
@@ -390,6 +390,7 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 
 		if (balance.tokens._map.has(token_id) == false) {
+
 			return null;
 		}
 
