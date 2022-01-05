@@ -130,7 +130,7 @@ class HashgraphClient extends HashgraphClientContract {
 		
 
 
-		//return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
+		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
 		
 	async sendConsensusMessage({
