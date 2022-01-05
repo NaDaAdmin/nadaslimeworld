@@ -113,26 +113,9 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(accound_id)
 			.execute(client)
 
-
-
-		//const tokenInfo = balance.tokens._map.get([token_id].toString());
-		//const privateKey = PrivateKey.fromString("")
-		//const encryptedKey = await Encryption.encrypt(privateKey.toString())
-		//console.log("Key : " + encryptedKey)
-
 		if (balance == null) {
 			return null;
-        }
-
-		if (balance.tokens._map.has(token_id) == true) {
-			console.log("-----------------> ");
 		}
-		else {
-			console.log("=============> ");
-        }
-
-		
-
 
 		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
@@ -397,6 +380,18 @@ class HashgraphClient extends HashgraphClientContract {
 			
 		//Submit the transaction to a Hedera network    
 		const txKycResponse = await signrevokeKycTx.execute(client);
+
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(acount_id)
+			.execute(client)
+
+		if (balance == null) {
+			return null;
+		}
+
+		if (balance.tokens._map.has(token_id) == false) {
+			return null;
+		}
 
 
 		return {
