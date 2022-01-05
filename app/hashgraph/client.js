@@ -130,7 +130,7 @@ class HashgraphClient extends HashgraphClientContract {
 		
 
 
-		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
+		//return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
 		
 	async sendConsensusMessage({
@@ -398,22 +398,6 @@ class HashgraphClient extends HashgraphClientContract {
 		return {
 			acount_id,
 			token_id,
-		}
-
-		//Request the receipt of the transaction
-		const receiptKyc = await txKycResponse.getReceipt(client);
-			
-			
-		console.log("The transaction consensus status " + receiptKyc.status.toString());
-			
-		if (receiptKyc.status.toString() === "SUCCESS") {
-			return {
-				acount_id,
-				token_id,
-			}
-		}
-		else {
-			return false;
 		}
 	}
 
