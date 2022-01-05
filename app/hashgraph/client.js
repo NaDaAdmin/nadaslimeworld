@@ -125,7 +125,7 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("-----------------> " + tokenFind);
 
 
-		return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
+		//return { balance: parseFloat(balance.tokens._map.get([token_id].toString()).toString()) }
 	}
 		
 	async sendConsensusMessage({
