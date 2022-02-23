@@ -718,17 +718,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 	    const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
-		const receipt = await txResponse.getReceipt(client);
-
-		if (receipt.status.toString() === "SUCCESS") {
-			return {
-				transactionId: transaction.transactionId.toString(),
-				balance: parseFloat(senderbalance)
-			}
-		}
-		else {
-			console.log("receipt.status not Success : " + receipt.status);
-			return false;
+		return {
+			transactionId: transaction.transactionId.toString(),
+			balance: parseFloat(senderbalance)
 		}
 	}
 
