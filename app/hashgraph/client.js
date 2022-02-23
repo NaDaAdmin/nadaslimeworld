@@ -716,14 +716,20 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(sender_id)
 			.execute(client);
 
-			console.log( txResponse.status.toString() );
-
 	    const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
-	    return {
-	        transactionId: transaction.transactionId.toString(),
-	        balance: parseFloat(senderbalance)
-	    }
+		const receipt = await txResponse.getReceipt(client);
+
+		if (receipt.status.toString() === "SUCCESS") {
+			return {
+				transactionId: transaction.transactionId.toString(),
+				balance: parseFloat(senderbalance)
+			}
+		}
+		else {
+			console.log("receipt.status not Success : " + receipt.status);
+			return false;
+		}
 	}
 
 }
