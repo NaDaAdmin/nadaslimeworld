@@ -716,6 +716,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(sender_id)
 			.execute(client);
 
+			console.log( txResponse.status.toString() );
+
 	    const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 	    return {
