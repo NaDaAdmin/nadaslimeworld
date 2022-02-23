@@ -1,6 +1,6 @@
 import Response from "app/response"
 
-async function stakingTokenHandler(req, res) {
+async function StakingTokenHandler(req, res) {
 
 	const { token_id, sender_id, sender_Key, receiver_id, amount } = req.body
 	const stakingPayload = {
@@ -22,4 +22,4 @@ async function stakingTokenHandler(req, res) {
 	return Response.badRequest(res)
 }
 
-export default stakingTokenHandler
+export default StakingTokenHandler
