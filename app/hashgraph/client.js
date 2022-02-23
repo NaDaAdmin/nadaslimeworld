@@ -358,7 +358,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 		////Sign with the freeze key of the token
 		//
-		//// -°èÁ¤¿¡ ÅäÅ« ¿¬°ü¼º ¼³Á¤
+		//// -ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å« ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//const transaction = await new TokenAssociateTransaction()
 		//	.setAccountId(acount_id)
 		//	.setTokenIds([token_id])
@@ -368,7 +368,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
 		//const response = signTx.execute(client);
 		//
-		//KYC ºÎ¿©
+		//KYC ï¿½Î¿ï¿½
 		const revokeKyctransaction = await new TokenGrantKycTransaction()
 			.setAccountId(acount_id)
 			.setTokenId(token_id)
@@ -669,6 +669,55 @@ class HashgraphClient extends HashgraphClientContract {
 			return false;
 		}
 	}
+
+	
+	stakingToken = async ({
+		specification = Specification.Fungible,
+		token_id,
+		sender_id,
+        sender_Key,
+		receiver_id,
+		amount
+	}) => {
+	    const client = this.#client
+
+	    const { tokens } = await new AccountBalanceQuery()
+			.setAccountId(sender_id)
+			.execute(client)
+
+	    const token = JSON.parse(tokens.toString())[token_id]
+	    const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+	    if (token < adjustedAmountBySpec) {
+	        return false
+	    }
+
+		// senderë¡œë¶€í„° ë°›ì•„ì„œ receiverë¡œ ì¤€ë‹¤.
+	    let transaction = await new TransferTransaction()
+			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
+			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
+			.freezeWith(client);
+
+
+	    //Sign with the sender account private key
+	    const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
+
+	    //Sign with the client operator private key and submit to a Hedera network
+	    const txResponse = await signTx.execute(client);
+
+
+	    const balance = await new AccountBalanceQuery()
+			.setAccountId(sender_id)
+			.execute(client)
+
+	    const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+	    return {
+	        transactionId: signature.transactionId.toString(),
+	        balance: parseFloat(senderbalance)
+	    }
+	}
+
 }
 
 export default HashgraphClient
