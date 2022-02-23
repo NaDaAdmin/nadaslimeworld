@@ -6,7 +6,7 @@ async function EnableUserAccountHandler(req, res) {
 	const { acount_id, token_id, encrypted_receiver_key } = req.body
 	const payload = {
 		acount_id,
-		token_id, encrypted_receiver_key
+		token_id //, encrypted_receiver_key
 	}
 
 	const { hashgraphClient } = req.context

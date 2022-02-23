@@ -352,22 +352,22 @@ class HashgraphClient extends HashgraphClientContract {
 	enableUserAccountToken = async ({
 		acount_id,
 		token_id,
-		encrypted_receiver_key
+		//encrypted_receiver_key
 	}) => {
 		const client = this.#client
 
 		// ** 계정 활성화 **
-		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
-		//Sign with the freeze key of the token
+		// const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		// //Sign with the freeze key of the token
 		
-		const transaction = await new TokenAssociateTransaction()
-			.setAccountId(acount_id)
-			.setTokenIds([token_id])
-			.freezeWith(client);
+		// const transaction = await new TokenAssociateTransaction()
+		// 	.setAccountId(acount_id)
+		// 	.setTokenIds([token_id])
+		// 	.freezeWith(client);
 		
-		//Sign with the private key of the account that is being associated to a token 
-		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
-		const response = signTx.execute(client);
+		// //Sign with the private key of the account that is being associated to a token 
+		// const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
+		// const response = signTx.execute(client);
 		// ** 계정 활성화 종료 **
 		
 		//KYC �ο�
@@ -705,7 +705,6 @@ class HashgraphClient extends HashgraphClientContract {
 		// sender로부터 받아서 receiver로 준다.
 	    let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
-			//.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.freezeWith(client);
 			
