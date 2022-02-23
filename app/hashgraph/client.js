@@ -351,14 +351,15 @@ class HashgraphClient extends HashgraphClientContract {
 
 	enableUserAccountToken = async ({
 		acount_id,
-		token_id
+		token_id,
+		encrypted_receiver_key
 	}) => {
 		const client = this.#client
 
+		// ** 계정 활성화 **
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 		//Sign with the freeze key of the token
 		
-		// ** 계정 활성화 **
 		const transaction = await new TokenAssociateTransaction()
 			.setAccountId(acount_id)
 			.setTokenIds([token_id])
