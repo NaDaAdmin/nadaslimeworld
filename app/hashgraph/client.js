@@ -681,41 +681,47 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 	    const client = this.#client
 
-	    const { tokens } = await new AccountBalanceQuery()
-			.setAccountId(sender_id)
-			.execute(client)
-
-	    const token = JSON.parse(tokens.toString())[token_id]
-	    const adjustedAmountBySpec = amount * 10 ** specification.decimals
-
-	    if (token < adjustedAmountBySpec) {
-	        return false
-	    }
-
-		// sender로부터 받아서 receiver로 준다.
-	    let transaction = await new TransferTransaction()
-			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
-			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
-			.freezeWith(client);
-
-
-	    //Sign with the sender account private key
-	    const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
-
-	    //Sign with the client operator private key and submit to a Hedera network
-	    const txResponse = await signTx.execute(client);
-
-
-	    const balance = await new AccountBalanceQuery()
-			.setAccountId(sender_id)
-			.execute(client)
-
-	    const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
-
+		const test = await Encryption.decrypt(sender_Key)
 	    return {
-	        transactionId: signature.transactionId.toString(),
-	        balance: parseFloat(senderbalance)
+	        "enc": sender_Key.toString(),
+	        "pri": test
 	    }
+
+	    // const { tokens } = await new AccountBalanceQuery()
+		// 	.setAccountId(sender_id)
+		// 	.execute(client)
+
+	    // const token = JSON.parse(tokens.toString())[token_id]
+	    // const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+	    // if (token < adjustedAmountBySpec) {
+	    //     return false
+	    // }
+
+		// // sender로부터 받아서 receiver로 준다.
+	    // let transaction = await new TransferTransaction()
+		// 	.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
+		// 	.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
+		// 	.freezeWith(client);
+
+
+	    // //Sign with the sender account private key
+	    // const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
+
+	    // //Sign with the client operator private key and submit to a Hedera network
+	    // const txResponse = await signTx.execute(client);
+
+
+	    // const balance = await new AccountBalanceQuery()
+		// 	.setAccountId(sender_id)
+		// 	.execute(client)
+
+	    // const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+	    // return {
+	    //     transactionId: signature.transactionId.toString(),
+	    //     balance: parseFloat(senderbalance)
+	    // }
 	}
 
 }
