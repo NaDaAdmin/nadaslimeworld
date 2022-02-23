@@ -703,9 +703,10 @@ class HashgraphClient extends HashgraphClientContract {
 		// sender로부터 받아서 receiver로 준다.
 	    let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
-			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
+			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
+			//.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.freezeWith(client);
-
+			
 	    //Sign with the sender account private key
 	    const signTx = await transaction.sign(PrivateKey.fromString(sender_Key));
 
