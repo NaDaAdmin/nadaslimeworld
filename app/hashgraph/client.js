@@ -683,8 +683,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const test = await Encryption.decrypt(sender_Key)
 	    return {
-	        "enc": sender_Key.toString(),
-	        "pri": test
+	        // "enc": sender_Key.toString(),
+	        // "pri": test
 	    }
 
 	    // const { tokens } = await new AccountBalanceQuery()
