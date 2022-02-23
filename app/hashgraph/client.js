@@ -265,7 +265,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 
 		return {
-			transactionId: signature.transactionId.toString(),
+			transactionId: transaction.transactionId.toString(),
 			balance: parseFloat(senderbalance)
 		}
 	}
@@ -693,11 +693,9 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(sender_id)
 			.execute(client);
 
-			console.log("=============== 0");
 	    const token = JSON.parse(tokens.toString())[token_id];
 	    const adjustedAmountBySpec = amount * 10 ** specification.decimals;
 
-		console.log("=============== 1");
 	    if (token < adjustedAmountBySpec) {
 	        return false;
 	    }
@@ -708,16 +706,12 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
 			.freezeWith(client);
 
-
-			console.log("=============== 2");
 	    //Sign with the sender account private key
 	    const signTx = await transaction.sign(PrivateKey.fromString(sender_Key));
-		console.log("=============== 3");
 
 	    //Sign with the client operator private key and submit to a Hedera network
 	    const txResponse = await signTx.execute(client);
 
-		console.log("=============== 4");
 	    const balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client);
@@ -725,7 +719,7 @@ class HashgraphClient extends HashgraphClientContract {
 	    const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 	    return {
-	        transactionId: signature.transactionId.toString(),
+	        transactionId: transaction.transactionId.toString(),
 	        balance: parseFloat(senderbalance)
 	    }
 	}
