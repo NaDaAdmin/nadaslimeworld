@@ -714,15 +714,30 @@ class HashgraphClient extends HashgraphClientContract {
 	    //Sign with the client operator private key and submit to a Hedera network
 	    const txResponse = await signTx.execute(client);
 
-	    const balance = await new AccountBalanceQuery()
-			.setAccountId(sender_id)
-			.execute(client);
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
 
-	    const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+		//Get the transaction consensus status
+		const transactionStatus = receipt.status;
 
-		return {
-			transactionId: transaction.transactionId.toString(),
-			balance: parseFloat(senderbalance)
+		console.log("The transaction consensus status " + transactionStatus.toString());
+
+		if (transactionStatus.toString() === "SUCCESS")
+		{
+			const balance = await new AccountBalanceQuery()
+				.setAccountId(sender_id)
+				.execute(client);
+	
+			const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+			return {
+				transactionId: transaction.transactionId.toString(),
+				balance: parseFloat(senderbalance)
+			}
+		}
+		else
+		{
+			return false;
 		}
 	}
 
