@@ -203,6 +203,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const signature = await new TransferTransaction()
 			.addTokenTransfer(token_id, Config.accountId, -adjustedAmountBySpec)
 			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
+			//.memo()
 			.execute(client)
 
 
