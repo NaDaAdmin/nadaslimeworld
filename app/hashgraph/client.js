@@ -791,13 +791,12 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(account_id)
 			.execute(client);
 		
-
-		const cTokens = balance.tokens;
+		const test = JSON.parse(tokensTest.toString());
+		
 		return {
 			account_id,
-			cTokens,
 			balance,
-			tokensTest
+			test,
 		}
 	}
 
