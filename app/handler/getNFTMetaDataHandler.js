@@ -2,7 +2,7 @@ import Response from "app/response"
 
 async function getNFTMetaDataHandler(req, res) {
 
-	const { nft_id } = req.body
+	const { nft_id, serialNum } = req.body
 	const payload = {
         nft_id,
 		serialNum
