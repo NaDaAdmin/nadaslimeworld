@@ -797,11 +797,12 @@ class HashgraphClient extends HashgraphClientContract {
 	}
 
 	getNFTMetaData = async ({
-		nft_id
+		nft_id,
+		serialNum
 	}) => {
 	    const client = this.#client
 		const nftInfos = await new TokenNftInfoQuery()
-     		.setNftId(nft_id)
+     		.setNftId(new NftId(new TokenId(nft_id),serialNum))
      		.execute(client);
 
 		console.log("getNFTMetaData 1");

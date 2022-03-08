@@ -4,7 +4,8 @@ async function getNFTMetaDataHandler(req, res) {
 
 	const { nft_id } = req.body
 	const payload = {
-        nft_id
+        nft_id,
+		serialNum
 	}
 
 	const { hashgraphClient } = req.context
