@@ -804,9 +804,11 @@ class HashgraphClient extends HashgraphClientContract {
      		.setNftId(nft_id)
      		.execute(client);
 
+		console.log("getNFTMetaData 1");
 		if(nftInfos == null){
 			return null;
 		}
+		console.log("getNFTMetaData 2");
 
 		return {
 			nftInfos
