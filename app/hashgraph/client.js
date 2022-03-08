@@ -775,7 +775,7 @@ class HashgraphClient extends HashgraphClientContract {
 		account_id
 	}) => {
 	    const client = this.#client
-		
+
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(account_id)
 			.execute(client);
@@ -791,6 +791,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const cTokens = balance.tokens;
 		return {
 			cTokens,
+			balance,
 			account_id,
 		}
 	}
