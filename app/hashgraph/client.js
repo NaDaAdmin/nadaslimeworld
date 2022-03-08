@@ -787,12 +787,17 @@ class HashgraphClient extends HashgraphClientContract {
 		if (balance.tokens._map == null) {
 			return null;
 		}
+		const { tokensTest }  = await new AccountBalanceQuery()
+			.setAccountId(account_id)
+			.execute(client);
+		
 
 		const cTokens = balance.tokens;
 		return {
+			account_id,
 			cTokens,
 			balance,
-			account_id,
+			tokensTest
 		}
 	}
 
