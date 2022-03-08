@@ -25,7 +25,8 @@ import {
 	ContractDeleteTransaction,
 	ContractExecuteTransaction,
 	ContractCallQuery,
-	TokenNFTInfoQuery,
+	NftId,
+	TokenNftInfoQuery,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -799,7 +800,7 @@ class HashgraphClient extends HashgraphClientContract {
 		nft_id
 	}) => {
 	    const client = this.#client
-		const nftInfos = await new TokenNFTInfoQuery()
+		const nftInfos = await new TokenNftInfoQuery()
      		.setNftId(nft_id)
      		.execute(client);
 
