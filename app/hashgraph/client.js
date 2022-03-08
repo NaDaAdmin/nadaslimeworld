@@ -771,7 +771,7 @@ class HashgraphClient extends HashgraphClientContract {
 	}
 
 	// 유저 nft 조회
-	userAccountNFT = ({
+	userAccountNFT = async ({
 		account_id
 	}) => {
 		const balance = await new AccountBalanceQuery()
@@ -786,19 +786,19 @@ class HashgraphClient extends HashgraphClientContract {
 			return null;
 		}
 
-		const cTokens = (balance.tokens);
+		const cTokens = balance.tokens;
 		return {
 			cTokens,
 			account_id,
 		}
 	}
 
-	transferNFT = ({
-		nft_id,
-		accountID
-	}) => {
-
-	}
+	// transferNFT = async ({
+	// 	nft_id,
+	// 	accountID
+	// }) => {
+	// 	return null;
+	// }
 }
 
 export default HashgraphClient
