@@ -787,10 +787,27 @@ class HashgraphClient extends HashgraphClientContract {
 		if (balance.tokens == null) {
 			return null;
 		}
-		
+
 		return {
 			account_id,
 			balance
+		}
+	}
+
+	getNFTMetaData = async ({
+		nft_id
+	}) => {
+	    const client = this.#client
+		const nftInfos = await new TokenNftInfoQuery()
+     		.setNftId(nft_id)
+     		.execute(client);
+
+		if(nftInfos == null){
+			return null;
+		}
+
+		return {
+			nftInfos
 		}
 	}
 
