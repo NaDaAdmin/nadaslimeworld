@@ -769,6 +769,36 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("The transaction consensus status is " + transactionStatus);
 	}
+
+	// 유저 nft 조회
+	userAccountNFT = ({
+		account_id
+	}) => {
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(account_id)
+			.execute(client);
+
+		if (balance == null) {
+			return null;
+		}
+
+		if (balance.tokens._map == null) {
+			return null;
+		}
+
+		const cTokens = (balance.tokens);
+		return {
+			cTokens,
+			account_id,
+		}
+	}
+
+	transferNFT = ({
+		nft_id,
+		accountID
+	}) => {
+
+	}
 }
 
 export default HashgraphClient
