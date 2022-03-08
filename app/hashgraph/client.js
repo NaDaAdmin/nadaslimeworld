@@ -774,6 +774,8 @@ class HashgraphClient extends HashgraphClientContract {
 	userAccountNFT = async ({
 		account_id
 	}) => {
+	    const client = this.#client
+		
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(account_id)
 			.execute(client);
