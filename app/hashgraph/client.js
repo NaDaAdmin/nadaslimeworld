@@ -832,11 +832,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const express = require('express');
 		const app = express();
-
-		var multer = require('multer');
-		var upload = multer({dest: 'uploads/'});
-
-		var ipfs = await IpfsAPI('ipfs.io','5001',{protocol: 'http'});
 		
 		app.get('/download/:ID', function(req, res){
 			console.log(req.params.ID);
