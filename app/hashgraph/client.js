@@ -830,7 +830,7 @@ class HashgraphClient extends HashgraphClientContract {
 		// CID 추출
 		const metaDataCID = new Buffer.from(metaByte).toString();
 		
-		let ipfs = await IpfsAPI('localhost','5001',{protocol: 'http'});
+		let ipfs = await IpfsAPI('ipfs.io','5001',{protocol: 'http'});
 		let asyncitr = ipfs.cat(metaDataCID)           
 		
 		let strJson = "";
