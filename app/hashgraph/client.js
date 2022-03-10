@@ -826,9 +826,22 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 
 		console.log(metaByte.toString());
-		const metaString = new Buffer.from(metaByte).toString();
+		// CID 추출
+		const metaDataCID = new Buffer.from(metaByte).toString();
+
+		let ipfs = await ipfsClient();
+		let asyncitr = ipfs.cat(metaDataCID)           
+		
+		const strJson;
+		for await(const itr of asyncitr){
+			let data = Buffer.from(itr).toString();
+			console.log(data);
+			strJson += data;
+		}
+
 		return {
-			metaString
+			metaDataCID,
+			strJson,
 		}
 	}
 
