@@ -825,8 +825,8 @@ class HashgraphClient extends HashgraphClientContract {
 			return null;
 		}
 
-		const metaString = metaByte.toString();
-		
+		console.log(metaByte.toString());
+		const metaString = new Buffer.from(metaByte).toString();
 		return {
 			metaString
 		}
