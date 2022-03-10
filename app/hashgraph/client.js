@@ -832,7 +832,7 @@ class HashgraphClient extends HashgraphClientContract {
 		let ipfs = await ipfsClient();
 		let asyncitr = ipfs.cat(metaDataCID)           
 		
-		const strJson;
+		let strJson;
 		for await(const itr of asyncitr){
 			let data = Buffer.from(itr).toString();
 			console.log(data);
