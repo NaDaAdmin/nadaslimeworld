@@ -105,6 +105,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(Config.accountId)
 			.execute(client)
 
+			console.log(balance);
 		return { balance: parseFloat(balance.hbars.toString()) }
 	}
 
@@ -804,19 +805,25 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const nftTokenID = TokenId.fromString(nft_id);
 		console.log(nftTokenID.toString());
-		
-		const nftInfos = await new TokenNftInfoQuery()
-     		.setNftId(new NftId(nftTokenID, serialNum) )
+
+		const { nftInfos } = await new TokenNftInfoQuery()
+     		.setNftId( new NftId(nftTokenID, serialNum) )
      		.execute(client);
 
 		console.log("getNFTMetaData 1");
-		if(nftInfos == null){
+		if(nftInfos == null)
+		{
 			return null;
 		}
 		console.log("getNFTMetaData 2");
 
+		const nftMetaData = JSON.parse(nftInfos.toString())["metadata"];
+		console.log(nftMetaData.data);
+
+		const meta_data = nftMetaData.data;
+		
 		return {
-			nftInfos
+			meta_data
 		}
 	}
 
