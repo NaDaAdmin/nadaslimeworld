@@ -36,6 +36,7 @@ import Encryption from "app/utils/encryption"
 import Explorer from "app/utils/explorer"
 import sendWebhookMessage from "app/utils/sendWebhookMessage"
 import Specification from "app/hashgraph/tokens/specifications"
+import {IpfsAPI} from "ipfs-api"
 
 
 class HashgraphClient extends HashgraphClientContract {
@@ -828,11 +829,11 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log(metaByte.toString());
 		// CID 추출
 		const metaDataCID = new Buffer.from(metaByte).toString();
-
-		let ipfs = await ipfsClient();
+		
+		let ipfs = await IpfsAPI('localhost','5001',{protocol: 'http'});
 		let asyncitr = ipfs.cat(metaDataCID)           
 		
-		let strJson;
+		let strJson = "";
 		for await(const itr of asyncitr){
 			let data = Buffer.from(itr).toString();
 			console.log(data);
