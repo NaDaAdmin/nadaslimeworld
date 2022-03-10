@@ -809,7 +809,6 @@ class HashgraphClient extends HashgraphClientContract {
      		.setNftId( new NftId(nftTokenID, serialNum) )
      		.execute(client);
 
-		console.log("getNFTMetaData 1");
 		if(nftInfos == null)
 		{
 			return null;
@@ -820,11 +819,16 @@ class HashgraphClient extends HashgraphClientContract {
 			return null;
 		}
 
-		const meta_data = nftInfos[0].metadata;
+		const metaByte = nftInfos[0].metadata.data;
+		if(metaByte == null){
+			console.log("metaByte null");
+			return null;
+		}
 
+		const metaString = metaByte.toString();
 		
 		return {
-			meta_data
+			metaString
 		}
 	}
 
