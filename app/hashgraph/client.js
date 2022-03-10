@@ -829,16 +829,19 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log(metaByte.toString());
 		// CID 추출
 		const metaDataCID = new Buffer.from(metaByte).toString();
+
+		const express = require('express');
+		const app = express();
+
+		var multer = require('multer');
+		var upload = multer({dest: 'uploads/'});
+
+		var ipfs = await IpfsAPI('ipfs.io','5001',{protocol: 'http'});
 		
-		let ipfs = await IpfsAPI('ipfs.io','5001',{protocol: 'http'});
-		let asyncitr = ipfs.cat(metaDataCID)           
-		
-		let strJson = "";
-		for await(const itr of asyncitr){
-			let data = Buffer.from(itr).toString();
-			console.log(data);
-			strJson += data;
-		}
+		app.get('/download/:ID', function(req, res){
+			console.log(req.params.ID);
+			res.redirect('https://ipfs.io/ipfs/' + metaDataCID);
+		})
 
 		return {
 			metaDataCID,
