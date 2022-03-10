@@ -819,7 +819,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return null;
 		}
 
-		const metaByte = nftInfos[0].metadata.data;
+		const metaByte = nftInfos[0].metadata;
 		if(metaByte == null){
 			console.log("metaByte null");
 			return null;
