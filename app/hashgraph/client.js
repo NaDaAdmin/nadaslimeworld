@@ -801,8 +801,12 @@ class HashgraphClient extends HashgraphClientContract {
 		serialNum
 	}) => {
 	    const client = this.#client
+
+		const nftTokenID = TokenId.fromString(nft_id);
+		console.log(nftTokenID.toString());
+		
 		const nftInfos = await new TokenNftInfoQuery()
-     		.setNftId(new NftId(new TokenId(nft_id),serialNum))
+     		.setNftId(new NftId(nftTokenID, serialNum) )
      		.execute(client);
 
 		console.log("getNFTMetaData 1");
