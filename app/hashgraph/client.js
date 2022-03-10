@@ -811,10 +811,10 @@ class HashgraphClient extends HashgraphClientContract {
      		.execute(client);
 
 		console.log("getNFTMetaData 1");
-		if(nftInfos == null)
-		{
-			return null;
-		}
+		// if(nftInfos == null)
+		// {
+		// 	return null;
+		// }
 		console.log("getNFTMetaData 2");
 
 		const nftMetaData = JSON.parse(nftInfos.toString())["metadata"];
