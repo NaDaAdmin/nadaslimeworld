@@ -820,6 +820,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return null;
 		}
 
+		// NFT의 메타데이터 가져오기
 		const metaByte = nftInfos[0].metadata;
 		if(metaByte == null){
 			console.log("metaByte null");
@@ -830,17 +831,8 @@ class HashgraphClient extends HashgraphClientContract {
 		// CID 추출
 		const metaDataCID = new Buffer.from(metaByte).toString();
 
-		const express = require('express');
-		const app = express();
-		
-		app.get('/download/:ID', function(req, res){
-			console.log(req.params.ID);
-			res.redirect('https://ipfs.io/ipfs/' + metaDataCID);
-		})
-
 		return {
-			metaDataCID,
-			strJson,
+			metaDataCID
 		}
 	}
 
