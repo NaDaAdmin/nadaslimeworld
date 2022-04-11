@@ -757,12 +757,12 @@ class HashgraphClient extends HashgraphClientContract {
 		const thresholdKey =  new KeyList(kycKeys, 1);
 
 	    const transaction = await new TokenUpdateTransaction()
-     		 .setTokenId(token_id)
-			 //.setAdminKey(Config.adminKey)
-			 .setKycKey(thresholdKey)
-			 .setSupplyKey(Config.supplyKey)
-			 .setFreezeKey(Config.freezeKey)
-			 .setWipeKey(Config.wipeKey)
+     		.setTokenId(token_id)
+			//.setAdminKey(Config.adminKey)
+			//  .setKycKey(thresholdKey)
+			//  .setSupplyKey(Config.supplyKey)
+			//  .setFreezeKey(Config.freezeKey)
+			//  .setWipeKey(Config.wipeKey)
      		 .freezeWith(client);
 
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey);
