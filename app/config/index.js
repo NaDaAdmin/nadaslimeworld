@@ -26,5 +26,9 @@ export default {
 	apiUrl: API_URL,
 	hideStatus: HIDE_STATUS,
 	webhookUrl: WEBHOOK_URL,
-	freezeKey: FREEZE_KEY
+	freezeKey: FREEZE_KEY,
+	adminKey: ADMIN_KEY,
+	kycKey: KYC_KEY,
+	supplyKey: SUPPLY_KEY,
+	wipeKey: WIPE_KEY
 }
