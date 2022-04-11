@@ -58,7 +58,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey)
 		const transaction = new TopicCreateTransaction()
 
-		transaction.setAdminKey(operatorPrivateKey.publicKey)
+		transaction.setAdminKey(operatorPrivateKey.adminKey)
 
 		if (memo) {
 			transactionResponse.memo = memo
@@ -66,7 +66,7 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 
 		if (enable_private_submit_key) {
-			transaction.setSubmitKey(operatorPrivateKey.publicKey)
+			transaction.setSubmitKey(operatorPrivateKey.adminKey)
 		}
 
 		const transactionId = await transaction.execute(client)
@@ -287,7 +287,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client)
 
 
-		const privatekey = PrivateKey.fromString(Config.privateKey);
+		const privatekey = PrivateKey.fromString(Config.freezeKey);
 
 		const signTx = await transaction.sign(privatekey);
 
@@ -327,7 +327,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client)
 
 		//Sign with the freeze key of the token 
-		const privatekey = PrivateKey.fromString(Config.privateKey);
+		const privatekey = PrivateKey.fromString(Config.freezeKey);
 
 		const signTx = await transaction.sign(privatekey);
 
@@ -382,7 +382,7 @@ class HashgraphClient extends HashgraphClientContract {
 			
 			
 		//Sign with the kyc private key of the token
-		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.privateKey));
+		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.kycKey));
 			
 		//Submit the transaction to a Hedera network    
 		await signrevokeKycTx.execute(client);
@@ -601,7 +601,7 @@ class HashgraphClient extends HashgraphClientContract {
 			signTx = await (await transaction.sign(newadmin_key)).sign(adminKey);
 		}
 		else {
-			signTx = await transaction.sign(PrivateKey.fromString(Config.privateKey))
+			signTx = await transaction.sign(PrivateKey.fromString(Config.adminKey))
         }
 
 		const txResponse = await signTx.execute(client);
