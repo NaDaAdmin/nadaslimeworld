@@ -747,13 +747,18 @@ class HashgraphClient extends HashgraphClientContract {
 
 	updateToken = async ({
 		token_id,
-		token_simbol
+		adminKey,
+		kycKey,
+		supplyKey,
+		freezeKey,
+		wipeKey,
 	}) => {
 	    const client = this.#client
 
 	    const transaction = await new TokenUpdateTransaction()
      		.setTokenId(token_id)
-     		.setTokenSymbol(token_simbol)
+     		//.setTokenSymbol(token_simbol)
+			.setTokenMemo(token_memo)
      		.freezeWith(client);
 
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey)
