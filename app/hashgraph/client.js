@@ -761,8 +761,8 @@ class HashgraphClient extends HashgraphClientContract {
 			 .setAdminKey(Config.adminKey)
 			 .setKycKey(thresholdKey)
 			 .setSupplyKey(Config.supplyKey)
-			 .freezeKey(Config.freezeKey)
-			 .wipeKey(Config.wipeKey)
+			 .setFreezeKey(Config.freezeKey)
+			 .setWipeKey(Config.wipeKey)
      		 .freezeWith(client);
 
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey);
