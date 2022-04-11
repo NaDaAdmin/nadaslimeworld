@@ -758,7 +758,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 	    const transaction = await new TokenUpdateTransaction()
      		 .setTokenId(token_id)
-			 .setAdminKey(Config.adminKey)
+			 //.setAdminKey(Config.adminKey)
 			 .setKycKey(thresholdKey)
 			 .setSupplyKey(Config.supplyKey)
 			 .setFreezeKey(Config.freezeKey)
@@ -766,10 +766,10 @@ class HashgraphClient extends HashgraphClientContract {
      		 .freezeWith(client);
 
 		const operatorPrivateKey = PrivateKey.fromString(Config.privateKey);
-		const operatorAdminKey = PrivateKey.fromString(Config.adminKey);
+		//const operatorAdminKey = PrivateKey.fromString(Config.adminKey);
 
 		//Sign the transaction with the admin key
-		const signTx = await transaction.sign(operatorPrivateKey).sign(operatorAdminKey);
+		const signTx = await transaction.sign(operatorPrivateKey)// .sign(operatorAdminKey);
 
 		//Submit the signed transaction to a Hedera network
 		const txResponse = await signTx.execute(client);
