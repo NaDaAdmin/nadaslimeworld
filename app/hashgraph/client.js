@@ -27,6 +27,7 @@ import {
 	ContractCallQuery,
 	NftId,
 	TokenNftInfoQuery,
+	KeyList,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -37,7 +38,7 @@ import Explorer from "app/utils/explorer"
 import sendWebhookMessage from "app/utils/sendWebhookMessage"
 import Specification from "app/hashgraph/tokens/specifications"
 import {IpfsAPI} from "ipfs-api"
-import { KeyList } from "@hashgraph/sdk/lib/exports"
+//import { KeyList } from "@hashgraph/sdk/lib/exports"
 
 
 class HashgraphClient extends HashgraphClientContract {
