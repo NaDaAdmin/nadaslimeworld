@@ -306,7 +306,7 @@ class HashgraphClient extends HashgraphClientContract {
 		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
-			.addTokenTransfer(token_id2, account_id2, adjustedAmountBySpec)
+			.addTokenTransfer(token_id2, account_id2, -adjustedAmountBySpec)
 			.addTokenTransfer(token_id2, account_id1, adjustedAmountBySpec)
 			.freezeWith(client);
 
