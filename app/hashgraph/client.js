@@ -276,6 +276,61 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
+	atomicSwap = async ({
+		specification = Specification.Fungible,
+		encrypted_receiver_key,
+		token_id1,
+		token_id2,
+		account_id1,
+		account_id2,
+		amount
+	}) => {
+
+		const client = this.#client
+
+		// Extract PV from encrypted
+		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+
+		const { tokens } = await new AccountBalanceQuery()
+			.setAccountId(account_id1)
+			.execute(client)
+
+		const token = JSON.parse(tokens.toString())[token_id1]
+		const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+		if (token < adjustedAmountBySpec) {
+
+			return false
+		}
+
+		let transaction = await new TransferTransaction()
+			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
+			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
+			.addTokenTransfer(token_id2, account_id2, adjustedAmountBySpec)
+			.addTokenTransfer(token_id2, account_id1, adjustedAmountBySpec)
+			.freezeWith(client);
+
+
+		//Sign with the sender account private key
+		const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
+
+		//Sign with the client operator private key and submit to a Hedera network
+		const txResponse = await signTx.execute(client);
+
+
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(account_id1)
+			.execute(client)
+
+		const senderbalance = balance.tokens._map.get([token_id1].toString()).toString();
+
+
+		return {
+			transactionId: transaction.transactionId.toString(),
+			balance: parseFloat(senderbalance)
+		}
+	}
+
 	freezeToken = async ({
 		acount_id,
 		token_id
@@ -352,6 +407,59 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 		else {
 			return false;
+		}
+	}
+
+	grantKyc = async ({
+		acount_id,
+		token_id,
+		//encrypted_receiver_key
+	}) => {
+		const client = this.#client
+
+		// ** 계정 활성화 **
+		// const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		// //Sign with the freeze key of the token
+		
+		// const transaction = await new TokenAssociateTransaction()
+		// 	.setAccountId(acount_id)
+		// 	.setTokenIds([token_id])
+		// 	.freezeWith(client);
+		
+		// //Sign with the private key of the account that is being associated to a token 
+		// const signTx = await transaction.sign(PrivateKey.fromString(privateKey));
+		// const response = signTx.execute(client);
+		// ** 계정 활성화 종료 **
+		
+		//KYC �ο�
+		const revokeKyctransaction = await new TokenGrantKycTransaction()
+			.setAccountId(acount_id)
+			.setTokenId(token_id)
+			.freezeWith(client);
+			
+			
+		const balance = await new AccountBalanceQuery()
+		.setAccountId(acount_id)
+		.execute(client)
+
+		if (balance == null) {
+			return false;
+		}
+
+		if (balance.tokens._map.has(token_id) == false) {
+
+			return false;
+		}
+
+		//Sign with the kyc private key of the token
+		const signrevokeKycTx = await revokeKyctransaction.sign(PrivateKey.fromString(Config.kycKey));
+			
+		//Submit the transaction to a Hedera network    
+		await signrevokeKycTx.execute(client);
+
+		return {
+			acount_id,
+			token_id,
 		}
 	}
 
