@@ -453,6 +453,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 			return false
 		}
+		
+		console.log("true");
+		return true;
 
 		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
@@ -462,7 +465,7 @@ class HashgraphClient extends HashgraphClientContract {
 			//.addTokenTransfer(token_id2, account_id1, 1)
 			.freezeWith(client);
 
-			return true;
+			
 
 		//Sign with the sender account private key
 		const signTx = await (await transaction.sign(PrivateKey.fromString(privateKey)).sign(PrivateKey.fromString(Config.privateKey)));
