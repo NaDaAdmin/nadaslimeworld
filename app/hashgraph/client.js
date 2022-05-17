@@ -318,7 +318,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 		// Extract PV from encrypted
-		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(account_id1)
@@ -432,8 +432,9 @@ class HashgraphClient extends HashgraphClientContract {
 		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
-			.addTokenTransfer(token_id2, account_id2, -1)
-			.addTokenTransfer(token_id2, account_id1, 1)
+			.addNftTransfer(new NftId(token_id2, 1), account_id2, account_id1)
+			// .addTokenTransfer(token_id2, account_id2, -1)
+			// .addTokenTransfer(token_id2, account_id1, 1)
 			.freezeWith(client);
 
 
