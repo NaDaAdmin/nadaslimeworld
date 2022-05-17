@@ -321,8 +321,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key);
 
 		const assotransaction = await new TokenAssociateTransaction()
-			.setAccountId(accountId)
-			.setTokenIds(tokenIds)
+			.setAccountId(account_id1)
+			.setTokenIds(token_id2)
 			.freezeWith(client)
 
 		const accountPrivateKey = PrivateKey.fromString(privateKey)
