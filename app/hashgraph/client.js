@@ -318,7 +318,17 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 		// Extract PV from encrypted
-		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		const privateKey = await Encryption.decrypt(encrypted_receiver_key);
+
+		const assotransaction = await new TokenAssociateTransaction()
+			.setAccountId(accountId)
+			.setTokenIds(tokenIds)
+			.freezeWith(client)
+
+		const accountPrivateKey = PrivateKey.fromString(privateKey)
+		const assosign = await assotransaction.sign(accountPrivateKey)
+
+		assosign.execute(client)
 
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(account_id1)
