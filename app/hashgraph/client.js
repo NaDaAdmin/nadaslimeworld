@@ -336,7 +336,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addNftTransfer(1, account_id2, account_id1)
-			.freezeWith(client);
+			//.freezeWith(client);
 
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
@@ -354,25 +354,25 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduledTxId = receipt.scheduledTransactionId;
 		console.log("The scheduled transaction ID is " + scheduledTxId);
 
-		//Submit the first signature
-		const signature = await (await new ScheduleSignTransaction()
-			.setScheduleId(scheduleId)
-			.freezeWith(client)
-			.sign(Config.privateKey))
-			.execute(client);
+		// //Submit the first signature
+		// const signature = await (await new ScheduleSignTransaction()
+		// 	.setScheduleId(scheduleId)
+		// 	.freezeWith(client)
+		// 	.sign(Config.privateKey))
+		// 	.execute(client);
 
-		//Verify the transaction was successful and submit a schedule info request
-		const receipt1 = await signature.getReceipt(client);
-		console.log("The transaction status is " + receipt1.status.toString());
+		// //Verify the transaction was successful and submit a schedule info request
+		// const receipt1 = await signature.getReceipt(client);
+		// console.log("The transaction status is " + receipt1.status.toString());
 		
-		const scheduledTxId2 = receipt1.scheduledTransactionId;
+		// const scheduledTxId2 = receipt1.scheduledTransactionId;
 
-		const query1 = await new ScheduleInfoQuery()
-			.setScheduleId(scheduleId)
-			.execute(client);
+		// const query1 = await new ScheduleInfoQuery()
+		// 	.setScheduleId(scheduleId)
+		// 	.execute(client);
 
-		//Confirm the signature was added to the schedule   
-		console.log(query1);
+		// //Confirm the signature was added to the schedule   
+		// console.log(query1);
 
 		//Sign with the sender account private key
 		//const signTx = await (await transaction.sign(PrivateKey.fromString(Config.privateKey)));
@@ -392,7 +392,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		return {
 			scheduledTxId,
-			scheduledTxId2,
 			transactionId: signTx.transactionId.toString(),
 			balance: parseFloat(senderbalance)
 		}
@@ -430,7 +429,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addTokenTransfer(token_id2, account_id2, -1)
 			.addTokenTransfer(token_id2, account_id1, 1)
-			
 			.freezeWith(client);
 
 
