@@ -225,6 +225,7 @@ class HashgraphClient extends HashgraphClientContract {
 			balance: parseFloat(0)
 		}
 	}
+
 	bequestNFT = async ({
 		specification = Specification.Fungible,
 		token_id,
@@ -425,15 +426,14 @@ class HashgraphClient extends HashgraphClientContract {
 		amount
 	}) => {
 
+		return true;
+
 		const client = this.#client
 
 		console.log("The amount is " + amount);
 
 		// Extract PV from encrypted
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
-
-		console.log("true");
-		return true;
 
 		// const assotransaction = await new TokenAssociateTransaction()
 		// 	.setAccountId(account_id1)
