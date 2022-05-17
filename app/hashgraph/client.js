@@ -28,6 +28,7 @@ import {
 	NftId,
 	TokenNftInfoQuery,
 	KeyList,
+	ScheduleCreateTransaction,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -224,6 +225,34 @@ class HashgraphClient extends HashgraphClientContract {
 			balance: parseFloat(0)
 		}
 	}
+	bequestNFT = async ({
+		specification = Specification.Fungible,
+		token_id,
+		receiver_id,
+	}) => {
+		const client = this.#client
+
+		const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+		const signature = await new TransferTransaction()
+			.addTokenTransfer(token_id, Config.accountId, -adjustedAmountBySpec)
+			.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
+			//.memo()
+			.execute(client)
+
+
+		// const balance = await new AccountBalanceQuery()
+		// 	.setAccountId(receiver_id)
+		// 	.execute(client)
+
+
+		// const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+		return {
+			transactionId: signature.transactionId.toString(),
+			balance: parseFloat(0)
+		}
+	}
 
 	recvToken = async ({
 		specification = Specification.Fungible,
@@ -276,6 +305,98 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
+	atomicSwapScheduled = async ({
+		specification = Specification.Fungible,
+		encrypted_receiver_key,
+		token_id1,
+		token_id2,
+		account_id1,
+		account_id2,
+		amount
+	}) => {
+
+		const client = this.#client
+
+		// Extract PV from encrypted
+		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+
+		const { tokens } = await new AccountBalanceQuery()
+			.setAccountId(account_id1)
+			.execute(client)
+
+		const token = JSON.parse(tokens.toString())[token_id1]
+		const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+		if (token < adjustedAmountBySpec) {
+
+			return false
+		}
+
+		let transaction = await new TransferTransaction()
+			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
+			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
+			.addNftTransfer(1, account_id2, account_id1);
+
+		//Schedule a transaction
+		const scheduleTransaction = await new ScheduleCreateTransaction()
+			.setScheduledTransaction(transaction)
+			.execute(client);
+
+		//Get the receipt of the transaction
+		const receipt = await scheduleTransaction.getReceipt(client);
+
+		//Get the schedule ID
+		const scheduleId = receipt.scheduleId;
+		console.log("The schedule ID is " + scheduleId);
+
+		//Get the scheduled transaction ID
+		const scheduledTxId = receipt.scheduledTransactionId;
+		console.log("The scheduled transaction ID is " + scheduledTxId);
+
+		//Submit the first signature
+		const signature = await (await new ScheduleSignTransaction()
+			.setScheduleId(scheduleId)
+			.freezeWith(client)
+			.sign(Config.privateKey))
+			.execute(client);
+
+		//Verify the transaction was successful and submit a schedule info request
+		const receipt1 = await signature.getReceipt(client);
+		console.log("The transaction status is " + receipt1.status.toString());
+		
+		const scheduledTxId2 = receipt1.scheduledTransactionId;
+
+		const query1 = await new ScheduleInfoQuery()
+			.setScheduleId(scheduleId)
+			.execute(client);
+
+		//Confirm the signature was added to the schedule   
+		console.log(query1);
+
+		//Sign with the sender account private key
+		//const signTx = await (await transaction.sign(PrivateKey.fromString(Config.privateKey)));
+
+		
+
+		//Sign with the client operator private key and submit to a Hedera network
+		//const txResponse = await signTx.execute(client);
+
+
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(account_id1)
+			.execute(client)
+
+		const senderbalance = balance.tokens._map.get([token_id1].toString()).toString();
+
+
+		return {
+			scheduledTxId,
+			scheduledTxId2,
+			transactionId: signTx.transactionId.toString(),
+			balance: parseFloat(senderbalance)
+		}
+	}
+
 	atomicSwap = async ({
 		specification = Specification.Fungible,
 		encrypted_receiver_key,
@@ -308,6 +429,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addTokenTransfer(token_id2, account_id2, -1)
 			.addTokenTransfer(token_id2, account_id1, 1)
+			
 			.freezeWith(client);
 
 
@@ -342,7 +464,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.setAccountId(acount_id)
 			.setTokenId(token_id)
 			.freezeWith(client)
-
 
 		const privatekey = PrivateKey.fromString(Config.freezeKey);
 
