@@ -353,8 +353,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.addNftTransfer(token_id2, 1, account_id2, account_id1)
 			.freezeWith(client);
 
-		console.log("The transaction is " + transaction);
-
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
@@ -365,11 +363,11 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//Get the schedule ID
 		const scheduleId = receipt.scheduleId;
-		console.log("The schedule ID is " + scheduleId);
+		console.log("The schedule ID is " + scheduleId.toString());
 
 		//Get the scheduled transaction ID
 		const scheduledTxId = receipt.scheduledTransactionId;
-		console.log("The scheduled transaction ID is " + scheduledTxId);
+		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
 
 		//Submit the first signature
 		const signature = await (await new ScheduleSignTransaction()
