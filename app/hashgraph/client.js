@@ -431,7 +431,8 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The amount is " + amount);
 
 		// Extract PV from encrypted
-		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		//const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		const privateKey = PrivateKey.fromString(privateKey)
 
 		console.log("privateKey");
 
