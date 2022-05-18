@@ -382,8 +382,6 @@ class HashgraphClient extends HashgraphClientContract {
 		//Submit the transaction to a Hedera network    
 		var kycResponse = await signrevokeKycTx.execute(client);
 
-		const kycReceipt = await kycResponse.getReceipt(client);
-
 		console.log("The adjustedAmountBySpec is " + adjustedAmountBySpec);
 
 		let transaction = await new TransferTransaction()
@@ -396,7 +394,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
-			.setPayerAccountId(kycReceipt.accountId)
+			.setPayerAccountId(AccountId.fromString(account_id1))
 			.execute(client);
 
 		console.log("AccountId " + AccountId.fromString(account_id1).toString());
