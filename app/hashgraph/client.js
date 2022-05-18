@@ -32,6 +32,7 @@ import {
 	ScheduleSignTransaction,
 	ScheduleInfoQuery,
 	TransactionReceiptQuery,
+	AccountID,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -359,7 +360,7 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The amount is " + amount);
 
 		const { tokens } = await new AccountBalanceQuery()
-			.setAccountId(account_id1)
+			.setAccountId(AccountID.fromString(account_id1))
 			.execute(client)
 
 		const token = JSON.parse(tokens.toString())[token_id1]
