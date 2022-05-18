@@ -307,6 +307,39 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
+	scheduleSign = async ({
+		scheduleId,
+		scheduledTxId,
+		privateKey,
+	}) => {
+
+		const client = this.#client
+
+		//Submit the second signature
+		const signature = await (await new ScheduleSignTransaction()
+			.setScheduleId(scheduleId)
+			.freezeWith(client)
+			.sign(PrivateKey.fromString(privateKey)))
+			.execute(client);
+			
+		//Verify the transaction was successful
+		const receipt = await signature.getReceipt(client);
+		console.log("The transaction status " + receipt.status.toString());
+
+		//Get the schedule info
+		const query = await new ScheduleInfoQuery()
+			.setScheduleId(scheduleId)
+			.execute(client);
+			
+		console.log(query);
+
+		//Get the scheduled transaction record
+		const scheduledTxRecord = await TransactionId.fromString(scheduledTxId.toString()).getRecord(client);
+		console.log("The scheduled transaction record is: " +scheduledTxRecord);
+
+		return true;
+	}
+
 	atomicSwapScheduled = async ({
 		specification = Specification.Fungible,
 		encrypted_receiver_key,
