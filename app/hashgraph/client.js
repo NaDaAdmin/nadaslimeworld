@@ -374,8 +374,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 		let transaction = await new TransferTransaction()
 			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
-			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
+			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 
 		console.log("transaction");
 
@@ -396,6 +396,22 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduledTxId = receipt.scheduledTransactionId;
 		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
 
+		const signature2 = await new ScheduleSignTransaction()
+			.setScheduleId(scheduleId)
+			.freezeWith(client)
+			.sign(PrivateKey.fromString(encrypted_receiver_key))
+			
+		const txResponse2 = await signature2.execute(client);
+
+		//Get the receipt of the transaction
+		const receipt2 = await txResponse2.getReceipt(client);
+
+		//Get the transaction status
+		const transactionStatus2 = receipt2.status;
+		console.log("The transaction consensus status is " + transactionStatus2);
+
+		console.log("signature2");
+		
 		const signature = await new ScheduleSignTransaction()
 			.setScheduleId(scheduleId)
 			.freezeWith(client)
@@ -412,21 +428,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("signature");
 
-		const signature2 = await new ScheduleSignTransaction()
-			.setScheduleId(scheduleId)
-			.freezeWith(client)
-			.sign(PrivateKey.fromString(encrypted_receiver_key))
-			
-		const txResponse2 = await signature2.execute(client);
-
-		//Get the receipt of the transaction
-		const receipt2 = await txResponse2.getReceipt(client);
-
-		//Get the transaction status
-		const transactionStatus2 = receipt2.status;
-		console.log("The transaction consensus status is " + transactionStatus2);
-
-		console.log("signature2");
+		
 
 		const sid = scheduleId.toString();
 		const stid = scheduledTxId.toString();
