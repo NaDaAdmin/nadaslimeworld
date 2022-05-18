@@ -397,6 +397,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(Config.privateKey)))
 			.execute(client);
+			
+		console.log("signature");
 
 		const receipt1 = await signature.getReceipt(client);
 		console.log("The transaction status is " +receipt1.status.toString());
