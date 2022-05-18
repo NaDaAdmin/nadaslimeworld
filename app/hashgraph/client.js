@@ -410,6 +410,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.sign(PrivateKey.fromString(Config.privateKey)))
 			.execute(client);
 
+		console.log("signature");
+
 		//Verify the transaction was successful and submit a schedule info request
 		const receipt1 = await signature.getReceipt(client);
 		//console.log("The transaction status is " + receipt1.status.toString());
