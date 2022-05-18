@@ -398,7 +398,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.sign(PrivateKey.fromString(Config.privateKey)))
 			.execute(client);
 
-		const receipt1 = await signature1.getReceipt(client);
+		const receipt1 = await signature.getReceipt(client);
 		console.log("The transaction status is " +receipt1.status.toString());
 
 		const query1 = await new ScheduleInfoQuery()
