@@ -360,7 +360,7 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The amount is " + amount);
 
 		const { tokens } = await new AccountBalanceQuery()
-			.setAccountId(AccountID.fromString(account_id1))
+			.setAccountId(account_id1)
 			.execute(client)
 
 		const token = JSON.parse(tokens.toString())[token_id1]
@@ -383,7 +383,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
-			.setPayerAccountId(account_id1)
+			.setPayerAccountId(AccountID.fromString(account_id1))
 			.execute(client);
 
 		//Get the receipt of the transaction
