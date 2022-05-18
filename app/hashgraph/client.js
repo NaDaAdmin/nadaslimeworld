@@ -433,6 +433,8 @@ class HashgraphClient extends HashgraphClientContract {
 		// Extract PV from encrypted
 		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
 
+		console.log("privateKey");
+
 		// const assotransaction = await new TokenAssociateTransaction()
 		// 	.setAccountId(account_id1)
 		// 	.setTokenId(token_id2)
@@ -455,6 +457,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
+		console.log("The token is " + token);
 		
 
 		let transaction = await new TransferTransaction()
@@ -464,8 +467,6 @@ class HashgraphClient extends HashgraphClientContract {
 			//.addTokenTransfer(token_id2, account_id2, -1)
 			//.addTokenTransfer(token_id2, account_id1, 1)
 			.freezeWith(client);
-
-			
 
 		//Sign with the sender account private key
 		const signTx = await (await transaction.sign(PrivateKey.fromString(privateKey)).sign(PrivateKey.fromString(Config.privateKey)));
