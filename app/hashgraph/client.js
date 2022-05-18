@@ -314,6 +314,7 @@ class HashgraphClient extends HashgraphClientContract {
 		token_id2,
 		account_id1,
 		account_id2,
+		serialNum,
 		amount
 	}) => {
 
@@ -351,7 +352,7 @@ class HashgraphClient extends HashgraphClientContract {
 		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
-			.addNftTransfer(token_id2, 1, account_id2, account_id1)
+			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
 
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
@@ -378,7 +379,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//Verify the transaction was successful and submit a schedule info request
 		const receipt1 = await signature.getReceipt(client);
-		console.log("The transaction status is " + receipt1.status.toString());
+		//console.log("The transaction status is " + receipt1.status.toString());
 		
 		const scheduledTxId2 = receipt1.scheduledTransactionId;
 
