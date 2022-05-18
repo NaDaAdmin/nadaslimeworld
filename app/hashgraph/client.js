@@ -321,17 +321,17 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The amount is " + amount);
 
 		// Extract PV from encrypted
-		const privateKey = await Encryption.decrypt(encrypted_receiver_key);
+		const privateKey = PrivateKey.fromString(encrypted_receiver_key)
 
-		const assotransaction = await new TokenAssociateTransaction()
-			.setAccountId(account_id1)
-			.setTokenId(token_id2)
-			.freezeWith(client)
+		// const assotransaction = await new TokenAssociateTransaction()
+		// 	.setAccountId(account_id1)
+		// 	.setTokenId(token_id2)
+		// 	.freezeWith(client)
 
-		const accountPrivateKey = PrivateKey.fromString(privateKey)
-		const assosign = await assotransaction.sign(accountPrivateKey)
+		// const accountPrivateKey = PrivateKey.fromString(privateKey)
+		// const assosign = await assotransaction.sign(accountPrivateKey)
 
-		assosign.execute(client)
+		// assosign.execute(client)
 
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(account_id1)
@@ -456,10 +456,7 @@ class HashgraphClient extends HashgraphClientContract {
 		if (token < adjustedAmountBySpec) {
 
 			return false
-		}
-
-		console.log("The token is " + token);
-		
+		}		
 
 		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
