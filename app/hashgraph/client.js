@@ -30,6 +30,7 @@ import {
 	KeyList,
 	ScheduleCreateTransaction,
 	ScheduleSignTransaction,
+	ScheduleInfoQuery,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
