@@ -376,8 +376,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
-			.freezeWith(client)
-			.sign(PrivateKey.fromString(Config.privateKey));
 
 		console.log("transaction");
 
@@ -405,8 +403,12 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const txResponse = await signature.execute(client);
 
-		// const receipt1 = await txResponse.getReceipt(client);
-		// console.log("receipt1 " + receipt1.status.toString());
+		//Get the receipt of the transaction
+		const receipt1 = await txResponse.getReceipt(client);
+
+		//Get the transaction status
+		const transactionStatus = receipt1.status;
+		console.log("The transaction consensus status is " + transactionStatus);
 
 		console.log("signature");
 
@@ -417,72 +419,14 @@ class HashgraphClient extends HashgraphClientContract {
 			
 		const txResponse2 = await signature2.execute(client);
 
-		// const receipt2 = await txResponse2.getReceipt(client);
-		// console.log("receipt2 " + receipt2.status.toString());
+		//Get the receipt of the transaction
+		const receipt2 = await txResponse2.getReceipt(client);
+
+		//Get the transaction status
+		const transactionStatus2 = receipt2.status;
+		console.log("The transaction consensus status is " + transactionStatus2);
 
 		console.log("signature2");
-
-		// const receipt1 = await txResponse.getReceipt(client);
-		// console.log("The transaction status is " + receipt1.status.toString());
-
-		// const query1 = await new ScheduleInfoQuery()
-		// 	.setScheduleId(scheduleId)
-		// 	.execute(client);
-
-		// //Confirm the signature was added to the schedule   
-		// console.log(query1);
-
-		// //
-		// //Submit the first signature
-		// const signature = await (await new ScheduleSignTransaction()
-		// 	.setScheduleId(scheduleId)
-		// 	.freezeWith(client)
-		// 	.sign(PrivateKey.fromString(Config.privateKey)))
-		// 	.execute(client);
-
-		// console.log("signature");
-
-		// //Verify the transaction was successful and submit a schedule info request
-		// const receipt1 = await signature.getReceipt(client);
-		// //console.log("The transaction status is " + receipt1.status.toString());
-		
-		// const scheduledTxId2 = receipt1.scheduledTransactionId;
-
-		// //Submit the second signature
-		// const signature2 = await (await new ScheduleSignTransaction()
-		// 	.setScheduleId(scheduleId)
-		// 	.freezeWith(client)
-		// 	.sign(PrivateKey.fromString(encrypted_receiver_key)))
-		// 	.execute(client);
-
-		// //Verify the transaction was successful
-		// const receipt2 = await signature2.getReceipt(client);
-		// console.log("The transaction status " +receipt2.status.toString());
-
-		// //Get the schedule info
-		// const query2 = await new ScheduleInfoQuery()
-		// 	.setScheduleId(scheduleId)
-		// 	.execute(client);
-
-		// console.log(query2);
-
-		// //Get the scheduled transaction record
-		// const scheduledTxRecord = await TransactionId.fromString(scheduledTxId.toString()).getRecord(client);
-		// console.log("The scheduled transaction record is: " + scheduledTxRecord);
-		// //
-
-		// const query1 = await new ScheduleInfoQuery()
-		// 	.setScheduleId(scheduleId)
-		// 	.execute(client);
-
-		// //Confirm the signature was added to the schedule   
-		// console.log(query1);
-
-		//Sign with the sender account private key
-		//const signTx = await (await transaction.sign(PrivateKey.fromString(Config.privateKey)));
-
-		//Sign with the client operator private key and submit to a Hedera network
-		//const txResponse = await signTx.execute(client);
 
 		const sid = scheduleId.toString();
 		const stid = scheduledTxId.toString();
