@@ -407,10 +407,10 @@ class HashgraphClient extends HashgraphClientContract {
 		const signature2 = await new ScheduleSignTransaction()
 			.setScheduleId(scheduleId)
 			.freezeWith(client)
-			.sign(PrivateKey.fromString(privateKey))
+			.sign(PrivateKey.fromString(encrypted_receiver_key))
 			
 		const txResponse2 = await signature2.execute(client);
-		
+
 		console.log("signature2");
 
 		// const receipt1 = await txResponse.getReceipt(client);
