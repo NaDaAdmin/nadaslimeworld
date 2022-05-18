@@ -318,9 +318,14 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const client = this.#client
 
+		const query = new ScheduleInfoQuery()
+     		.setScheduleId(scheduledId);
+
+		const info = await query.execute(client);
+
 		//Submit the second signature
 		const signature = await new ScheduleSignTransaction()
-			.setScheduleId(scheduleReceipt.scheduleId)
+			.setScheduleId(info.scheduleId)
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(privateKey))
 			
