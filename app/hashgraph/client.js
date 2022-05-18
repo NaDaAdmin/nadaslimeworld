@@ -402,15 +402,15 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("signature");
 
-		const receipt1 = await txResponse.getReceipt(client);
-		console.log("The transaction status is " + receipt1.status.toString());
+		// const receipt1 = await txResponse.getReceipt(client);
+		// console.log("The transaction status is " + receipt1.status.toString());
 
-		const query1 = await new ScheduleInfoQuery()
-			.setScheduleId(scheduleId)
-			.execute(client);
+		// const query1 = await new ScheduleInfoQuery()
+		// 	.setScheduleId(scheduleId)
+		// 	.execute(client);
 
-		//Confirm the signature was added to the schedule   
-		console.log(query1);
+		// //Confirm the signature was added to the schedule   
+		// console.log(query1);
 
 		// //
 		// //Submit the first signature
