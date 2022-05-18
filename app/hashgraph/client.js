@@ -355,19 +355,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("The amount is " + amount);
 
-		// Extract PV from encrypted
-		//const privateKey = PrivateKey.fromString(encrypted_receiver_key)
-
-		// const assotransaction = await new TokenAssociateTransaction()
-		// 	.setAccountId(account_id1)
-		// 	.setTokenId(token_id2)
-		// 	.freezeWith(client)
-
-		// const accountPrivateKey = PrivateKey.fromString(privateKey)
-		// const assosign = await assotransaction.sign(accountPrivateKey)
-
-		// assosign.execute(client)
-
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(account_id1)
 			.execute(client)
@@ -387,7 +374,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
 			.freezeWith(client)
-			.sign(PrivateKey.fromString(Config.privateKey));
+
+		console.log("transaction");
 
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
@@ -404,6 +392,22 @@ class HashgraphClient extends HashgraphClientContract {
 		//Get the scheduled transaction ID
 		const scheduledTxId = receipt.scheduledTransactionId;
 		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
+
+		const signature = await (await new ScheduleSignTransaction()
+			.setScheduleId(scheduleId)
+			.freezeWith(client)
+			.sign(PrivateKey.fromString(Config.privateKey)))
+			.execute(client);
+
+		const receipt1 = await signature1.getReceipt(client);
+		console.log("The transaction status is " +receipt1.status.toString());
+
+		const query1 = await new ScheduleInfoQuery()
+			.setScheduleId(scheduleId)
+			.execute(client);
+
+		//Confirm the signature was added to the schedule   
+		console.log(query1);
 
 		// //
 		// //Submit the first signature
