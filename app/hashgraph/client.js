@@ -465,6 +465,8 @@ class HashgraphClient extends HashgraphClientContract {
 		//Sign with the client operator private key and submit to a Hedera network
 		//const txResponse = await signTx.execute(client);
 
+		const sid = scheduleId.toString();
+		const stid = scheduledTxId.toString();
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(account_id1)
@@ -474,8 +476,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 
 		return {
-			scheduleId,
-			scheduledTxId,
+			sid,
+			stid,
 			balance: parseFloat(senderbalance)
 		}
 	}
