@@ -403,7 +403,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const txResponse = await signature.execute(client);
 
 		const receipt1 = await txResponse.getReceipt(client);
-		console.log("receipt1 " + receipt1.toString());
+		console.log("receipt1 " + receipt1.status.toString());
 
 		console.log("signature");
 
@@ -415,7 +415,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const txResponse2 = await signature2.execute(client);
 
 		const receipt2 = await txResponse2.getReceipt(client);
-		console.log("receipt2 " + receipt2.toString());
+		console.log("receipt2 " + receipt2.status.toString());
 
 		console.log("signature2");
 
