@@ -426,8 +426,6 @@ class HashgraphClient extends HashgraphClientContract {
 		amount
 	}) => {
 
-		return true;
-
 		const client = this.#client
 
 		console.log("The amount is " + amount);

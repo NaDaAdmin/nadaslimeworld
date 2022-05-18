@@ -3,11 +3,11 @@ import Response from "app/response"
 
 async function AtomicSwapHandler(req, res) {
 
-	const validationErrors = atomicSwapRequest(req.body)
+	// const validationErrors = atomicSwapRequest(req.body)
 
-	if (validationErrors) {
-		return Response.unprocessibleEntity(res, validationErrors)
-	}
+	// if (validationErrors) {
+	// 	return Response.unprocessibleEntity(res, validationErrors)
+	// }
 
 
 	const { encrypted_receiver_key, token_id1, token_id2, account_id1, account_id2, amount } = req.body
