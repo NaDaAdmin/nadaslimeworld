@@ -423,7 +423,7 @@ class HashgraphClient extends HashgraphClientContract {
 			console.log(`- Status of Alice's signature submission: ${aliceSignRx.status}`);
 		
 			// QUERY TO CONFIRM IF THE SCHEDULE WAS TRIGGERED (SIGNATURES HAVE BEEN ADDED)
-			scheduleQuery = await new ScheduleInfoQuery().setScheduleId(scheduleId).execute(client);
+			let scheduleQuery = await new ScheduleInfoQuery().setScheduleId(scheduleId).execute(client);
 			console.log(`- Schedule triggered (all required signatures received): ${scheduleQuery.executed !== null}`);
 		
 			// SUBMIT BOB'S SIGNATURE FOR THE TRANSFER TRANSACTION
