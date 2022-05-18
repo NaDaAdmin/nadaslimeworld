@@ -407,7 +407,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const signature = await (await new ScheduleSignTransaction()
 			.setScheduleId(scheduleId)
 			.freezeWith(client)
-			.sign(Config.privateKey))
+			.sign(PrivateKey.fromString(Config.privateKey)))
 			.execute(client);
 
 		//Verify the transaction was successful and submit a schedule info request
@@ -438,6 +438,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 
 		return {
+			scheduleId,
 			scheduledTxId,
 			scheduledTxId2,
 			transactionId: signTx.transactionId.toString(),
