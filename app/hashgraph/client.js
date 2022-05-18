@@ -31,6 +31,7 @@ import {
 	ScheduleCreateTransaction,
 	ScheduleSignTransaction,
 	ScheduleInfoQuery,
+	TransactionReceiptQuery,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -316,9 +317,13 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const client = this.#client
 
+		const scheduleReceipt = await new TransactionReceiptQuery()
+			.setTransactionId(scheduledTxId)
+			.execute(client)
+
 		//Submit the second signature
 		const signature = await new ScheduleSignTransaction()
-			.setScheduleId(scheduledId)
+			.setScheduleId(scheduleReceipt.scheduleId)
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(privateKey))
 			
@@ -336,8 +341,8 @@ class HashgraphClient extends HashgraphClientContract {
 		// console.log(query);
 
 		//Get the scheduled transaction record
-		const scheduledTxRecord = await TransactionId.fromString(scheduledTxId.toString()).getRecord(client);
-		console.log("The scheduled transaction record is: " +scheduledTxRecord);
+		// const scheduledTxRecord = await TransactionId.fromString(scheduledTxId.toString()).getRecord(client);
+		// console.log("The scheduled transaction record is: " +scheduledTxRecord);
 
 		return true;
 	}
