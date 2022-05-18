@@ -322,7 +322,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(privateKey))
 			
-		const txResponse = signature.execute(client);
+		const txResponse = await signature.execute(client);
 			
 		//Verify the transaction was successful
 		const receipt = await txResponse.getReceipt(client);
