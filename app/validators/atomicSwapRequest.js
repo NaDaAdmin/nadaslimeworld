@@ -8,6 +8,7 @@ const schema = Joi.object({
     token_id2: Joi.string().required(),
     account_id1: Joi.string().required(),
     account_id2: Joi.string().required(),
+    serialNum: Joi.number().required(),
     amount: Joi.number().required()
 })
 
