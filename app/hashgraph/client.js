@@ -396,8 +396,9 @@ class HashgraphClient extends HashgraphClientContract {
 		const signature = await new ScheduleSignTransaction()
 			.setScheduleId(scheduleId)
 			.freezeWith(client)
-			.sign(PrivateKey.fromString(Config.privateKey))
-			.execute(client);
+			.sign(PrivateKey.fromString(Config.privateKey));
+
+		const txResponse = await signature.execute(client);
 
 		console.log("signature");
 
