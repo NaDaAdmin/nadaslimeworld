@@ -386,6 +386,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.setPayerAccountId(AccountId.fromString(account_id1))
 			.execute(client);
 
+		console.log("AccountId " + AccountId.fromString(account_id1).toString());
+
 		//Get the receipt of the transaction
 		const receipt = await scheduleTransaction.getReceipt(client);
 		console.log("receipt " + receipt.status.toString());
