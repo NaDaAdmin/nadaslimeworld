@@ -382,6 +382,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
+			.setPayerAccountId(account_id1)
 			.execute(client);
 
 		//Get the receipt of the transaction
@@ -396,21 +397,21 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduledTxId = receipt.scheduledTransactionId;
 		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
 
-		// const signature = await new ScheduleSignTransaction()
-		// 	.setScheduleId(scheduleId)
-		// 	.freezeWith(client)
-		// 	.sign(PrivateKey.fromString(Config.privateKey));
+		const signature = await new ScheduleSignTransaction()
+			.setScheduleId(scheduleId)
+			.freezeWith(client)
+			.sign(PrivateKey.fromString(Config.privateKey));
 
-		// const txResponse = await signature.execute(client);
+		const txResponse = await signature.execute(client);
 
-		// //Get the receipt of the transaction
-		// const receipt1 = await txResponse.getReceipt(client);
+		//Get the receipt of the transaction
+		const receipt1 = await txResponse.getReceipt(client);
 
-		// //Get the transaction status
-		// const transactionStatus = receipt1.status;
-		// console.log("The transaction consensus status is " + transactionStatus);
+		//Get the transaction status
+		const transactionStatus = receipt1.status;
+		console.log("The transaction consensus status is " + transactionStatus);
 
-		// console.log("signature");
+		console.log("signature");
 
 		const signature2 = await new ScheduleSignTransaction()
 			.setScheduleId(scheduleId)
