@@ -392,12 +392,12 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduledTxId = receipt.scheduledTransactionId;
 		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
 
-		const signature = await (await new ScheduleSignTransaction()
+		const signature = await new ScheduleSignTransaction()
 			.setScheduleId(scheduleId)
 			.freezeWith(client)
-			.sign(PrivateKey.fromString(Config.privateKey)))
+			.sign(PrivateKey.fromString(Config.privateKey))
 			.execute(client);
-			
+
 		console.log("signature");
 
 		const receipt1 = await signature.getReceipt(client);
