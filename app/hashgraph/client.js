@@ -321,7 +321,7 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The amount is " + amount);
 
 		// Extract PV from encrypted
-		const privateKey = PrivateKey.fromString(encrypted_receiver_key)
+		//const privateKey = PrivateKey.fromString(encrypted_receiver_key)
 
 		// const assotransaction = await new TokenAssociateTransaction()
 		// 	.setAccountId(account_id1)
@@ -351,7 +351,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addNftTransfer(token_id2, 1, account_id2, account_id1)
-			.sign(PrivateKey.fromString(Config.privateKey))
 			.freezeWith(client);
 
 		console.log("The transaction is " + transaction);
@@ -395,10 +394,8 @@ class HashgraphClient extends HashgraphClientContract {
 		//Sign with the sender account private key
 		const signTx = await (await transaction.sign(PrivateKey.fromString(Config.privateKey)));
 
-		
-
 		//Sign with the client operator private key and submit to a Hedera network
-		//const txResponse = await signTx.execute(client);
+		const txResponse = await signTx.execute(client);
 
 
 		const balance = await new AccountBalanceQuery()
