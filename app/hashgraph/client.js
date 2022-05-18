@@ -29,6 +29,7 @@ import {
 	TokenNftInfoQuery,
 	KeyList,
 	ScheduleCreateTransaction,
+	ScheduleSignTransaction,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
