@@ -307,8 +307,8 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
-	scheduleSign = async ({
-		scheduleId,
+	scheduledSign = async ({
+		scheduledId,
 		scheduledTxId,
 		privateKey,
 	}) => {
@@ -317,7 +317,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//Submit the second signature
 		const signature = await (await new ScheduleSignTransaction()
-			.setScheduleId(scheduleId)
+			.setScheduleId(scheduledId)
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(privateKey)))
 			.execute(client);
@@ -328,7 +328,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		//Get the schedule info
 		const query = await new ScheduleInfoQuery()
-			.setScheduleId(scheduleId)
+			.setScheduleId(scheduledId)
 			.execute(client);
 			
 		console.log(query);
