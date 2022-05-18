@@ -461,12 +461,13 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client);
 
 		//Sign with the sender account private key
-		const signTx = await (await transaction.sign(PrivateKey.fromString(encrypted_receiver_key)).sign(PrivateKey.fromString(Config.privateKey)));
+		const txResponse = await (await (await transaction.sign(PrivateKey.fromString(encrypted_receiver_key))).sign(PrivateKey.fromString(Config.privateKey))).execute(client);
+		//const signTx = await (await transaction.sign(PrivateKey.fromString(encrypted_receiver_key)).sign(PrivateKey.fromString(Config.privateKey)));
 
 		console.log("sign");
 
 		//Sign with the client operator private key and submit to a Hedera network
-		const txResponse = await signTx.execute(client);
+		//const txResponse = await signTx.execute(client);
 
 
 		const balance = await new AccountBalanceQuery()
