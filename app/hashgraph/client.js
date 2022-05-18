@@ -475,7 +475,6 @@ class HashgraphClient extends HashgraphClientContract {
 		return {
 			scheduleId,
 			scheduledTxId,
-			transactionId: signTx.transactionId.toString(),
 			balance: parseFloat(senderbalance)
 		}
 	}
