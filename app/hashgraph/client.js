@@ -32,7 +32,7 @@ import {
 	ScheduleSignTransaction,
 	ScheduleInfoQuery,
 	TransactionReceiptQuery,
-	AccountId,
+	AccountID,
 } from "@hashgraph/sdk"
 import HashgraphClientContract from "./contract"
 import HashgraphNodeNetwork from "./network"
@@ -399,10 +399,10 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
-			.setPayerAccountId(AccountId.fromString(account_id1))
+			.setPayerAccountId(AccountID.fromString(account_id1))
 			.execute(client);
 
-		console.log("AccountId " + AccountId.fromString(account_id1).toString());
+		console.log("AccountId " + AccountID.fromString(account_id1).toString());
 
 		//Get the receipt of the transaction
 		const receipt = await scheduleTransaction.getReceipt(client);
