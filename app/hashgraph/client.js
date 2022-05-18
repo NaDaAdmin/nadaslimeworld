@@ -390,10 +390,10 @@ class HashgraphClient extends HashgraphClientContract {
 		// console.log(query1);
 
 		//Sign with the sender account private key
-		const signTx = await (await transaction.sign(PrivateKey.fromString(Config.privateKey)));
+		//const signTx = await (await transaction.sign(PrivateKey.fromString(Config.privateKey)));
 
 		//Sign with the client operator private key and submit to a Hedera network
-		const txResponse = await signTx.execute(client);
+		//const txResponse = await signTx.execute(client);
 
 
 		const balance = await new AccountBalanceQuery()
