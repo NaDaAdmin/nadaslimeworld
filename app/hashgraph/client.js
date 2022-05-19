@@ -368,8 +368,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 		const token = JSON.parse(tokens.toString())[token_id1]
-		//const adjustedAmountBySpec = amount * 10 ** specification.decimals
-		const adjustedAmountBySpec = amount
+		const adjustedAmountBySpec = amount * 10 ** specification.decimals
+		//const adjustedAmountBySpec = amount
 		
 		if (token < adjustedAmountBySpec) {
 			return false
