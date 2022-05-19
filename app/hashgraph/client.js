@@ -335,7 +335,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("signature.transactionId " + signature.transactionId.toString());
 		console.log("signature.scheduleId " + signature.scheduleId.toString());
-		
+
 		//Verify the transaction was successful
 		const receipt = await txResponse.getReceipt(client);
 
@@ -387,7 +387,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("The adjustedAmountBySpec is " + adjustedAmountBySpec);
 
-		let transaction = await new TransferTransaction()
+		const transaction = await new TransferTransaction()
 			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
