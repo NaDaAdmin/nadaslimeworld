@@ -333,10 +333,10 @@ class HashgraphClient extends HashgraphClientContract {
 			
 		//Verify the transaction was successful
 		const receipt = await txResponse.getReceipt(client);
-		
+
 		console.log("The transaction status " + receipt.status.toString());
 
-		console.log("The receipt.scheduleId " + receipt.scheduleId.toString());
+		console.log("The receipt " + receipt.toString());
 
 		//Get the schedule info
 		// const query = await new ScheduleInfoQuery()
