@@ -393,6 +393,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
+			.setMaxTransactionFee(new Hbar(1))
 
 		console.log("transaction");
 
@@ -400,6 +401,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
 			.setPayerAccountId(AccountId.fromString(account_id1))
+			.setMaxTransactionFee(new Hbar(1))
 
 		console.log("AccountId " + AccountId.fromString(account_id1).toString());
 
