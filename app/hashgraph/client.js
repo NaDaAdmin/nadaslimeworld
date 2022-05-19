@@ -398,7 +398,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
-			.setPayerAccountId(AccountId.fromString(account_id1))
+			.setPayerAccountId(AccountId.fromString(account_id2))
 
 		console.log("AccountId " + AccountId.fromString(account_id1).toString());
 
