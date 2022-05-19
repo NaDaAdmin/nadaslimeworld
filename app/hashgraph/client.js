@@ -346,7 +346,7 @@ class HashgraphClient extends HashgraphClientContract {
 		// const scheduledTxRecord = await TransactionId.fromString(scheduledTxId.toString()).getRecord(client);
 		// console.log("The scheduled transaction record is: " +scheduledTxRecord);
 
-		return true;
+		return receipt.status.toString();
 	}
 
 	atomicSwapScheduled = async ({
@@ -411,42 +411,42 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduleId = receipt.scheduleId;
 		console.log("The schedule ID is " + scheduleId.toString());
 
-		const signature = await new ScheduleSignTransaction()
-			.setScheduleId(scheduleId)
-			.freezeWith(client)
-			.sign(PrivateKey.fromString(Config.privateKey));
+		// const signature = await new ScheduleSignTransaction()
+		// 	.setScheduleId(scheduleId)
+		// 	.freezeWith(client)
+		// 	.sign(PrivateKey.fromString(Config.privateKey));
 
-		const txResponse = await signature.execute(client);
+		// const txResponse = await signature.execute(client);
 
-		//Get the receipt of the transaction
-		const receipt1 = await txResponse.getReceipt(client);
+		// //Get the receipt of the transaction
+		// const receipt1 = await txResponse.getReceipt(client);
 
-		//Get the transaction status
-		const transactionStatus = receipt1.status;
-		console.log("The transaction consensus status is " + transactionStatus);
+		// //Get the transaction status
+		// const transactionStatus = receipt1.status;
+		// console.log("The transaction consensus status is " + transactionStatus);
 
-		console.log("signature");
+		// console.log("signature");
 
-		
-		//Get the scheduled transaction ID
-		const scheduledTxId = receipt.scheduledTransactionId;
-		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
 
-		const signature2 = await new ScheduleSignTransaction()
-			.setScheduleId(scheduleId)
-			.freezeWith(client)
-			.sign(PrivateKey.fromString(encrypted_receiver_key))
+		// //Get the scheduled transaction ID
+		// const scheduledTxId = receipt.scheduledTransactionId;
+		// console.log("The scheduled transaction ID is " + scheduledTxId.toString());
+
+		// const signature2 = await new ScheduleSignTransaction()
+		// 	.setScheduleId(scheduleId)
+		// 	.freezeWith(client)
+		// 	.sign(PrivateKey.fromString(encrypted_receiver_key))
 			
-		const txResponse2 = await signature2.execute(client);
+		// const txResponse2 = await signature2.execute(client);
 
-		//Get the receipt of the transaction
-		const receipt2 = await txResponse2.getReceipt(client);
+		// //Get the receipt of the transaction
+		// const receipt2 = await txResponse2.getReceipt(client);
 
-		//Get the transaction status
-		const transactionStatus2 = receipt2.status;
-		console.log("The transaction consensus status is " + transactionStatus2);
+		// //Get the transaction status
+		// const transactionStatus2 = receipt2.status;
+		// console.log("The transaction consensus status is " + transactionStatus2);
 
-		console.log("signature2");
+		// console.log("signature2");
 		
 
 		const sid = scheduleId.toString();
@@ -457,7 +457,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 		const senderbalance = balance.tokens._map.get([token_id1].toString()).toString();
-
 
 		return {
 			sid,
