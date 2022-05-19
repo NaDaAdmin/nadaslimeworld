@@ -328,8 +328,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.setScheduleId(info.scheduleId)
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(privateKey))
-
-		//const txResponse = await (await (await signature.sign(PrivateKey.fromString(privateKey))).sign(PrivateKey.fromString(Config.privateKey))).execute(client);
 			
 		const txResponse = await signature.execute(client);
 			
@@ -341,8 +339,6 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log(`- Schedule triggered (all required signatures received): ${scheduleQuery.executed !== null}`);
 
 		console.log("The transaction status " + receipt.status.toString());
-
-		console.log("The receipt " + receipt.toString());
 
 		return receipt.status.toString();
 	}
