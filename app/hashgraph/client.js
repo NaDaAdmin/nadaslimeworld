@@ -402,12 +402,13 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
 			.setPayerAccountId(AccountId.fromString(account_id1))
-			.execute(client);
 
 		console.log("AccountId " + AccountId.fromString(account_id1).toString());
 
+		const scResponse = await scheduleTransaction.execute(client);
+
 		//Get the receipt of the transaction
-		const receipt = await scheduleTransaction.getReceipt(client);
+		const receipt = await scResponse.getReceipt(client);
 		console.log("receipt " + receipt.status.toString());
 
 		//Get the schedule ID
