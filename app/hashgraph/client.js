@@ -334,7 +334,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const txResponse = await signature.execute(client);
 
 		console.log("signature.transactionId " + signature.transactionId.toString());
-			
+		console.log("signature.scheduleId " + signature.scheduleId.toString());
+		
 		//Verify the transaction was successful
 		const receipt = await txResponse.getReceipt(client);
 
