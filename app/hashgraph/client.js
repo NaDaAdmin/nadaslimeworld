@@ -328,6 +328,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Submit the second signature
 		const signature = await new ScheduleSignTransaction()
 			.setScheduleId(info.scheduleId)
+			.setMaxTransactionFee(new Hbar(1))
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(privateKey))
 			
@@ -388,7 +389,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("The adjustedAmountBySpec is " + adjustedAmountBySpec);
 
-		let transaction = await new TransferTransaction()
+		const transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
@@ -398,7 +399,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
-			.setPayerAccountId(AccountId.fromString(account_id2))
+			.setPayerAccountId(AccountId.fromString(account_id1))
 
 		console.log("AccountId " + AccountId.fromString(account_id1).toString());
 
