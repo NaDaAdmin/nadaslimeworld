@@ -387,10 +387,10 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log("The adjustedAmountBySpec is " + adjustedAmountBySpec);
 
-		const transaction = await new TransferTransaction()
-			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
+		let transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
+			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
 
 		console.log("transaction");
 
@@ -495,7 +495,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 		const token = JSON.parse(tokens.toString())[token_id1]
-		const adjustedAmountBySpec = amount * 10 ** specification.decimals
+		//const adjustedAmountBySpec = amount * 10 ** specification.decimals
+		const adjustedAmountBySpec = amount
 
 		if (token < adjustedAmountBySpec) {
 
