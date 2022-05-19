@@ -411,6 +411,10 @@ class HashgraphClient extends HashgraphClientContract {
 		const scheduleId = receipt.scheduleId;
 		console.log("The schedule ID is " + scheduleId.toString());
 
+		//Get the scheduled transaction ID
+		const scheduledTxId = receipt.scheduledTransactionId;
+		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
+
 		// const signature = await new ScheduleSignTransaction()
 		// 	.setScheduleId(scheduleId)
 		// 	.freezeWith(client)
@@ -427,10 +431,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		// console.log("signature");
 
-
-		// //Get the scheduled transaction ID
-		// const scheduledTxId = receipt.scheduledTransactionId;
-		// console.log("The scheduled transaction ID is " + scheduledTxId.toString());
 
 		// const signature2 = await new ScheduleSignTransaction()
 		// 	.setScheduleId(scheduleId)
