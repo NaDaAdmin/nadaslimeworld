@@ -318,6 +318,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const client = this.#client
 
+		console.log("info.scheduleId " + scheduledId.toString());
+
 		const query = new ScheduleInfoQuery()
      		.setScheduleId(scheduledId);
 
@@ -330,6 +332,8 @@ class HashgraphClient extends HashgraphClientContract {
 			.sign(PrivateKey.fromString(privateKey))
 			
 		const txResponse = await signature.execute(client);
+
+		console.log("signature.transactionId " + signature.transactionId.toString());
 			
 		//Verify the transaction was successful
 		const receipt = await txResponse.getReceipt(client);
@@ -392,7 +396,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
-			//.setPayerAccountId(AccountId.fromString(account_id1))
+			.setPayerAccountId(AccountId.fromString(account_id1))
 
 		console.log("AccountId " + AccountId.fromString(account_id1).toString());
 
