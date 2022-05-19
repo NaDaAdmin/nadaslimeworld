@@ -327,29 +327,22 @@ class HashgraphClient extends HashgraphClientContract {
 		const signature = await new ScheduleSignTransaction()
 			.setScheduleId(info.scheduleId)
 			.freezeWith(client)
-			//.sign(PrivateKey.fromString(privateKey))
+			.sign(PrivateKey.fromString(privateKey))
 
-		const txResponse = await (await (await signature.sign(PrivateKey.fromString(privateKey))).sign(PrivateKey.fromString(Config.privateKey))).execute(client);
+		//const txResponse = await (await (await signature.sign(PrivateKey.fromString(privateKey))).sign(PrivateKey.fromString(Config.privateKey))).execute(client);
 			
-		//const txResponse = await signature.execute(client);
+		const txResponse = await signature.execute(client);
 			
 		//Verify the transaction was successful
 		const receipt = await txResponse.getReceipt(client);
 
+		let scheduleQuery = await new ScheduleInfoQuery().setScheduleId(info.scheduleId).execute(client);
+
+		console.log(`- Schedule triggered (all required signatures received): ${scheduleQuery.executed !== null}`);
+
 		console.log("The transaction status " + receipt.status.toString());
 
 		console.log("The receipt " + receipt.toString());
-
-		//Get the schedule info
-		// const query = await new ScheduleInfoQuery()
-		// 	.setScheduleId(scheduledId)
-		// 	.execute(client);
-			
-		// console.log(query);
-
-		//Get the scheduled transaction record
-		// const scheduledTxRecord = await TransactionId.fromString(scheduledTxId.toString()).getRecord(client);
-		// console.log("The scheduled transaction record is: " +scheduledTxRecord);
 
 		return receipt.status.toString();
 	}
