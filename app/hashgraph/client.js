@@ -1165,11 +1165,11 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 	    const client = this.#client
 
-		const nftTokenID = TokenId.fromString(nft_id);
+		const nftTokenID = NftId.fromString(nft_id);
 		console.log(nftTokenID.toString());
 
 		const nftInfos = await new TokenNftInfoQuery()
-     		.setNftId(nft_id)
+     		.setNftId(nftTokenID)
      		.execute(client);
 
 		if(nftInfos == null)
