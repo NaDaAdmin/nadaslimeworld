@@ -1159,6 +1159,27 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
+	getNFTDatas = async ({
+		nft_id,
+		serialNum
+	}) => {
+	    const client = this.#client
+
+		const nftTokenID = TokenId.fromString(nft_id);
+		console.log(nftTokenID.toString());
+
+		const nftInfos = await new TokenNftInfoQuery()
+     		.setNftId(nftTokenID)
+     		.execute(client);
+
+		if(nftInfos == null)
+		{
+			return null;
+		}
+
+		return nftInfos;
+	}
+
 	// transferNFT = async ({
 	// 	nft_id,
 	// 	accountID
