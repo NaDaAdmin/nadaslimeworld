@@ -1168,16 +1168,20 @@ class HashgraphClient extends HashgraphClientContract {
 		const nftTokenID = TokenId.fromString(nft_id);
 		console.log(nftTokenID.toString());
 
-		const nftInfos = await new TokenNftInfoQuery()
-     		.setNftId(new NftId(nftTokenID, serialNum))
-     		.execute(client);
+		// const nftInfos = await new TokenNftInfoQuery()
+     	// 	.setNftId(new NftId(nftTokenID, serialNum))
+     	// 	.execute(client);
 
-		if(nftInfos == null)
+		const tokenInfos = await new TokenGetInfoQuery()
+			.setTokenId(nftTokenID)
+			.execute(client);
+
+		if(tokenInfos == null)
 		{
 			return null;
 		}
 
-		return nftInfos;
+		return tokenInfos;
 	}
 
 	// transferNFT = async ({
