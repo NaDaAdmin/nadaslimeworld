@@ -27,6 +27,7 @@ import {
 	ContractCallQuery,
 	NftId,
 	TokenNftInfoQuery,
+	TokenGetInfoQuery,
 	KeyList,
 	ScheduleCreateTransaction,
 	ScheduleSignTransaction,
