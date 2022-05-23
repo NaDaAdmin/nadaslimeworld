@@ -1094,7 +1094,7 @@ class HashgraphClient extends HashgraphClientContract {
 		const client = this.#client
 
 		const balance = await new AccountBalanceQuery()
-			.setAccountId(acount_id)
+			.setAccountId(account_id)
 			.execute(client)
 
 		if (balance == null) {
