@@ -1093,7 +1093,9 @@ class HashgraphClient extends HashgraphClientContract {
 	}) => {
 		const client = this.#client
 
+		console.log("privateKey : " + privateKey);
 		console.log("account_id : " + account_id);
+		console.log("token_id : " + token_id);
 
 		const balance = await new AccountBalanceQuery()
 			.setAccountId(account_id)
@@ -1113,8 +1115,9 @@ class HashgraphClient extends HashgraphClientContract {
 			.setTokenIds([token_id])
 			.freezeWith(client)
 
-		const accountPrivateKey = PrivateKey.fromString(privateKey)
-		const signTx = await transaction.sign(accountPrivateKey)
+		console.log("transaction : Complete");
+
+		const signTx = await transaction.sign(PrivateKey.fromString(privateKey))
 
 		return await signTx.execute(client)
 	}
