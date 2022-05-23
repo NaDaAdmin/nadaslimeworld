@@ -1086,6 +1086,37 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The transaction consensus status is " + transactionStatus);
 	}
 
+	associateToken = async ({
+		privateKey,
+		account_id,
+		token_id,
+	}) => {
+		const client = this.#client
+
+		const balance = await new AccountBalanceQuery()
+			.setAccountId(acount_id)
+			.execute(client)
+
+		if (balance == null) {
+			return false;
+		}
+
+		if (balance.tokens._map.has(token_id) == true) {
+
+			return false;
+		}
+
+		const transaction = await new TokenAssociateTransaction()
+			.setAccountId(account_id)
+			.setTokenId(token_id)
+			.freezeWith(client)
+
+		const accountPrivateKey = PrivateKey.fromString(privateKey)
+		const signTx = await transaction.sign(accountPrivateKey)
+
+		return await signTx.execute(client)
+	}
+
 	// 유저 nft 조회
 	userAccountNFT = async ({
 		account_id
@@ -1142,11 +1173,9 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log(metaByte.toString());
 		// CID 추출
-		const metaDataCID = new Buffer.from(metaByte).toString();
+		const cid = new Buffer.from(metaByte).toString();
 
-		return {
-			metaDataCID
-		}
+		return cid;
 	}
 
 	getNFTDatas = async ({
