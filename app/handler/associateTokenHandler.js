@@ -4,9 +4,9 @@ async function AssociateTokenHandler(req, res) {
 
 
 
-	const { encrypted_receiver_key, account_id, token_id } = req.body
+	const { privateKey, account_id, token_id } = req.body
 	const associateTokenResponsePayload = {
-		encrypted_receiver_key,
+		privateKey,
         account_id,
 		token_id
 	}
