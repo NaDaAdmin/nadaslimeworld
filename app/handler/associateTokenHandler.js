@@ -13,7 +13,7 @@ async function AssociateTokenHandler(req, res) {
 	const { hashgraphClient } = req.context
 	const associateTokenResponse = await hashgraphClient.atomicSwap(associateTokenResponsePayload)
 
-	if (aassociateTokenResponse) {
+	if (associateTokenResponse) {
 		return Response.json(res, associateTokenResponse)
 	}
 
