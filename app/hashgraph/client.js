@@ -1110,7 +1110,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const transaction = await new TokenAssociateTransaction()
 			.setAccountId(account_id)
-			.setTokenId(token_id)
+			.setTokenIds([token_id])
 			.freezeWith(client)
 
 		const accountPrivateKey = PrivateKey.fromString(privateKey)
