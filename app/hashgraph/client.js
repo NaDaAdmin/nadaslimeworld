@@ -492,8 +492,8 @@ class HashgraphClient extends HashgraphClientContract {
 		const adjustedAmountBySpec = amount * 10 ** specification.decimals
 		//const adjustedAmountBySpec = amount
 
-		if (token < adjustedAmountBySpec) {
-
+		if (token < adjustedAmountBySpec) 
+		{
 			return false
 		}		
 
@@ -508,6 +508,14 @@ class HashgraphClient extends HashgraphClientContract {
 		//Sign with the sender account private key
 		const txResponse = await (await (await transaction.sign(PrivateKey.fromString(encrypted_receiver_key))).sign(PrivateKey.fromString(Config.privateKey))).execute(client);
 
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client);
+
+		if(receipt.status.toString() !== "SUCCESS")
+		{
+			return false;
+		}
+		
 		console.log("sign");
 
 		//Sign with the client operator private key and submit to a Hedera network
