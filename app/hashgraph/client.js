@@ -418,7 +418,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const senderbalance = balance.tokens._map.get([token_id1].toString()).toString();
 
-		return stid;
+		return sid;
 	}
 
 	atomicSwap = async ({
