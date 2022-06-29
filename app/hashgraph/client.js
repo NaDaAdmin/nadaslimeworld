@@ -267,32 +267,12 @@ class HashgraphClient extends HashgraphClientContract {
 		sender_id,
 		amount
 	}) => {
-
-		// const client = this.#client
-
-		// const adjustedAmountBySpec = amount * 10 ** specification.decimals
-
-		// const signature = await new TransferTransaction()
-		// 	.addTokenTransfer(token_id, Config.accountId, -adjustedAmountBySpec)
-		// 	.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
-		// 	//.memo()
-		// 	.execute(client)
-
-
-		// // const balance = await new AccountBalanceQuery()
-		// // 	.setAccountId(receiver_id)
-		// // 	.execute(client)
-
-
-		// // const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
-
-		// return {
-		// 	transactionId: signature.transactionId.toString(),
-		// 	balance: parseFloat(0)
-
 		const client = this.#client
-
-		// Extract PV from encrypted		
+		
+		console.log("key : " + encrypted_receiver_key);
+		console.log("token_id : " + token_id);
+		console.log("sender_id : " + sender_id);
+		console.log("amount : " + amount);
 
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
@@ -306,7 +286,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-		let transaction = await new TransferTransaction()
+		const transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
 			.freezeWith(client);
@@ -325,6 +305,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
+		console.log("sender_id : " + senderbalance.toString());
 
 		return {
 			transactionId: transaction.transactionId.toString(),
