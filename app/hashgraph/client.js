@@ -268,11 +268,6 @@ class HashgraphClient extends HashgraphClientContract {
 		amount
 	}) => {
 		const client = this.#client
-		
-		console.log("key : " + encrypted_receiver_key);
-		console.log("token_id : " + token_id);
-		console.log("sender_id : " + sender_id);
-		console.log("amount : " + amount);
 
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
@@ -304,8 +299,6 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
-
-		console.log("sender_id : " + senderbalance.toString());
 
 		return {
 			transactionId: transaction.transactionId.toString(),
