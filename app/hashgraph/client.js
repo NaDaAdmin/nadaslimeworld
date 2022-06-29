@@ -268,10 +268,31 @@ class HashgraphClient extends HashgraphClientContract {
 		amount
 	}) => {
 
+		// const client = this.#client
+
+		// const adjustedAmountBySpec = amount * 10 ** specification.decimals
+
+		// const signature = await new TransferTransaction()
+		// 	.addTokenTransfer(token_id, Config.accountId, -adjustedAmountBySpec)
+		// 	.addTokenTransfer(token_id, receiver_id, adjustedAmountBySpec)
+		// 	//.memo()
+		// 	.execute(client)
+
+
+		// // const balance = await new AccountBalanceQuery()
+		// // 	.setAccountId(receiver_id)
+		// // 	.execute(client)
+
+
+		// // const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+		// return {
+		// 	transactionId: signature.transactionId.toString(),
+		// 	balance: parseFloat(0)
+
 		const client = this.#client
 
-		// Extract PV from encrypted
-		const privateKey = await Encryption.decrypt(encrypted_receiver_key)
+		// Extract PV from encrypted		
 
 		const { tokens } = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
@@ -390,7 +411,7 @@ class HashgraphClient extends HashgraphClientContract {
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
 			.setScheduledTransaction(transaction)
-			.setPayerAccountId(AccountId.fromString(account_id1))
+			.setPayerAccountId(AccountId.fromString(account_id2))
 			.setMaxTransactionFee(new Hbar(1))
 
 		console.log("AccountId " + AccountId.fromString(account_id1).toString());
@@ -406,20 +427,11 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log("The schedule ID is " + scheduleId.toString());
 
 		//Get the scheduled transaction ID
-		const scheduledTxId = receipt.scheduledTransactionId;
-		console.log("The scheduled transaction ID is " + scheduledTxId.toString());
-
-		const sid = scheduleId.toString();
-		const stid = scheduledTxId.toString();
-
-		const balance = await new AccountBalanceQuery()
-			.setAccountId(account_id1)
-			.execute(client)
-
-		const senderbalance = balance.tokens._map.get([token_id1].toString()).toString();
+		// const scheduledTxId = receipt.scheduledTransactionId;
+		// console.log("The scheduled transaction ID is " + scheduledTxId.toString());
 
 		return {
-			scheduleId : sid
+			scheduleId : scheduleId.toString()
 		};
 	}
 
@@ -1137,6 +1149,8 @@ class HashgraphClient extends HashgraphClientContract {
 		console.log(metaByte.toString());
 		// CID 추출
 		const cid = new Buffer.from(metaByte).toString();
+
+		const url = "https://ipfs.io/ipfs/" + cid;
 
 		return cid;
 	}
