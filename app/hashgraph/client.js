@@ -297,7 +297,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 		console.log(receipt.status.toString());
 		
-		if (receipt.status.toString() === "SUCCESS") {
+		if (receipt.status.toString() !== "SUCCESS") {
+			return false;
 		}
 
 		const balance = await new AccountBalanceQuery()
