@@ -218,16 +218,17 @@ class HashgraphClient extends HashgraphClientContract {
 			.execute(client)
 
 
-		// const balance = await new AccountBalanceQuery()
-		// 	.setAccountId(receiver_id)
-		// 	.execute(client)
+		const balanceQuery = await new AccountBalanceQuery()
+			.setAccountId(receiver_id)
+			.execute(client)
 
+		const balance = JSON.parse(balanceQuery.toString())[token_id];
 
 		// const recverbalance = balance.tokens._map.get([token_id].toString()).toString();
 
 		return {
 			transactionId: signature.transactionId.toString(),
-			balance: parseFloat(0)
+			balance: parseFloat(balance)
 		}
 	}
 
@@ -301,15 +302,17 @@ class HashgraphClient extends HashgraphClientContract {
 			return false;
 		}
 
-		const balance = await new AccountBalanceQuery()
-			.setAccountId(sender_id)
+		//const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+
+		const balanceQuery = await new AccountBalanceQuery()
+			.setAccountId(receiver_id)
 			.execute(client)
 
-		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
+		const balance = JSON.parse(balanceQuery.toString())[token_id];
 
 		return {
 			transactionId: transaction.transactionId.toString(),
-			balance: parseFloat(senderbalance)
+			balance: parseFloat(balance)
 		}
 	}
 
