@@ -280,7 +280,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 			return false
 		}
-		
+
 		console.log(token.toString());
 
 		const transaction = await new TransferTransaction()
@@ -303,7 +303,7 @@ class HashgraphClient extends HashgraphClientContract {
 			return false;
 		}
 
-		const balance = await new AccountBalanceQuery()
+		let balance = await new AccountBalanceQuery()
 			.setAccountId(sender_id)
 			.execute(client)
 
