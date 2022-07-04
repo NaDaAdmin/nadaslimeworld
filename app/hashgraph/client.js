@@ -280,6 +280,8 @@ class HashgraphClient extends HashgraphClientContract {
 
 			return false
 		}
+		
+		console.log(token.toString());
 
 		const transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
@@ -307,6 +309,7 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
+		console.log(senderbalance.toString());
 		return {
 			transactionId: transaction.transactionId.toString(),
 			balance: parseFloat(senderbalance)
