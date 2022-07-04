@@ -281,8 +281,6 @@ class HashgraphClient extends HashgraphClientContract {
 			return false
 		}
 
-		console.log(token.toString());
-
 		const transaction = await new TransferTransaction()
 			.addTokenTransfer(token_id, sender_id, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id, Config.accountId, adjustedAmountBySpec)
@@ -296,8 +294,6 @@ class HashgraphClient extends HashgraphClientContract {
 		const txResponse = await signTx.execute(client);
 
 		const receipt = await txResponse.getReceipt(client)
-
-		console.log(receipt.status.toString());
 		
 		if (receipt.status.toString() !== "SUCCESS") {
 			return false;
@@ -309,7 +305,6 @@ class HashgraphClient extends HashgraphClientContract {
 
 		const senderbalance = balance.tokens._map.get([token_id].toString()).toString();
 
-		console.log(senderbalance.toString());
 		return {
 			transactionId: transaction.transactionId.toString(),
 			balance: parseFloat(senderbalance)
