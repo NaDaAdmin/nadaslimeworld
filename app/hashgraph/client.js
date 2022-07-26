@@ -234,7 +234,7 @@ class HashgraphClient extends HashgraphClientContract {
 	}
 
 	// NFT 지급 기능 - worldnft
-	SendNFT = async ({
+	sendNFT = async ({
 		specification = Specification.Fungible,
 		token_id,
 		account_id,
