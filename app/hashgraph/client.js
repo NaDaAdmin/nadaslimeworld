@@ -245,12 +245,21 @@ class HashgraphClient extends HashgraphClientContract {
 		const transaction = await new TransferTransaction()
 			.addNftTransfer(token_id, serialNum, Config.worldNftAccountId, account_id)
 			.setMaxTransactionFee(new Hbar(1))
+			.freezeWith(client);
 
 		//Sign with the sender account private key
-		const txResponse = await (await (await transaction.sign(PrivateKey.fromString(Config.worldNftPrivateKey)))).execute(client);
+		const signTx = await transaction.sign(PrivateKey.fromString(Config.worldNftPrivateKey));
+
+		//Sign with the client operator private key and submit to a Hedera network
+		const txResponse = await signTx.execute(client);
+
+		const receipt = await txResponse.getReceipt(client)
+
+		//Sign with the sender account private key
+		//const txResponse = await (await (await transaction.sign(PrivateKey.fromString(Config.worldNftPrivateKey)))).execute(client);
 
 		//Request the receipt of the transaction
-		const receipt = await txResponse.getReceipt(client);
+		//const receipt = await txResponse.getReceipt(client);
 
 		if(receipt.status.toString() !== "SUCCESS")
 		{
