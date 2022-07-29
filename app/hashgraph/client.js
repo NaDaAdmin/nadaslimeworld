@@ -233,7 +233,38 @@ class HashgraphClient extends HashgraphClientContract {
 		}
 	}
 
-	// NFT 지급 기능 - worldnft
+	// 테스트 지급, 회수 기능으로 만듬
+	receiveNFT = async ({
+		specification = Specification.Fungible,
+		privateKey,
+		token_id,
+		account_id,
+		account_id2,
+		serialNum,
+	}) => {
+		const client = this.#client
+
+		const transaction = await new TransferTransaction()
+			.addNftTransfer(token_id, serialNum, account_id, account_id2)
+			.setMaxTransactionFee(new Hbar(1))
+			.freezeWith(client)
+			.sign(PrivateKey.fromString(privateKey));
+
+		//Sign with the client operator private key and submit to a Hedera network
+		const txResponse = await transaction.execute(client);
+
+		//Request the receipt of the transaction
+		const receipt = await txResponse.getReceipt(client)
+
+		if(receipt.status.toString() !== "SUCCESS")
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	// NFT 지급 기능 - 일단 worldnft 지급 기능으로 만듬
 	sendNFT = async ({
 		specification = Specification.Fungible,
 		token_id,
@@ -248,24 +279,11 @@ class HashgraphClient extends HashgraphClientContract {
 			.freezeWith(client)
 			.sign(PrivateKey.fromString(Config.worldNftPrivateKey));
 
-			console.log("token_id : " + token_id);
-			console.log("accountId : " + account_id);
-			console.log("token_id : " + serialNum);
-			console.log("config accountId : " + Config.worldNftAccountId);
-			console.log("config key : " + Config.worldNftPrivateKey);
-
 		//Sign with the client operator private key and submit to a Hedera network
 		const txResponse = await transaction.execute(client);
 
-		const receipt = await txResponse.getReceipt(client)
-
-		console.log(receipt.toString());
-
-		//Sign with the sender account private key
-		//const txResponse = await (await (await transaction.sign(PrivateKey.fromString(Config.worldNftPrivateKey)))).execute(client);
-
 		//Request the receipt of the transaction
-		//const receipt = await txResponse.getReceipt(client);
+		const receipt = await txResponse.getReceipt(client)
 
 		if(receipt.status.toString() !== "SUCCESS")
 		{
@@ -422,7 +440,7 @@ class HashgraphClient extends HashgraphClientContract {
 			.addTokenTransfer(token_id1, account_id1, -(adjustedAmountBySpec))
 			.addTokenTransfer(token_id1, account_id2, adjustedAmountBySpec)
 			.addNftTransfer(token_id2, serialNum, account_id2, account_id1)
-			.setMaxTransactionFee(new Hbar(1))
+			.setMaxTransactionFee(new Hbar(1)) // Fee Error Prevention
 
 		//Schedule a transaction
 		const scheduleTransaction = await new ScheduleCreateTransaction()
