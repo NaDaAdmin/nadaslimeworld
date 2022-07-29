@@ -3,7 +3,7 @@ import Response from "app/response"
 
 async function ReceiveNFTHandler(req, res) {
 
-	// const validationErrors = sendNFTRequest(req.body)
+	// const validationErrors = receiveNFTRequest(req.body)
 
 	// if (validationErrors) {
 	// 	return Response.unprocessibleEntity(res, validationErrors)
@@ -19,7 +19,7 @@ async function ReceiveNFTHandler(req, res) {
 		serialNum,
 	}
 	const { hashgraphClient } = req.context
-	const receiveNFTResponse = await hashgraphClient.receiveNFT(sendNFTPayload)
+	const receiveNFTResponse = await hashgraphClient.receiveNFT(receiveNFTPayload)
 
 	if (receiveNFTResponse) {
 		return Response.json(res, receiveNFTResponse)
